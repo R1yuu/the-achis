@@ -1,25 +1,34 @@
 package ic20b106;
 
-import javafx.application .Application;
+import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+
+import java.util.Random;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        //Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        HBox root = FXMLLoader.load(getClass().getResource("Menu.fxml"));
 
+        /*
         GridPane constructionPane = new GridPane();
 
         Paint paint;
+        Random rdm = new Random();
+        int rdmInt = Math.abs(rdm.nextInt() % 10);
+
+        System.out.println(rdmInt);
 
         for (int i=0; i < 10; i++) {
             for (int j=0; j < 10; j++) {
@@ -43,14 +52,31 @@ public class Main extends Application {
                     GridPane.setMargin(field, in);
                 }
 
-                // add(Node, column, row)
-                constructionPane.add(field, j, i);
+                if (i == rdmInt && j == rdmInt) {
+                    Image img = new Image("/buildings/core.png", 50, 0, true, false, true);
+                    ImageView imgView = new ImageView();
+                    imgView.setFitWidth(50);
+                    imgView.setFitHeight(50);
+                    imgView.setImage(img);
+
+                    constructionPane.add(imgView, j, i);
+                } else {
+                    // add(Node, column, row)
+                    constructionPane.add(field, j, i);
+                }
+
+
             }
         }
 
+        Circle circle = new Circle();
+        circle.setRadius(25);
+        circle.setFill(new Color(0, 0, 1, 1));
+        constructionPane.add(circle, 11, 11);
+        */
 
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(constructionPane, 1000, 1000));
+        primaryStage.setScene(new Scene(root, 1000, 1000));
         primaryStage.show();
     }
 
