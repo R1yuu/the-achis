@@ -1,0 +1,33 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.shape.TriangleMesh?>
+
+<?import javafx.scene.shape.MeshView?>
+<?import javafx.scene.shape.Rectangle?>
+
+<GridPane fx:controller="ic20b106.Controller"
+          xmlns:fx="http://javafx.com/fxml">
+    <Rectangle GridPane.columnIndex="0" GridPane.rowIndex="0" fill="red" height="50" width="50"/>
+    <Rectangle GridPane.columnIndex="1" GridPane.rowIndex="0" fill="blue" height="50" width="50">
+        <GridPane.margin>
+            <Insets left="-10"/>
+        </GridPane.margin>
+    </Rectangle>
+    <Rectangle GridPane.columnIndex="2" GridPane.rowIndex="0" fill="red" height="50" width="50"/>
+    <Rectangle GridPane.columnIndex="0" GridPane.rowIndex="1" fill="red" height="50" width="50">
+        <GridPane.margin>
+            <Insets left="10"/>
+        </GridPane.margin>
+    </Rectangle>
+    <Rectangle GridPane.columnIndex="1" GridPane.rowIndex="1" fill="blue" height="50" width="50"/>
+    <Rectangle GridPane.columnIndex="2" GridPane.rowIndex="1" fill="red" height="50" width="50"/>
+    <Rectangle GridPane.columnIndex="0" GridPane.rowIndex="2" fill="red" height="50" width="50"/>
+    <Rectangle GridPane.columnIndex="1" GridPane.rowIndex="2" fill="blue" height="50" width="50"/>
+    <Rectangle GridPane.columnIndex="0" GridPane.rowIndex="3" fill="red" height="50" width="50"/>
+    <Rectangle GridPane.columnIndex="1" GridPane.rowIndex="3" fill="blue" height="50" width="50"/>
+</GridPane>
