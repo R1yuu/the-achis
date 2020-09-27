@@ -19,7 +19,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        HBox root = FXMLLoader.load(getClass().getResource("Menu.fxml"));
+        VBox root = FXMLLoader.load(getClass().getResource("Menu.fxml"));
 
         /*
         GridPane constructionPane = new GridPane();

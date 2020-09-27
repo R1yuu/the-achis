@@ -1,21 +1,18 @@
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox fx:controller="ic20b106.Controller"
-      xmlns:fx="http://javafx.com/fxml" alignment="center">
-    <VBox alignment="center">
-        <Button>
-            Create New Game
-        </Button>
-        <Button>
-            Load Game
-        </Button>
-        <Button>
-            Options
-        </Button>
-        <Button>
-            Exit Game
-        </Button>
-    </VBox>
-</HBox>
+<VBox fx:controller="ic20b106.MenuController" xmlns:fx="http://javafx.com/fxml"
+      alignment="center" maxHeight="Infinity" maxWidth="Infinity">
+    <Button fx:id="createGameButton" onMouseClicked="#createGame">
+        Create New Game
+    </Button>
+    <Button fx:id="loadGameButton">
+        Load Game
+    </Button>
+    <Button fx:id="optionsButton">
+        Options
+    </Button>
+    <Button fx:id="exitButton">
+        Exit Game
+    </Button>
+</VBox>
