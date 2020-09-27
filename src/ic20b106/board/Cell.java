@@ -1,18 +1,21 @@
 package ic20b106.board;
 
-import javafx.collections.ObservableList;
-import javafx.scene.ImageCursor;
-import javafx.scene.Node;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
+/**
+ * @author Andre Schneider
+ * @version 1.0
+ *
+ * Cells are the Buildings Fields
+ */
 public class Cell extends HBox {
 
-    public Cell() {
-        super();
-    }
-
+    /**
+     * Places Buildings
+     *
+     * @param building A Building that can be built on the Cell
+     */
     public void setBuilding(ImageView building) {
         this.getChildren().add(building);
     }
@@ -37,10 +40,21 @@ public class Cell extends HBox {
         this.fitHeightProperty().set(fitHeight);
     }
 */
+
+    /**
+     * Terrain Getter
+     *
+     * @return Returns the Terrain
+     */
     public Terrain getTerrain() {
         return terrain;
     }
 
+    /**
+     * Terrain Setter
+     *
+     * @param terrain Terrain of the Cell
+     */
     public void setTerrain(Terrain terrain) {
         this.terrain = terrain;
     }

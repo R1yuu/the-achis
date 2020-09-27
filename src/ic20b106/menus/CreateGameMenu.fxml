@@ -9,13 +9,16 @@
 
     <Label>Board Width:</Label>
     <HBox alignment="center">
-        <Slider fx:id="boardWidth" min="60" max="120"/>
-        <Label text="${boardWidth.value}"/>
+        <Slider fx:id="boardWidthSlider" min="60" max="120"/>
+        <Label text="${boardWidthSlider.value}"/>
     </HBox>
 
     <Label>Height</Label>
     <HBox alignment="center">
-        <Slider fx:id="boardHeight" min="60" max="120"/>
-        <Label text="${boardHeight.value}"/>
+        <Slider fx:id="boardHeightSlider" min="60" max="120"/>
+        <Label text="${boardHeightSlider.value}"/>
     </HBox>
+    <Button fx:id="createGameButton" onMouseClicked="#createGame">
+        Create Game
+    </Button>
 </VBox>

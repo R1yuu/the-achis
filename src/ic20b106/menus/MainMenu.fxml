@@ -7,7 +7,7 @@
       fx:controller="ic20b106.menus.MainMenuController" alignment="center"
       maxHeight="Infinity" maxWidth="Infinity">
 
-    <Button fx:id="createGameButton" onMouseClicked="#createGame">
+    <Button fx:id="createGameButton" onMouseClicked="#newGame">
         Create New Game
     </Button>
     <Button fx:id="loadGameButton">
