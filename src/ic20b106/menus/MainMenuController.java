@@ -1,4 +1,4 @@
-package ic20b106;
+package ic20b106.menus;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,16 +10,16 @@ import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 
-public class MenuController {
+public class MainMenuController {
 
-    public MenuController() {}
+    public MainMenuController() {}
 
     @FXML
     private void initialize() {}
 
     @FXML
     private void createGame() throws IOException {
-        VBox createGameMenu = FXMLLoader.load(getClass().getResource("menus/CreateGameMenu.fxml"));
+        VBox createGameMenu = FXMLLoader.load(getClass().getResource("CreateGameMenu.fxml"));
         createGameButton.getScene().setRoot(createGameMenu);
     }
 

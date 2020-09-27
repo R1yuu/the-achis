@@ -2,24 +2,15 @@ package ic20b106;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-
-import java.util.Random;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        VBox root = FXMLLoader.load(getClass().getResource("Menu.fxml"));
+        VBox root = FXMLLoader.load(getClass().getResource("menus/MainMenu.fxml"));
 
         /*
         GridPane constructionPane = new GridPane();
