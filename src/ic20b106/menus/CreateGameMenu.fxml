@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ic20b106.menus.CreateGameMenuController"
-            prefHeight="400.0" prefWidth="600.0">
-    <Label>Width</Label>
-    <Slider min="60" max="120"/>
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ic20b106.menus.CreateGameMenuController" alignment="center"
+      maxWidth="Infinity" maxHeight="Infinity">
+
+    <Label>Board Width:</Label>
+    <HBox alignment="center">
+        <Slider fx:id="boardWidth" min="60" max="120"/>
+        <Label text="${boardWidth.value}"/>
+    </HBox>
+
     <Label>Height</Label>
-    <Slider min="60" max="120"/>
+    <HBox alignment="center">
+        <Slider fx:id="boardHeight" min="60" max="120"/>
+        <Label text="${boardHeight.value}"/>
+    </HBox>
 </VBox>
