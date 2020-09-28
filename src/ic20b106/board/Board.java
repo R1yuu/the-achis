@@ -26,16 +26,7 @@ public class Board extends GridPane {
 
         for (int width=0; width < boardWidth; width++) {
             for (int height=0; height < boardHeight; height++) {
-                cell = new Cell();
-                cell.setPrefHeight(50);
-                cell.setPrefWidth(50);
-                cell.setBorder(
-                        new Border(
-                                new BorderStroke(
-                                        new Color(0, 0, 0, 1),
-                                        new BorderStrokeStyle(null, null, null, 1, 1, null),
-                                        new CornerRadii(10),
-                                        new BorderWidths(5))));
+                cell = new Cell(50, 50);
 
                 //cell.setBuilding(new Core());
                 this.add(cell, width, height);

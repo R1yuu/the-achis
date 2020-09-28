@@ -1,7 +1,11 @@
 package ic20b106.board;
 
 import ic20b106.board.buildings.Building;
-import javafx.scene.layout.HBox;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+
+import java.io.IOException;
 
 /**
  * @author Andre Schneider
@@ -12,6 +16,48 @@ import javafx.scene.layout.HBox;
 public class Cell extends HBox {
 
     /**
+     * Default Constructor
+     */
+    public Cell() {
+        this(defaultHeight, defaultWidth, defaultBorder);
+    }
+
+    /**
+     * Constructor
+     * Sets Height and Width of HBox
+     *
+     * @param height Height of Box
+     * @param width Width of Box
+     */
+    public Cell(double height, double width) {
+        this(height, width, defaultBorder);
+    }
+
+    /**
+     * Constructor
+     *
+     * @param border Sets the Border of the Cell (important for Debug)
+     */
+    public Cell(Border border) {
+        this(defaultHeight, defaultWidth, border);
+    }
+
+    /**
+     * Constructor
+     *
+     * @param height Height of Box
+     * @param width Width of Box
+     * @param border Sets the Border of the Cell (important for Debug)
+     */
+    public Cell(double height, double width, Border border) {
+        if (border != null) setBorder(border);
+
+        this.setPrefHeight(height);
+        this.setPrefWidth(width);
+    }
+
+
+    /**
      * Places Buildings
      *
      * @param building A Building that can be built on the Cell
@@ -20,27 +66,6 @@ public class Cell extends HBox {
 
         this.getChildren().add(building);
     }
-
-
-
-    /*
-    public Cell(Image image) {
-        super(image);
-        this.terrain = new Terrain();
-    }
-
-    public Cell(Image image, Terrain terrain) {
-        super(image);
-        this.terrain = terrain;
-    }
-
-    public Cell(Image image, Terrain terrain, double fitWidth, double fitHeight) {
-        super(image);
-        this.terrain = terrain;
-        this.fitWidthProperty().set(fitWidth);
-        this.fitHeightProperty().set(fitHeight);
-    }
-*/
 
     /**
      * Terrain Getter
@@ -60,5 +85,11 @@ public class Cell extends HBox {
         this.terrain = terrain;
     }
 
+
     private Terrain terrain;
+    private static final double defaultHeight = 50;
+    private static final double defaultWidth = 50;
+    private static final Border defaultBorder = new Border(new BorderStroke(
+            Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
+
 }

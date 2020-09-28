@@ -5,18 +5,18 @@
 
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="ic20b106.menus.MainMenuController" alignment="center"
-      maxHeight="Infinity" maxWidth="Infinity">
+      maxHeight="Infinity" maxWidth="Infinity" fx:id="menuBox">
 
-    <Button fx:id="createGameButton" onMouseClicked="#newGame">
+    <Button onMouseClicked="#newGame">
         Create New Game
     </Button>
-    <Button fx:id="loadGameButton">
+    <Button>
         Load Game
     </Button>
-    <Button fx:id="optionsButton">
+    <Button>
         Options
     </Button>
-    <Button fx:id="exitButton">
+    <Button onMouseClicked="#exitApplication">
         Exit Game
     </Button>
 </VBox>
