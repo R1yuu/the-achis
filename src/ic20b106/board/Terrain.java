@@ -14,8 +14,7 @@ public class Terrain {
      * Default Constructor
      */
     public Terrain() {
-        this.fertility = 1;
-        this.speed = 1;
+        this(1, 1);
     }
 
     /**
@@ -24,8 +23,7 @@ public class Terrain {
      * @param fertility Fertility of the Terrain (0-1)
      */
     public Terrain(double fertility) {
-        setFertility(fertility);
-        this.speed = 1;
+        this(fertility, 1);
     }
 
     /**

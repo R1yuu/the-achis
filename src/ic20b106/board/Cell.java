@@ -1,11 +1,13 @@
 package ic20b106.board;
 
 import ic20b106.board.buildings.Building;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-
-import java.io.IOException;
 
 /**
  * @author Andre Schneider

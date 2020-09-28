@@ -1,9 +1,9 @@
 package ic20b106.board;
 
-import ic20b106.board.buildings.Core;
 import javafx.beans.NamedArg;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 
 /**
  * @author Andre Schneider
@@ -27,6 +27,12 @@ public class Board extends GridPane {
         for (int width=0; width < boardWidth; width++) {
             for (int height=0; height < boardHeight; height++) {
                 cell = new Cell(50, 50);
+                if (height % 2 == 1) cell.setStyle("-fx-translate-x: 25");
+
+
+                final int finalWidth = width;
+                final int finalHeight = height;
+                cell.setOnMouseClicked(arg0 -> System.out.println("Cell: " + finalWidth + ", " + finalHeight));
 
                 //cell.setBuilding(new Core());
                 this.add(cell, width, height);
