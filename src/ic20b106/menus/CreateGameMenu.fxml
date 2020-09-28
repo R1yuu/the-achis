@@ -7,6 +7,9 @@
       fx:controller="ic20b106.menus.CreateGameMenuController" alignment="center"
       maxWidth="Infinity" maxHeight="Infinity">
 
+    <Button fx:id="backButton" onMouseClicked="#backToMainMenu">
+        Back
+    </Button>
     <Label>Board Width:</Label>
     <HBox alignment="center">
         <Slider fx:id="boardWidthSlider" min="60" max="120"/>

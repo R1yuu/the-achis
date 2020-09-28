@@ -1,6 +1,6 @@
 package ic20b106.board;
 
-import javafx.scene.image.ImageView;
+import ic20b106.board.buildings.Building;
 import javafx.scene.layout.HBox;
 
 /**
@@ -16,7 +16,8 @@ public class Cell extends HBox {
      *
      * @param building A Building that can be built on the Cell
      */
-    public void setBuilding(ImageView building) {
+    public void setBuilding(Building building) {
+
         this.getChildren().add(building);
     }
 

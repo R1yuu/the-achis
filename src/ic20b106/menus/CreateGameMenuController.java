@@ -1,8 +1,13 @@
 package ic20b106.menus;
 
+import ic20b106.board.Board;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.VBox;
+
+import java.io.IOException;
 
 /**
  * @author Andre Schneider
@@ -25,12 +30,28 @@ public class CreateGameMenuController {
     }
 
     /**
+     * Goes Back to the Main Menu
+     *
+     * @throws IOException Thrown by FXMLLoader if .fxml not found
+     */
+    @FXML
+    private void backToMainMenu() throws IOException {
+        VBox mainMenu = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+        backButton.getScene().setRoot(mainMenu);
+    }
+
+    /**
      * Creates the Game Board
      */
     @FXML
     private void createGame() {
 
+        Board board = new Board((int)boardWidthSlider.getValue(), (int)boardHeightSlider.getValue());
+        createGameButton.getScene().setRoot(board);
     }
+
+    @FXML
+    private Button backButton;
 
     @FXML
     private Slider boardWidthSlider;
