@@ -51,23 +51,10 @@ public class CreateGameMenuController {
     @FXML
     private void createGame() {
 
-        //sp.setPannable(true);
-/*
-
-*/
-        /*
-        sp.setOnMouseDragged(mouseEvent -> {
-            System.out.println(mouseEvent.getButton());
-            if (mouseEvent.getButton() == MouseButton.PRIMARY) System.out.println("Panning");
-        });
-        */
-
         Board board = new Board((int)boardWidthSlider.getValue(), (int)boardHeightSlider.getValue());
         ZoomableScrollPane sp = new ZoomableScrollPane(board, MouseButton.SECONDARY);
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-
-        //sp.setContent(board);
 
         createGameButton.getScene().setRoot(sp);
     }

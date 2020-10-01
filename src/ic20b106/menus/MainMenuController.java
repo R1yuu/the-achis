@@ -1,9 +1,9 @@
 package ic20b106.menus;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -23,7 +23,7 @@ public class MainMenuController {
     @FXML
     private void newGame() throws IOException {
         VBox createGameMenu = FXMLLoader.load(getClass().getResource("CreateGameMenu.fxml"));
-        menuBox.getScene().setRoot(createGameMenu);
+        mainMenuBox.getScene().setRoot(createGameMenu);
     }
 
     /**
@@ -31,10 +31,9 @@ public class MainMenuController {
      */
     @FXML
     private void exitApplication() {
-        Stage application = (Stage)menuBox.getScene().getWindow();
-        application.close();
+        Platform.exit();
     }
 
     @FXML
-    private VBox menuBox;
+    private VBox mainMenuBox;
 }
