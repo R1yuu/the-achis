@@ -1,6 +1,10 @@
 package ic20b106.menus;
 
+import ic20b106.board.GameMenu;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -34,6 +38,14 @@ public class BuildMenuController {
     public void closeBuildMenu() {
         Stage buildMenuStage = (Stage)buildMenuBox.getScene().getWindow();
         buildMenuStage.close();
+    }
+
+    @FXML
+    protected void placeBuilding(MouseEvent actionEvent) {
+        Button clickedButton = (Button) actionEvent.getSource();
+        if (clickedButton.getId().equals("buildFactoryButton")) {
+            Stage mainStage = (Stage)((Stage)buildMenuBox.getScene().getWindow()).getOwner();
+        }
     }
 
     @FXML

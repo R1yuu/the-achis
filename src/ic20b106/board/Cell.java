@@ -80,15 +80,17 @@ public class Cell extends StackPane {
                         Cell.buildMenuStage.close();
                     }
 
-                    Cell.buildMenuStage = new Stage();
+                    GameMenu gameMenu = new GameMenu(buildMenu);
 
+                    Cell.buildMenuStage = new Stage();
                     Cell.buildMenuStage.setTitle("Build");
                     Cell.buildMenuStage.initStyle(StageStyle.UNDECORATED);
                     Cell.buildMenuStage.initOwner(this.getScene().getWindow());
                     Cell.buildMenuStage.initModality(Modality.NONE);
 
-                    Cell.buildMenuStage.setScene(new Scene(buildMenu));
-                    Cell.buildMenuStage.showAndWait();
+                    Cell.buildMenuStage.setScene(new Scene(gameMenu));
+                    gameMenu.setDraggable(true);
+                    Cell.buildMenuStage.show();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

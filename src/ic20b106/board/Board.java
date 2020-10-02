@@ -1,11 +1,10 @@
 package ic20b106.board;
 
 import ic20b106.board.buildings.Core;
-import ic20b106.board.buildings.Link;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author Andre Schneider
@@ -35,9 +34,8 @@ public class Board extends GridPane {
             }
         }
 
-        Random coreRdm = new Random();
-        int coreX = Math.abs(coreRdm.nextInt() % boardWidth - 10);
-        int coreY = Math.abs(coreRdm.nextInt() % boardHeight - 10);
+        int coreX = ThreadLocalRandom.current().nextInt(0, 40);
+        int coreY = ThreadLocalRandom.current().nextInt(0, 40);
 
         System.out.println("X: " + coreX + ", Y: " + coreY);
 
