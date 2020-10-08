@@ -71,6 +71,6 @@ public class GameStage {
 
     private final Stage stage;
     public StackPane mainPane = new StackPane();
-    public VBox activeBuildMenu;
+    public BuildMenu activeBuildMenu;
     public static GameStage mainGameStage;
 }

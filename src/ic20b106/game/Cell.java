@@ -2,8 +2,10 @@ package ic20b106.game;
 
 import ic20b106.game.buildings.Building;
 import ic20b106.game.buildings.Link;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -69,17 +71,14 @@ public class Cell extends StackPane {
 
         this.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
+                if (GameStage.mainGameStage.activeBuildMenu != null) {
+                    GameStage.mainGameStage.activeBuildMenu.close();
+                }
+
                 try {
-                    VBox buildMenu = FXMLLoader.load(getClass().getResource("/ic20b106/menus/BuildMenu.fxml"));
-
-                    if (GameStage.mainGameStage.activeBuildMenu != null) {
-                        GameStage.mainGameStage.removeContent(GameStage.mainGameStage.activeBuildMenu);
-                    }
-
-                    GameStage.mainGameStage.activeBuildMenu = buildMenu;
-                    GameStage.mainGameStage.addContent(buildMenu);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    GameStage.mainGameStage.activeBuildMenu = new BuildMenu(this);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
                 }
             }
         });

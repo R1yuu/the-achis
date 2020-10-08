@@ -15,5 +15,5 @@
             <Button onMouseClicked="#closeBuildMenu">Close</Button>
         </HBox>
     </DragBox>
-    <Button onMouseClicked="#placeBuilding" id="buildFactoryButton">Factory</Button>
+    <Button onMouseClicked="#placeBuilding" fx:id="buildFactoryButton">Factory</Button>
 </VBox>

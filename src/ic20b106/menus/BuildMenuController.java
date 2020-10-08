@@ -1,9 +1,11 @@
 package ic20b106.menus;
 
 import ic20b106.game.GameStage;
+import ic20b106.game.buildings.Core;
 import ic20b106.util.DragBox;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -41,18 +43,20 @@ public class BuildMenuController {
      */
     @FXML
     public void closeBuildMenu() {
-        GameStage.mainGameStage.removeContent(buildMenuBox);
-        GameStage.mainGameStage.activeBuildMenu = null;
+        GameStage.mainGameStage.activeBuildMenu.close();
     }
 
     @FXML
-    protected void placeBuilding(MouseEvent actionEvent) {
-
+    protected void placeBuilding(MouseEvent mouseEvent) {
+        if (mouseEvent.getSource().equals(buildFactoryButton)) {
+            GameStage.mainGameStage.activeBuildMenu.selectedCell.setBuilding(new Core(0, 0));
+        }
     }
 
     @FXML
     private VBox buildMenuBox;
-
     @FXML
     private DragBox dragBox;
+    @FXML
+    private Button buildFactoryButton;
 }
