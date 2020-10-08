@@ -12,6 +12,7 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -74,13 +75,11 @@ public class Cell extends StackPane {
         this.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
                 try {
-                    HBox buildMenu = FXMLLoader.load(getClass().getResource("/ic20b106/menus/BuildMenu.fxml"));
+                    VBox buildMenu = FXMLLoader.load(getClass().getResource("/ic20b106/menus/BuildMenu.fxml"));
 
                     if (Cell.buildMenuStage != null) {
                         Cell.buildMenuStage.close();
                     }
-
-                    GameMenu gameMenu = new GameMenu(buildMenu);
 
                     Cell.buildMenuStage = new Stage();
                     Cell.buildMenuStage.setTitle("Build");
@@ -88,8 +87,7 @@ public class Cell extends StackPane {
                     Cell.buildMenuStage.initOwner(this.getScene().getWindow());
                     Cell.buildMenuStage.initModality(Modality.NONE);
 
-                    Cell.buildMenuStage.setScene(new Scene(gameMenu));
-                    gameMenu.setDraggable(true);
+                    Cell.buildMenuStage.setScene(new Scene(buildMenu));
                     Cell.buildMenuStage.show();
                 } catch (IOException e) {
                     e.printStackTrace();

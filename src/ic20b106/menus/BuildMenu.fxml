@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import ic20b106.board.StageDragBox?>
 
-<HBox xmlns="http://javafx.com/javafx"
+<?import javafx.scene.layout.HBox?>
+<VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="ic20b106.menus.BuildMenuController"
       fx:id="buildMenuBox"
       prefWidth="300" prefHeight="100">
-
+    <StageDragBox>
+        <HBox>
+            <Button onMouseClicked="#closeBuildMenu">Close</Button>
+        </HBox>
+    </StageDragBox>
     <Button onMouseClicked="#placeBuilding" id="buildFactoryButton">Factory</Button>
-</HBox>
+</VBox>

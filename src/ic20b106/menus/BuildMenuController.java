@@ -1,7 +1,5 @@
 package ic20b106.menus;
 
-import ic20b106.board.GameMenu;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -10,7 +8,7 @@ import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -49,5 +47,5 @@ public class BuildMenuController {
     }
 
     @FXML
-    private HBox buildMenuBox;
+    private VBox buildMenuBox;
 }

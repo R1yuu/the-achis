@@ -51,8 +51,10 @@ public class CreateGameMenuController {
     @FXML
     private void createGame() {
 
-        Board board = new Board((int)boardWidthSlider.getValue(), (int)boardHeightSlider.getValue());
-        ZoomableScrollPane sp = new ZoomableScrollPane(board, MouseButton.SECONDARY);
+
+        Board.createBoard((int)boardWidthSlider.getValue(), (int)boardHeightSlider.getValue());
+
+        ZoomableScrollPane sp = new ZoomableScrollPane(Board.gameBoard, MouseButton.SECONDARY);
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 

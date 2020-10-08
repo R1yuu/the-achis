@@ -1,6 +1,7 @@
 package ic20b106.board;
 
 import ic20b106.board.buildings.Core;
+import javafx.geometry.BoundingBox;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 
@@ -62,4 +63,10 @@ public class Board extends GridPane {
 
         return result;
     }
+
+    public static void createBoard(int boardWidth, int boardHeight) {
+        Board.gameBoard = new Board(boardWidth, boardHeight);
+    }
+
+    public static Board gameBoard;
 }
