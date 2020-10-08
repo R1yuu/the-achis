@@ -1,4 +1,4 @@
-package ic20b106.board.buildings;
+package ic20b106.game.buildings;
 
 /**
  * @author Andre_Schneider

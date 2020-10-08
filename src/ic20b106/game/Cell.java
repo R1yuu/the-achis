@@ -1,22 +1,17 @@
-package ic20b106.board;
+package ic20b106.game;
 
-import ic20b106.board.buildings.Building;
-import ic20b106.board.buildings.Link;
+import ic20b106.game.buildings.Building;
+import ic20b106.game.buildings.Link;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -77,18 +72,12 @@ public class Cell extends StackPane {
                 try {
                     VBox buildMenu = FXMLLoader.load(getClass().getResource("/ic20b106/menus/BuildMenu.fxml"));
 
-                    if (Cell.buildMenuStage != null) {
-                        Cell.buildMenuStage.close();
+                    if (GameStage.mainGameStage.activeBuildMenu != null) {
+                        GameStage.mainGameStage.removeContent(GameStage.mainGameStage.activeBuildMenu);
                     }
 
-                    Cell.buildMenuStage = new Stage();
-                    Cell.buildMenuStage.setTitle("Build");
-                    Cell.buildMenuStage.initStyle(StageStyle.UNDECORATED);
-                    Cell.buildMenuStage.initOwner(this.getScene().getWindow());
-                    Cell.buildMenuStage.initModality(Modality.NONE);
-
-                    Cell.buildMenuStage.setScene(new Scene(buildMenu));
-                    Cell.buildMenuStage.show();
+                    GameStage.mainGameStage.activeBuildMenu = buildMenu;
+                    GameStage.mainGameStage.addContent(buildMenu);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -214,7 +203,6 @@ public class Cell extends StackPane {
     private Terrain terrain;
     private HashMap<LinkDirection, Cell> links = new HashMap<>();
     private Building building;
-    private static Stage buildMenuStage;
     private static final double defaultHeight = 50;
     private static final double defaultWidth = 50;
     private static final Border defaultBorder = new Border(new BorderStroke(

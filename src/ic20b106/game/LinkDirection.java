@@ -1,4 +1,4 @@
-package ic20b106.board;
+package ic20b106.game;
 
 /**
  * @author Andre_Schneider

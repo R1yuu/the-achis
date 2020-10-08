@@ -1,8 +1,12 @@
 package ic20b106.menus;
 
+import ic20b106.game.GameStage;
+import ic20b106.util.DragBox;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.geometry.Insets;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -10,7 +14,6 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 /**
  * @author Andre_Schneider
@@ -27,6 +30,10 @@ public class BuildMenuController {
     public void initialize() {
         buildMenuBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
                 CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+
+        buildMenuBox.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+
+        dragBox.setDraggable(buildMenuBox);
     }
 
     /**
@@ -34,18 +41,18 @@ public class BuildMenuController {
      */
     @FXML
     public void closeBuildMenu() {
-        Stage buildMenuStage = (Stage)buildMenuBox.getScene().getWindow();
-        buildMenuStage.close();
+        GameStage.mainGameStage.removeContent(buildMenuBox);
+        GameStage.mainGameStage.activeBuildMenu = null;
     }
 
     @FXML
     protected void placeBuilding(MouseEvent actionEvent) {
-        Button clickedButton = (Button) actionEvent.getSource();
-        if (clickedButton.getId().equals("buildFactoryButton")) {
-            Stage mainStage = (Stage)((Stage)buildMenuBox.getScene().getWindow()).getOwner();
-        }
+
     }
 
     @FXML
     private VBox buildMenuBox;
+
+    @FXML
+    private DragBox dragBox;
 }

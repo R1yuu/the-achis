@@ -1,7 +1,6 @@
-package ic20b106.board;
+package ic20b106.game;
 
-import ic20b106.board.buildings.Core;
-import javafx.geometry.BoundingBox;
+import ic20b106.game.buildings.Core;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 

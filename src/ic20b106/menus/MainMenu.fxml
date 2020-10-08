@@ -5,7 +5,7 @@
 
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="ic20b106.menus.MainMenuController" alignment="center"
-      maxHeight="Infinity" maxWidth="Infinity" fx:id="mainMenuBox">
+      maxHeight="Infinity" maxWidth="Infinity">
 
     <Button onMouseClicked="#newGame">
         Create New Game

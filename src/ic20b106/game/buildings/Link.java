@@ -1,6 +1,6 @@
-package ic20b106.board.buildings;
+package ic20b106.game.buildings;
 
-import ic20b106.board.LinkDirection;
+import ic20b106.game.LinkDirection;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 

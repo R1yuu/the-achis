@@ -1,4 +1,4 @@
-package ic20b106.board;
+package ic20b106.util;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;

@@ -1,8 +1,8 @@
 package ic20b106;
 
+import ic20b106.game.GameStage;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -26,11 +26,15 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
+
+        GameStage mainGameStage = new GameStage(primaryStage, 1280, 720);
+        GameStage.mainGameStage = mainGameStage;
+
         VBox mainMenu = FXMLLoader.load(getClass().getResource("menus/MainMenu.fxml"));
 
-        primaryStage.setTitle("The Achis");
-        primaryStage.setScene(new Scene(mainMenu, 1000, 1000));
-        primaryStage.show();
+        mainGameStage.setTitle("The Achis");
+        mainGameStage.setContent(mainMenu);
+        mainGameStage.show();
     }
 
 

@@ -1,4 +1,4 @@
-package ic20b106.board.buildings;
+package ic20b106.game.buildings;
 
 import javafx.scene.image.Image;
 

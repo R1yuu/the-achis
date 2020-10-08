@@ -1,15 +1,13 @@
 package ic20b106.menus;
 
-import ic20b106.board.Board;
-import ic20b106.board.ZoomableScrollPane;
-import javafx.event.EventHandler;
+import ic20b106.game.Board;
+import ic20b106.game.GameStage;
+import ic20b106.util.ZoomableScrollPane;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -42,7 +40,7 @@ public class CreateGameMenuController {
     @FXML
     private void backToMainMenu() throws IOException {
         VBox mainMenu = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
-        backButton.getScene().setRoot(mainMenu);
+        GameStage.mainGameStage.setContent(mainMenu);
     }
 
     /**
@@ -50,26 +48,18 @@ public class CreateGameMenuController {
      */
     @FXML
     private void createGame() {
-
-
         Board.createBoard((int)boardWidthSlider.getValue(), (int)boardHeightSlider.getValue());
 
-        ZoomableScrollPane sp = new ZoomableScrollPane(Board.gameBoard, MouseButton.SECONDARY);
-        sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        ZoomableScrollPane zoomableScrollPane = new ZoomableScrollPane(Board.gameBoard, MouseButton.SECONDARY);
+        zoomableScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        zoomableScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-        createGameButton.getScene().setRoot(sp);
+        GameStage.mainGameStage.setContent(zoomableScrollPane);
     }
-
-    @FXML
-    private Button backButton;
 
     @FXML
     private Slider boardWidthSlider;
 
     @FXML
     private Slider boardHeightSlider;
-
-    @FXML
-    private Button createGameButton;
 }
