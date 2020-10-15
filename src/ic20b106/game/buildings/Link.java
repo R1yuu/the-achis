@@ -29,7 +29,10 @@ public class Link extends ImageView {
         };
 
         this.setImage(
-                new Image("/images/buildings/link-" + textureName + ".png", 50, 0, true, false, true));
+                new Image("/images/buildings/link-" + textureName + ".png", 200, 0, true, false, true));
+
+        this.setFitHeight(50);
+        this.setFitWidth(50);
 
         this.linkDirection = linkDirection;
 

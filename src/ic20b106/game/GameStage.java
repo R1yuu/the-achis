@@ -1,9 +1,9 @@
 package ic20b106.game;
 
+import ic20b106.util.javafx.GameBoard;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -71,6 +71,7 @@ public class GameStage {
 
     private final Stage stage;
     public StackPane mainPane = new StackPane();
-    public BuildMenu activeBuildMenu;
+    public static GameBoard gameBoard;
+    public static BuildMenu activeBuildMenu;
     public static GameStage mainGameStage;
 }

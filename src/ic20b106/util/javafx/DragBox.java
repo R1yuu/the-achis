@@ -1,9 +1,8 @@
-package ic20b106.util;
+package ic20b106.util.javafx;
 
-import javafx.collections.ObservableList;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 
 /**
  * @author Andre_Schneider
@@ -11,7 +10,7 @@ import javafx.scene.layout.StackPane;
  *
  *
  */
-public class DragBox extends StackPane {
+public class DragBox extends Pane {
 
     /**
      * Constructor

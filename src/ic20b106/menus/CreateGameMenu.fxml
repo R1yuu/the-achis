@@ -15,13 +15,13 @@
     </Button>
     <Label>Board Width:</Label>
     <HBox alignment="center">
-        <Slider fx:id="boardWidthSlider" min="60" max="120"/>
+        <Slider fx:id="boardWidthSlider" min="10" max="120"/>
         <Label text="${boardWidthSlider.value}"/>
     </HBox>
 
     <Label>Height</Label>
     <HBox alignment="center">
-        <Slider fx:id="boardHeightSlider" min="60" max="120"/>
+        <Slider fx:id="boardHeightSlider" min="10" max="120"/>
         <Label text="${boardHeightSlider.value}"/>
     </HBox>
     <Button fx:id="createGameButton" onMouseClicked="#createGame">

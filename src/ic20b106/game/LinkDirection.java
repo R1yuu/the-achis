@@ -1,5 +1,8 @@
 package ic20b106.game;
 
+import java.util.ArrayList;
+import java.util.logging.Level;
+
 /**
  * @author Andre_Schneider
  * @version 1.0
@@ -28,5 +31,36 @@ public enum LinkDirection {
             default -> throw new IllegalStateException("Unexpected value: " + linkDirection);
         }
         return opposite;
+    }
+
+    public static LinkDirection stringToLinkDirection(String str) {
+        return switch (str) {
+            case "Top-Left" -> TOP_LEFT;
+            case "Top-Right" -> TOP_RIGHT;
+            case "Right" -> RIGHT;
+            case "Bottom-Right" -> BOTTOM_RIGHT;
+            case "Bottom-Left" -> BOTTOM_LEFT;
+            case "Left" -> LEFT;
+            default -> null;
+        };
+    }
+
+    @Override
+    public String toString() {
+        String res = "";
+
+        if (name().contains("TOP")) {
+            res += "Top-";
+        } else if (name().contains("BOTTOM")) {
+            res += "Bottom-";
+        }
+
+        if (name().contains("LEFT")) {
+            res += "Left";
+        } else if (name().contains("RIGHT")) {
+            res += "Right";
+        }
+
+        return res;
     }
 }

@@ -29,7 +29,7 @@ public class BuildMenu {
      */
     public void close() {
         GameStage.mainGameStage.removeContent(this.buildMenuBox);
-        GameStage.mainGameStage.activeBuildMenu = null;
+        GameStage.activeBuildMenu = null;
     }
 
     public final VBox buildMenuBox;

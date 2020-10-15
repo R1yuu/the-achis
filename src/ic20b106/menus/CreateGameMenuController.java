@@ -1,16 +1,20 @@
 package ic20b106.menus;
 
-import ic20b106.game.Board;
+import ic20b106.game.Cell;
+import ic20b106.game.buildings.core.MainCore;
+import ic20b106.util.javafx.GameBoard;
 import ic20b106.game.GameStage;
-import ic20b106.util.ZoomableScrollPane;
+import ic20b106.util.javafx.ZoomableScrollPane;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author Andre Schneider
@@ -48,9 +52,19 @@ public class CreateGameMenuController {
      */
     @FXML
     private void createGame() {
-        Board.createBoard((int)boardWidthSlider.getValue(), (int)boardHeightSlider.getValue());
+        GameStage.gameBoard = new GameBoard((int)boardWidthSlider.getValue(), (int)boardHeightSlider.getValue());
 
-        ZoomableScrollPane zoomableScrollPane = new ZoomableScrollPane(Board.gameBoard, MouseButton.SECONDARY);
+        int coreX = ThreadLocalRandom.current().nextInt(0, 40);
+        int coreY = ThreadLocalRandom.current().nextInt(0, 40);
+
+        System.out.println("X: " + coreX + ", Y: " + coreY);
+
+        Cell coreCell = GameStage.gameBoard.getCell(5, 5);
+
+        coreCell.setBuilding(new MainCore(coreCell));
+        coreCell.extendArea(Color.LIGHTCYAN, 5);
+
+        ZoomableScrollPane zoomableScrollPane = new ZoomableScrollPane(GameStage.gameBoard, MouseButton.SECONDARY);
         zoomableScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         zoomableScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
