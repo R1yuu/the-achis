@@ -1,4 +1,4 @@
-package ic20b106.menus;
+package ic20b106.menus.main;
 
 import ic20b106.game.GameStage;
 import javafx.application.Platform;

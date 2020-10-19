@@ -30,7 +30,7 @@ public class Main extends Application {
         GameStage mainGameStage = new GameStage(primaryStage, 1280, 720);
         GameStage.mainGameStage = mainGameStage;
 
-        VBox mainMenu = FXMLLoader.load(getClass().getResource("menus/MainMenu.fxml"));
+        VBox mainMenu = FXMLLoader.load(getClass().getResource("menus/main/MainMenu.fxml"));
 
         mainGameStage.setTitle("The Achis");
         mainGameStage.setContent(mainMenu);

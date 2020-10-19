@@ -1,10 +1,15 @@
 package ic20b106.game;
 
 import ic20b106.util.javafx.GameBoard;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 /**
  * @author Andre_Schneider
@@ -23,7 +28,11 @@ public class GameStage {
      */
     public GameStage(Stage stage, double width, double height) {
         this.stage = stage;
-        this.stage.setScene(new Scene(mainPane, width, height));
+
+        Scene gameScene = new Scene(mainPane, width, height);
+
+        this.stage.setScene(gameScene);
+
     }
 
     /**
@@ -74,4 +83,5 @@ public class GameStage {
     public static GameBoard gameBoard;
     public static BuildMenu activeBuildMenu;
     public static GameStage mainGameStage;
+    public static boolean escapeMenuOpen = false;
 }

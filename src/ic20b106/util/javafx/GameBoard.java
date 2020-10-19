@@ -1,10 +1,17 @@
 package ic20b106.util.javafx;
 
 import ic20b106.game.Cell;
+import ic20b106.game.GameStage;
+import ic20b106.menus.game.EscapeMenuController;
 import ic20b106.util.Pair;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+
+import java.io.IOException;
 
 /**
  * @author Andre Schneider
@@ -22,6 +29,25 @@ public class GameBoard extends GridPane {
      * @param boardHeight Amount of Vertical Cells
      */
     public GameBoard(int boardWidth, int boardHeight) {
+
+        this.setFocusTraversable(true);
+
+        this.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                if (!GameStage.escapeMenuOpen) {
+                    VBox escapeMenu = null;
+                    try {
+                        escapeMenu = FXMLLoader.load(getClass().getResource("/ic20b106/menus/game/EscapeMenu.fxml"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    GameStage.mainGameStage.addContent(escapeMenu);
+                } else {
+                    EscapeMenuController.closeEscapeMenu();
+                }
+            }
+        });
 
         Cell cell;
 

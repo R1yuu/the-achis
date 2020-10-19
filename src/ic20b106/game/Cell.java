@@ -47,9 +47,6 @@ public class Cell extends StackPane {
 
         this.setBackground(new Background(new BackgroundFill(owner, CornerRadii.EMPTY, Insets.EMPTY)));
 
-
-
-
         this.setPrefHeight(50);
         this.setPrefWidth(50);
 
@@ -90,13 +87,9 @@ public class Cell extends StackPane {
      * @param linkDirection Direction of the linked Cell
      */
     public void addLink(LinkDirection linkDirection) {
-
         Cell linkCell = getNeighbourByCell(this, linkDirection);
-        Cell alreadyLinkedCell = this.links.putIfAbsent(linkDirection, linkCell);
 
-        if (alreadyLinkedCell == null) {
-            this.getChildren().add(new Link(linkDirection));
-        }
+        this.addLink(linkDirection, linkCell);
 
         linkCell.addLink(LinkDirection.getOpposite(linkDirection), this);
     }
@@ -110,7 +103,9 @@ public class Cell extends StackPane {
     public void addLink(LinkDirection linkDirection, Cell linkedCell) {
         Cell alreadyLinkedCell = this.links.putIfAbsent(linkDirection, linkedCell);
         if (alreadyLinkedCell == null) {
-            this.getChildren().add(new Link(linkDirection));
+            Link newLink = new Link(linkDirection);
+            this.getChildren().add(newLink);
+            newLink.toBack();
         }
     }
 
@@ -118,8 +113,6 @@ public class Cell extends StackPane {
         return GameStage.gameBoard.getCell(getNeighbourCoordsByCellCoords(
           new Pair<>(cell.row, cell.col), linkDirection));
     }
-
-
 
     public static Pair<Integer, Integer> getNeighbourCoordsByCellCoords(Pair<Integer, Integer> cellCoords,
                                                                     LinkDirection linkDirection) {

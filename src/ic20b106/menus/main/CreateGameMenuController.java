@@ -1,4 +1,4 @@
-package ic20b106.menus;
+package ic20b106.menus.main;
 
 import ic20b106.game.Cell;
 import ic20b106.game.buildings.core.MainCore;
@@ -43,7 +43,7 @@ public class CreateGameMenuController {
      */
     @FXML
     private void backToMainMenu() throws IOException {
-        VBox mainMenu = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+        VBox mainMenu = FXMLLoader.load(getClass().getResource("main/MainMenu.fxml"));
         GameStage.mainGameStage.setContent(mainMenu);
     }
 

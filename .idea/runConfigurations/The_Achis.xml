@@ -2,10 +2,10 @@
   <configuration default="false" name="The Achis" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="ic20b106.Main" />
     <module name="the_achis" />
-    <option name="VM_PARAMETERS" value="--module-path &quot;D:\Program Files\Java\javafx-sdk-15\lib&quot; --add-modules javafx.controls,javafx.fxml  -Dprism.vsync=false" />
+    <option name="VM_PARAMETERS" value="--module-path &quot;C:\Program Files\Java\javafx-sdk-15\lib&quot; --add-modules javafx.controls,javafx.fxml  -Dprism.vsync=false" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="ic20b106.menus.*" />
+        <option name="PATTERN" value="ic20b106.menus.main.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
