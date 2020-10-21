@@ -1,33 +1,21 @@
-package ic20b106.game;
+package ic20b106.game.menus;
 
+import ic20b106.Game;
+import ic20b106.game.Cell;
 import ic20b106.menus.game.PopupMenuController;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
-/**
- * @author Andre Schneider
- * @version 1.0
- *
- * Contains the Current BuildMenu and Cell
- */
-public class BuildMenu {
+public abstract class Menu {
 
-    /**
-     * Constructor
-     *
-     * @param selectedCell Cell on which to Build
-     */
-    public BuildMenu(Cell selectedCell) throws IOException {
+    protected Menu(Cell selectedCell, String subMenuPath) throws IOException {
         this.selectedCell = selectedCell;
 
-        this.subMenu = FXMLLoader.load(getClass().getResource("/ic20b106/menus/game/submenus/BuildingSubMenu.fxml"));
+        this.subMenu = FXMLLoader.load(getClass().getResource(subMenuPath));
 
         FXMLLoader popupMenuLoader =
           new FXMLLoader(getClass().getResource("/ic20b106/menus/game/PopupMenu.fxml"));
@@ -37,13 +25,17 @@ public class BuildMenu {
 
         this.popupMenuController.setSubmenuBox(subMenu);
 
-        GameStage.mainGameStage.addContent(this.popupMenuBox);
+        Game.primaryPane.getChildren().add(this.popupMenuBox);
     }
 
     public void setSubMenu(Pane subMenu) {
         Button backButton = new Button("Back");
         backButton.setOnMouseClicked(mouseEvent -> {
             this.popupMenuController.setSubmenuBox(this.subMenu);
+            if (Game.currentlyBuilt != null) {
+                selectedCell.getChildren().remove(Game.currentlyBuilt.getTexture());
+                Game.currentlyBuilt = null;
+            }
         });
         VBox backBox = new VBox(backButton);
         backBox.setStyle("-fx-padding: 5");
@@ -59,12 +51,11 @@ public class BuildMenu {
      */
     public void close() {
         popupMenuController.closePopupMenu();
-        GameStage.activeBuildMenu = null;
+        Game.activeBuildMenu = null;
     }
 
-
-    private Pane subMenu;
-    private VBox popupMenuBox;
-    private final PopupMenuController popupMenuController;
     public Cell selectedCell;
+    protected Pane subMenu;
+    protected VBox popupMenuBox;
+    protected final PopupMenuController popupMenuController;
 }

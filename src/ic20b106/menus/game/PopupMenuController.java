@@ -1,6 +1,6 @@
 package ic20b106.menus.game;
 
-import ic20b106.game.GameStage;
+import ic20b106.Game;
 import ic20b106.util.javafx.DragBox;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -35,7 +35,7 @@ public class PopupMenuController {
 
     @FXML
     public void closePopupMenu() {
-        GameStage.mainGameStage.removeContent(popupMenuBox);
+        Game.primaryPane.getChildren().remove(popupMenuBox);
     }
 
     public void setSubmenuBox(Node... subMenu) {

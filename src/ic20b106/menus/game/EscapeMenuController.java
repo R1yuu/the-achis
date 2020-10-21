@@ -1,6 +1,6 @@
 package ic20b106.menus.game;
 
-import ic20b106.game.GameStage;
+import ic20b106.Game;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
@@ -16,7 +16,7 @@ public class EscapeMenuController {
         escapeMenu.setBackground(new Background(
           new BackgroundFill(new Color(0, 0, 0, 0.5), CornerRadii.EMPTY, Insets.EMPTY)));
 
-        GameStage.escapeMenuOpen = true;
+        Game.escapeMenuOpen = true;
 
         escapeMenuBox = escapeMenu;
     }
@@ -27,8 +27,9 @@ public class EscapeMenuController {
     }
 
     public static void closeEscapeMenu() {
-        GameStage.mainGameStage.removeContent(escapeMenuBox);
-        GameStage.escapeMenuOpen = false;
+        Game.primaryPane.getChildren().remove(escapeMenuBox);
+
+        Game.escapeMenuOpen = false;
     }
 
     @FXML

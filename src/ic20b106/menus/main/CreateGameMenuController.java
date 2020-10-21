@@ -1,9 +1,10 @@
 package ic20b106.menus.main;
 
+import ic20b106.Game;
 import ic20b106.game.Cell;
+import ic20b106.game.LinkDirection;
 import ic20b106.game.buildings.core.MainCore;
 import ic20b106.util.javafx.GameBoard;
-import ic20b106.game.GameStage;
 import ic20b106.util.javafx.ZoomableScrollPane;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,7 +45,7 @@ public class CreateGameMenuController {
     @FXML
     private void backToMainMenu() throws IOException {
         VBox mainMenu = FXMLLoader.load(getClass().getResource("main/MainMenu.fxml"));
-        GameStage.mainGameStage.setContent(mainMenu);
+        Game.primaryPane.getChildren().setAll(mainMenu);
     }
 
     /**
@@ -52,23 +53,26 @@ public class CreateGameMenuController {
      */
     @FXML
     private void createGame() {
-        GameStage.gameBoard = new GameBoard((int)boardWidthSlider.getValue(), (int)boardHeightSlider.getValue());
+        Game.gameBoard = new GameBoard((int)boardWidthSlider.getValue(), (int)boardHeightSlider.getValue());
 
         int coreX = ThreadLocalRandom.current().nextInt(0, 40);
         int coreY = ThreadLocalRandom.current().nextInt(0, 40);
 
         System.out.println("X: " + coreX + ", Y: " + coreY);
 
-        Cell coreCell = GameStage.gameBoard.getCell(5, 5);
+        Cell coreCell = Game.gameBoard.getCell(5, 5);
 
         coreCell.setBuilding(new MainCore(coreCell));
+        coreCell.addLinks(LinkDirection.values());
+
+
         coreCell.extendArea(Color.LIGHTCYAN, 5);
 
-        ZoomableScrollPane zoomableScrollPane = new ZoomableScrollPane(GameStage.gameBoard, MouseButton.SECONDARY);
+        ZoomableScrollPane zoomableScrollPane = new ZoomableScrollPane(Game.gameBoard, MouseButton.SECONDARY);
         zoomableScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         zoomableScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-        GameStage.mainGameStage.setContent(zoomableScrollPane);
+        Game.primaryPane.getChildren().setAll(zoomableScrollPane);
     }
 
     @FXML

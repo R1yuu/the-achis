@@ -1,6 +1,6 @@
 package ic20b106.menus.game.submenus;
 
-import ic20b106.game.GameStage;
+import ic20b106.Game;
 import ic20b106.game.LinkDirection;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,7 +12,7 @@ import java.util.Set;
 public class LinkSubMenuController {
     @FXML
     private void initialize() {
-        Set<LinkDirection> existingLinks = GameStage.activeBuildMenu.selectedCell.getLinks().keySet();
+        Set<LinkDirection> existingLinks = Game.activeBuildMenu.selectedCell.getLinks().keySet();
         chooseLinkDirPane.getChildren().clear();
 
         for (LinkDirection linkDirection : LinkDirection.values()) {
@@ -25,9 +25,6 @@ public class LinkSubMenuController {
                 chooseLinkDirPane.getChildren().add(linkButton);
             }
         }
-
-        //submenuBox.getChildren().setAll(chooseLinkDirPane);
-        //submenuBox.getChildren().add(backButton);
     }
 
     private void createLink(MouseEvent mouseEvent) {
@@ -36,7 +33,9 @@ public class LinkSubMenuController {
 
         chooseLinkDirPane.getChildren().removeAll(clickedButton);
 
-        GameStage.activeBuildMenu.selectedCell.addLink(linkDirection);
+        Game.activeBuildMenu.selectedCell.addLink(linkDirection);
+
+        Game.activeBuildMenu.close();
     }
 
 

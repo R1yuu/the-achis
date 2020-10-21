@@ -10,4 +10,5 @@ import javafx.scene.image.ImageView;
  */
 public interface Buildable {
     ImageView getTexture();
+    boolean isConstructionSite();
 }

@@ -4,6 +4,7 @@ import ic20b106.game.Cell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -31,12 +32,31 @@ public abstract class Building implements Buildable {
         this.cell = cell;
     }
 
+    /**
+     * Texture Getter
+     *
+     * @return Returns Texture
+     */
+    @Override
     public ImageView getTexture() {
         return texture;
     }
 
+    /**
+     * Construction Getter
+     *
+     * @return Returns if Building is in Construction
+     */
+    @Override
+    public boolean isConstructionSite() {
+        return isConstructionSite;
+    }
+
+    public abstract void openMenu(Cell selectedCell) throws IOException;
+
     protected Cell cell;
     protected HashMap<Material, Integer> buildingCost;
     protected ImageView texture;
+    protected boolean isConstructionSite;
 
 }

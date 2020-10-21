@@ -1,7 +1,9 @@
 package ic20b106.game;
 
+import ic20b106.Game;
 import ic20b106.game.buildings.Building;
 import ic20b106.game.buildings.Link;
+import ic20b106.game.menus.BuildMenu;
 import ic20b106.util.Pair;
 import javafx.geometry.Insets;
 import javafx.scene.input.MouseButton;
@@ -55,14 +57,22 @@ public class Cell extends StackPane {
 
         this.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
-                if (GameStage.activeBuildMenu != null) {
-                    GameStage.activeBuildMenu.close();
-                }
+                if (this.building == null) {
+                    if (Game.activeBuildMenu != null) {
+                        Game.activeBuildMenu.close();
+                    }
 
-                try {
-                    GameStage.activeBuildMenu = new BuildMenu(this);
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
+                    try {
+                        Game.activeBuildMenu = new BuildMenu(this);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                } else {
+                    try {
+                        building.openMenu(this);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -76,8 +86,8 @@ public class Cell extends StackPane {
      */
     public void setBuilding(Building building) {
         if (this.building == null) {
-            addLink(LinkDirection.BOTTOM_RIGHT);
             this.getChildren().add(building.getTexture());
+            this.building = building;
         }
     }
 
@@ -109,8 +119,18 @@ public class Cell extends StackPane {
         }
     }
 
+    /**
+     *
+     * @param linkDirections
+     */
+    public void addLinks(LinkDirection... linkDirections) {
+        for (LinkDirection linkDirection : linkDirections) {
+            addLink(linkDirection);
+        }
+    }
+
     public static Cell getNeighbourByCell(Cell cell, LinkDirection linkDirection) {
-        return GameStage.gameBoard.getCell(getNeighbourCoordsByCellCoords(
+        return Game.gameBoard.getCell(getNeighbourCoordsByCellCoords(
           new Pair<>(cell.row, cell.col), linkDirection));
     }
 
@@ -155,7 +175,7 @@ public class Cell extends StackPane {
 
             firstCellCoords = getNeighbourCoordsByCellCoords(firstCellCoords, LinkDirection.RIGHT);
 
-            if ((firstCell = GameStage.gameBoard.getCell(firstCellCoords)) != null) {
+            if ((firstCell = Game.gameBoard.getCell(firstCellCoords)) != null) {
                 firstCell.setOwner(owner);
             }
 
@@ -169,7 +189,7 @@ public class Cell extends StackPane {
 
                     nextCellCoords = getNeighbourCoordsByCellCoords(nextCellCoords, linkDirection);
 
-                    if ((nextCell = GameStage.gameBoard.getCell(nextCellCoords)) != null) {
+                    if ((nextCell = Game.gameBoard.getCell(nextCellCoords)) != null) {
                         nextCell.setOwner(owner);
                     }
 

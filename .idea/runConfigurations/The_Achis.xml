@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="The Achis" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="ic20b106.Main" />
+    <option name="MAIN_CLASS_NAME" value="ic20b106.Game" />
     <module name="the_achis" />
     <option name="VM_PARAMETERS" value="--module-path &quot;C:\Program Files\Java\javafx-sdk-15\lib&quot; --add-modules javafx.controls,javafx.fxml  -Dprism.vsync=false" />
     <extension name="coverage">
