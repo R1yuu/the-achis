@@ -26,6 +26,11 @@ public class EscapeMenuController {
         closeEscapeMenu();
     }
 
+    @FXML
+    private void exitGame() {
+        Game.resetGame();
+    }
+
     public static void closeEscapeMenu() {
         Game.primaryPane.getChildren().remove(escapeMenuBox);
 

@@ -2,11 +2,12 @@ package ic20b106.game;
 
 import ic20b106.Game;
 import ic20b106.game.buildings.Building;
-import ic20b106.game.buildings.Link;
 import ic20b106.game.menus.BuildMenu;
+import ic20b106.game.menus.BuildingMenu;
 import ic20b106.util.Pair;
 import javafx.geometry.Insets;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -55,27 +56,27 @@ public class Cell extends StackPane {
         this.row = row;
         this.col = col;
 
-        this.setOnMouseClicked(event -> {
-            if (event.getButton() == MouseButton.PRIMARY) {
-                if (this.building == null) {
-                    if (Game.activeBuildMenu != null) {
-                        Game.activeBuildMenu.close();
-                    }
+        this.setOnMouseClicked(this::onMouseClick);
+    }
 
-                    try {
-                        Game.activeBuildMenu = new BuildMenu(this);
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
-                } else {
-                    try {
-                        building.openMenu(this);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+    private void onMouseClick(MouseEvent mouseEvent) {
+        if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+            if (Game.activeMenu != null) {
+                Game.activeMenu.close();
             }
-        });
+
+            try {
+                if (this.building != null) {
+                    Game.activeMenu = new BuildingMenu(this, this.building);
+                } else if (!this.links.isEmpty()) {
+                    //TODO: Links Menu
+                } else {
+                    Game.activeMenu = new BuildMenu(this);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
@@ -84,48 +85,53 @@ public class Cell extends StackPane {
      *
      * @param building A Building that can be built on the Cell
      */
-    public void setBuilding(Building building) {
+    public void placeBuilding(Building building) {
         if (this.building == null) {
-            this.getChildren().add(building.getTexture());
             this.building = building;
+            this.getChildren().add(this.building.getTexture());
+        }
+    }
+
+    public void removeBuilding() {
+        if (this.building != null) {
+            this.getChildren().remove(this.building.getTexture());
+            this.removeLinks(LinkDirection.values());
+            this.building = null;
         }
     }
 
     /**
      * Adds a Link to another Cell just with the Direction
      *
-     * @param linkDirection Direction of the linked Cell
-     */
-    public void addLink(LinkDirection linkDirection) {
-        Cell linkCell = getNeighbourByCell(this, linkDirection);
-
-        this.addLink(linkDirection, linkCell);
-
-        linkCell.addLink(LinkDirection.getOpposite(linkDirection), this);
-    }
-
-    /**
-     * Adds a Link to another Cell
-     *
-     * @param linkDirection Direction to linked Cell
-     * @param linkedCell Cell to Link to
-     */
-    public void addLink(LinkDirection linkDirection, Cell linkedCell) {
-        Cell alreadyLinkedCell = this.links.putIfAbsent(linkDirection, linkedCell);
-        if (alreadyLinkedCell == null) {
-            Link newLink = new Link(linkDirection);
-            this.getChildren().add(newLink);
-            newLink.toBack();
-        }
-    }
-
-    /**
-     *
-     * @param linkDirections
+     * @param linkDirections Directions of the Cells to link
      */
     public void addLinks(LinkDirection... linkDirections) {
         for (LinkDirection linkDirection : linkDirections) {
-            addLink(linkDirection);
+            if (!links.containsKey(linkDirection)) {
+                Cell linkCell = getNeighbourByCell(this, linkDirection);
+
+                Link newLink = new Link(linkDirection);
+                Pair<Link, Cell> alreadyLinkedCell = this.links.putIfAbsent(linkDirection, new Pair<>(newLink, linkCell));
+                if (alreadyLinkedCell == null) {
+                    this.getChildren().add(newLink);
+                    newLink.toBack();
+                }
+
+                linkCell.addLinks(LinkDirection.getOpposite(linkDirection));
+            }
+        }
+    }
+
+    public void removeLinks(LinkDirection... linkDirections) {
+        for (LinkDirection linkDirection : linkDirections) {
+            if (links.containsKey(linkDirection)) {
+                Link link = links.get(linkDirection).x;
+                Cell linkedCell = links.get(linkDirection).y;
+                links.remove(linkDirection);
+
+                this.getChildren().remove(link);
+                linkedCell.removeLinks(LinkDirection.getOpposite(linkDirection));
+            }
         }
     }
 
@@ -209,17 +215,15 @@ public class Cell extends StackPane {
      *
      * @return Returns Every Link of the Cell
      */
-    public HashMap<LinkDirection, Cell> getLinks() {
+    public HashMap<LinkDirection, Pair<Link, Cell>> getLinks() {
         return links;
     }
 
 
     private final int row;
     private final int col;
-
+    private final HashMap<LinkDirection, Pair<Link, Cell>> links = new HashMap<>();
     private Color owner;
-
-    private HashMap<LinkDirection, Cell> links = new HashMap<>();
     private Building building;
     private static final Border defaultBorder = new Border(new BorderStroke(
             Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));

@@ -7,14 +7,11 @@ import ic20b106.game.buildings.core.MainCore;
 import ic20b106.util.javafx.GameBoard;
 import ic20b106.util.javafx.ZoomableScrollPane;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -39,13 +36,10 @@ public class CreateGameMenuController {
 
     /**
      * Goes Back to the Main Menu
-     *
-     * @throws IOException Thrown by FXMLLoader if .fxml not found
      */
     @FXML
-    private void backToMainMenu() throws IOException {
-        VBox mainMenu = FXMLLoader.load(getClass().getResource("main/MainMenu.fxml"));
-        Game.primaryPane.getChildren().setAll(mainMenu);
+    private void backToMainMenu() {
+        Game.resetGame();
     }
 
     /**
@@ -58,11 +52,9 @@ public class CreateGameMenuController {
         int coreX = ThreadLocalRandom.current().nextInt(0, 40);
         int coreY = ThreadLocalRandom.current().nextInt(0, 40);
 
-        System.out.println("X: " + coreX + ", Y: " + coreY);
-
         Cell coreCell = Game.gameBoard.getCell(5, 5);
 
-        coreCell.setBuilding(new MainCore(coreCell));
+        coreCell.placeBuilding(new MainCore(coreCell));
         coreCell.addLinks(LinkDirection.values());
 
 

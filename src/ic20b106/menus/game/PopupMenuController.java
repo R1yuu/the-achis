@@ -29,13 +29,11 @@ public class PopupMenuController {
         popupMenuBox.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 
         dragBox.setDraggable(popupMenuBox);
-
-        //submenuBox.getChildren().setAll(setBuildingSubmenu);
     }
 
     @FXML
     public void closePopupMenu() {
-        Game.primaryPane.getChildren().remove(popupMenuBox);
+        Game.activeMenu.close();
     }
 
     public void setSubmenuBox(Node... subMenu) {

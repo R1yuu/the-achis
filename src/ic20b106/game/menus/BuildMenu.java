@@ -18,6 +18,6 @@ public class BuildMenu extends Menu {
      * @param selectedCell Cell on which to Build
      */
     public BuildMenu(Cell selectedCell) throws IOException {
-        super(selectedCell, "/ic20b106/menus/game/submenus/BuildingSubMenu.fxml");
+        super(selectedCell, "/ic20b106/menus/game/submenus/BuildSubMenu.fxml");
     }
 }

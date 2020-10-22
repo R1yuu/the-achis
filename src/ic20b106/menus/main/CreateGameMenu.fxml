@@ -5,6 +5,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
 
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="ic20b106.menus.main.CreateGameMenuController" alignment="center"
@@ -24,6 +26,15 @@
         <Slider fx:id="boardHeightSlider" min="10" max="120"/>
         <Label text="${boardHeightSlider.value}"/>
     </HBox>
+    <fx:define>
+        <ToggleGroup fx:id="colorPicker"/>
+    </fx:define>
+    <RadioButton toggleGroup="$colorPicker" style="-fx-border-radius: 0">
+        Red
+    </RadioButton>
+    <RadioButton toggleGroup="$colorPicker">
+        Blue
+    </RadioButton>
     <Button fx:id="createGameButton" onMouseClicked="#createGame">
         Create Game
     </Button>

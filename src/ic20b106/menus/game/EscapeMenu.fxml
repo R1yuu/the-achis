@@ -10,5 +10,5 @@
       style="-fx-alignment: center">
     <Button onMouseClicked="#backToGame">Back to Game</Button>
     <Button>Save Game</Button>
-    <Button>Exit Game</Button>
+    <Button onMouseClicked="#exitGame">Exit Game</Button>
 </VBox>

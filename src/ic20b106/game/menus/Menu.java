@@ -13,6 +13,7 @@ import java.io.IOException;
 public abstract class Menu {
 
     protected Menu(Cell selectedCell, String subMenuPath) throws IOException {
+
         this.selectedCell = selectedCell;
 
         this.subMenu = FXMLLoader.load(getClass().getResource(subMenuPath));
@@ -50,12 +51,12 @@ public abstract class Menu {
      * Closes and Removes Build Menu
      */
     public void close() {
-        popupMenuController.closePopupMenu();
-        Game.activeBuildMenu = null;
+        Game.primaryPane.getChildren().remove(popupMenuBox);
+        Game.activeMenu = null;
     }
 
     public Cell selectedCell;
-    protected Pane subMenu;
+    public Pane subMenu;
     protected VBox popupMenuBox;
     protected final PopupMenuController popupMenuController;
 }

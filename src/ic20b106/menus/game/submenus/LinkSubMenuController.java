@@ -12,7 +12,7 @@ import java.util.Set;
 public class LinkSubMenuController {
     @FXML
     private void initialize() {
-        Set<LinkDirection> existingLinks = Game.activeBuildMenu.selectedCell.getLinks().keySet();
+        Set<LinkDirection> existingLinks = Game.activeMenu.selectedCell.getLinks().keySet();
         chooseLinkDirPane.getChildren().clear();
 
         for (LinkDirection linkDirection : LinkDirection.values()) {
@@ -33,9 +33,9 @@ public class LinkSubMenuController {
 
         chooseLinkDirPane.getChildren().removeAll(clickedButton);
 
-        Game.activeBuildMenu.selectedCell.addLink(linkDirection);
+        Game.activeMenu.selectedCell.addLinks(linkDirection);
 
-        Game.activeBuildMenu.close();
+        Game.activeMenu.close();
     }
 
 

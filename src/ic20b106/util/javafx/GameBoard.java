@@ -7,6 +7,7 @@ import ic20b106.util.Pair;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -32,22 +33,7 @@ public class GameBoard extends GridPane {
 
         this.setFocusTraversable(true);
 
-        this.setOnKeyPressed(keyEvent -> {
-            if (keyEvent.getCode() == KeyCode.ESCAPE) {
-                if (!Game.escapeMenuOpen) {
-                    VBox escapeMenu = null;
-                    try {
-                        escapeMenu = FXMLLoader.load(getClass().getResource("/ic20b106/menus/game/EscapeMenu.fxml"));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    Game.primaryPane.getChildren().add(escapeMenu);
-                } else {
-                    EscapeMenuController.closeEscapeMenu();
-                }
-            }
-        });
+        this.setOnKeyPressed(this::onKeyPressed);
 
         Cell cell;
 
@@ -57,6 +43,23 @@ public class GameBoard extends GridPane {
                 if (row % 2 == 1) cell.setStyle("-fx-translate-x: 25");
 
                 this.add(cell, col, row);
+            }
+        }
+    }
+
+    private void onKeyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ESCAPE) {
+            if (!Game.escapeMenuOpen) {
+                VBox escapeMenu = null;
+                try {
+                    escapeMenu = FXMLLoader.load(getClass().getResource("/ic20b106/menus/game/EscapeMenu.fxml"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                Game.primaryPane.getChildren().add(escapeMenu);
+            } else {
+                EscapeMenuController.closeEscapeMenu();
             }
         }
     }
@@ -71,8 +74,6 @@ public class GameBoard extends GridPane {
      */
     public Cell getCell (final int row, final int column) {
         Cell result = null;
-
-        System.out.println(getChildren().size());
 
         for (Node child : getChildren()) {
             if(getRowIndex(child) == row && getColumnIndex(child) == column) {

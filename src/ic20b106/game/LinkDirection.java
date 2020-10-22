@@ -1,8 +1,5 @@
 package ic20b106.game;
 
-import java.util.ArrayList;
-import java.util.logging.Level;
-
 /**
  * @author Andre_Schneider
  * @version 1.0

@@ -1,5 +1,6 @@
 package ic20b106.game.buildings;
 
+import ic20b106.Game;
 import ic20b106.game.Cell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -52,7 +53,13 @@ public abstract class Building implements Buildable {
         return isConstructionSite;
     }
 
-    public abstract void openMenu(Cell selectedCell) throws IOException;
+    public void openMenu(Cell selectedCell) throws IOException {
+        if (Game.activeMenu != null) {
+            Game.activeMenu.close();
+        }
+    }
+
+    public abstract String getMenuPath();
 
     protected Cell cell;
     protected HashMap<Material, Integer> buildingCost;
