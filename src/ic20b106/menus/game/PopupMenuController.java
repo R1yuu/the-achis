@@ -15,6 +15,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import jfxtras.styles.jmetro.JMetroStyleClass;
 
 public class PopupMenuController {
 
@@ -26,7 +27,7 @@ public class PopupMenuController {
         popupMenuBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
           CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
-        popupMenuBox.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        popupMenuBox.getStyleClass().add(JMetroStyleClass.BACKGROUND);
 
         dragBox.setDraggable(popupMenuBox);
     }

@@ -39,7 +39,7 @@ public class GameBoard extends GridPane {
 
         for (int col=0; col < boardWidth; col++) {
             for (int row=0; row < boardHeight; row++) {
-                cell = new Cell(row, col, Color.INDIANRED);
+                cell = new Cell(row, col, Color.SLATEGREY);
                 if (row % 2 == 1) cell.setStyle("-fx-translate-x: 25");
 
                 this.add(cell, col, row);

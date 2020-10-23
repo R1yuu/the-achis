@@ -8,33 +8,54 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
 
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.ToggleButton?>
+<?import org.controlsfx.control.ToggleSwitch?>
+<?import javafx.geometry.Insets?>
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="ic20b106.menus.main.CreateGameMenuController" alignment="center"
-      maxWidth="Infinity" maxHeight="Infinity">
+      maxWidth="Infinity" maxHeight="Infinity" spacing="10">
 
     <Button fx:id="backButton" onMouseClicked="#backToMainMenu">
         Back
     </Button>
-    <Label>Board Width:</Label>
-    <HBox alignment="center">
-        <Slider fx:id="boardWidthSlider" min="10" max="120"/>
-        <Label text="${boardWidthSlider.value}"/>
+
+    <GridPane alignment="center" vgap="5" hgap="5">
+        <Label GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.halignment="center"
+               fx:id="boardHeightLabel"/>
+        <Slider GridPane.rowIndex="1" GridPane.columnIndex="0"
+                fx:id="boardHeightSlider" min="50" prefHeight="101" orientation="vertical"
+                style="-show-value-on-interaction: false"/>
+        <Rectangle GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.valignment="bottom" fill="slategrey"
+                   fx:id="boardRectangle" width="1" height="1"/>
+        <Slider GridPane.rowIndex="2" GridPane.columnIndex="1"
+                fx:id="boardWidthSlider" min="50" prefWidth="101"
+                style="-show-value-on-interaction: false"/>
+        <Label GridPane.rowIndex="2" GridPane.columnIndex="2" GridPane.valignment="center"
+               fx:id="boardWidthLabel" minWidth="30"/>
+    </GridPane>
+
+
+    <HBox alignment="center" spacing="5">
+        <fx:define>
+            <ToggleGroup fx:id="colorPicker"/>
+        </fx:define>
+        <ToggleButton toggleGroup="$colorPicker" fx:id="toggleRed" selected="true">
+            Red
+        </ToggleButton>
+        <ToggleButton toggleGroup="$colorPicker" fx:id="toggleBlue">
+            Blue
+        </ToggleButton>
+        <ToggleButton toggleGroup="$colorPicker" fx:id="toggleYellow">
+            Yellow
+        </ToggleButton>
+        <ToggleButton toggleGroup="$colorPicker" fx:id="toggleGreen">
+            Green
+        </ToggleButton>
     </HBox>
 
-    <Label>Height</Label>
-    <HBox alignment="center">
-        <Slider fx:id="boardHeightSlider" min="10" max="120"/>
-        <Label text="${boardHeightSlider.value}"/>
-    </HBox>
-    <fx:define>
-        <ToggleGroup fx:id="colorPicker"/>
-    </fx:define>
-    <RadioButton toggleGroup="$colorPicker" style="-fx-border-radius: 0">
-        Red
-    </RadioButton>
-    <RadioButton toggleGroup="$colorPicker">
-        Blue
-    </RadioButton>
     <Button fx:id="createGameButton" onMouseClicked="#createGame">
         Create Game
     </Button>

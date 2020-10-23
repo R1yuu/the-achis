@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import jfxtras.styles.jmetro.JMetro;
+import jfxtras.styles.jmetro.JMetroStyleClass;
 import jfxtras.styles.jmetro.Style;
 
 import java.io.IOException;
@@ -45,6 +46,8 @@ public class Game extends Application {
 
         JMetro jMetro = new JMetro(Style.DARK);
         jMetro.setScene(primaryScene);
+
+        primaryPane.getStyleClass().add(JMetroStyleClass.BACKGROUND);
 
         primaryStage.show();
     }

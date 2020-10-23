@@ -1,12 +1,16 @@
 package ic20b106.util.javafx;
 
+import com.sun.glass.events.WheelEvent;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.VBox;
 
 import java.util.Arrays;
@@ -74,7 +78,7 @@ public class ZoomableScrollPane extends ScrollPane {
         target.setScaleY(scaleValue);
     }
 
-    private void onScroll(double wheelDelta, Point2D mousePoint) {
+    void onScroll(double wheelDelta, Point2D mousePoint) {
         double zoomFactor = Math.exp(wheelDelta * zoomIntensity);
 
         Bounds innerBounds = zoomNode.getLayoutBounds();
