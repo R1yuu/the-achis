@@ -1,12 +1,15 @@
 package ic20b106.menus.main;
 
+import com.sun.javafx.font.CharToGlyphMapper;
 import ic20b106.Game;
 import ic20b106.game.Cell;
 import ic20b106.game.LinkDirection;
 import ic20b106.game.buildings.core.MainCore;
+import ic20b106.util.Pair;
 import ic20b106.util.javafx.GameBoard;
 import ic20b106.util.javafx.ZoomableScrollPane;
 import javafx.beans.binding.Bindings;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -18,6 +21,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -49,21 +53,21 @@ public class CreateGameMenuController {
               (newVal.intValue() - oldval.intValue()) * (boardHeightSlider.getMax() / boardHeightSlider.getMin()));
         });
 
-        toggleRed.styleProperty().bind(Bindings.when(toggleRed.selectedProperty())
-          .then("-fx-background-color: indianred")
-          .otherwise("-fx-background-color: #333333"));
+        for (Toggle toggle : colorPicker.getToggles()) {
+            ToggleButton toggleButton = (ToggleButton)toggle;
+            String pressedBackgroundColor = "";
 
-        toggleBlue.styleProperty().bind(Bindings.when(toggleBlue.selectedProperty())
-          .then("-fx-background-color: cornflowerblue")
-          .otherwise("-fx-background-color: #333333"));
+            switch (toggleButton.getText()) {
+                case "Red" -> pressedBackgroundColor = "indianred";
+                case "Blue" -> pressedBackgroundColor = "cornflowerblue";
+                case "Yellow" -> pressedBackgroundColor = "orange";
+                case "Green" -> pressedBackgroundColor = "forestgreen";
+            }
 
-        toggleYellow.styleProperty().bind(Bindings.when(toggleYellow.selectedProperty())
-          .then("-fx-background-color: orange")
-          .otherwise("-fx-background-color: #333333"));
-
-        toggleGreen.styleProperty().bind(Bindings.when(toggleGreen.selectedProperty())
-          .then("-fx-background-color: forestgreen")
-          .otherwise("-fx-background-color: #333333"));
+            toggleButton.styleProperty().bind(Bindings.when(toggleButton.selectedProperty())
+              .then("-fx-background-color: " + pressedBackgroundColor)
+              .otherwise("-fx-background-color: #333333"));
+        }
     }
 
     /**
@@ -79,31 +83,48 @@ public class CreateGameMenuController {
      */
     @FXML
     private void createGame() {
-        Game.gameBoard = new GameBoard((int)boardWidthSlider.getValue(), (int)boardHeightSlider.getValue());
-
-        Toggle selectedToggle = colorPicker.getSelectedToggle();
-        if (selectedToggle == toggleRed) {
-            Game.playerColor = Color.INDIANRED;
-        } else if (selectedToggle == toggleBlue) {
-            Game.playerColor = Color.CORNFLOWERBLUE;
-        } else if (selectedToggle == toggleYellow) {
-            Game.playerColor = Color.ORANGE;
-        } else {
-            Game.playerColor = Color.FORESTGREEN;
-        }
-
-        Cell coreCell = Game.gameBoard.getCell(5, 5);
-
-        coreCell.placeBuilding(new MainCore(coreCell));
-        coreCell.setOwner(Game.playerColor);
-        coreCell.addLinks(LinkDirection.values());
-
-
-        coreCell.extendArea(Game.playerColor, 5);
+        int boardWidth = (int)boardWidthSlider.getValue();
+        int boardHeight = (int)boardHeightSlider.getValue();
+        Game.gameBoard = new GameBoard(boardWidth, boardHeight);
 
         ZoomableScrollPane zoomableScrollPane = new ZoomableScrollPane(Game.gameBoard, MouseButton.SECONDARY);
         zoomableScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         zoomableScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+        ToggleButton selectedColorToggle = (ToggleButton)colorPicker.getSelectedToggle();
+        ToggleButton selectedStartPositionToggle = (ToggleButton)startPosition.getSelectedToggle();
+        Pair<Integer, Integer> startPosition = new Pair<>(5, 5);
+
+
+        switch (selectedColorToggle.getText()) {
+            case "Red" -> Game.playerColor = Color.INDIANRED;
+            case "Blue" -> Game.playerColor = Color.CORNFLOWERBLUE;
+            case "Yellow" -> Game.playerColor = Color.ORANGE;
+            case "Green" -> Game.playerColor = Color.FORESTGREEN;
+        }
+
+        switch (selectedStartPositionToggle.getText()) {
+            case "Top\nRight" -> {
+                startPosition.setXY(5, boardWidth - 6);
+                zoomableScrollPane.setHvalue(1);
+            }
+            case "Bottom\nLeft" -> {
+                startPosition.setXY(boardHeight - 6, 5);
+                zoomableScrollPane.setVvalue(1);
+            }
+            case "Bottom\nRight" -> {
+                startPosition.setXY(boardHeight - 6, boardWidth - 6);
+                zoomableScrollPane.setVvalue(1);
+                zoomableScrollPane.setHvalue(1);
+            }
+        }
+
+        Cell coreCell = Game.gameBoard.getCell(startPosition);
+
+        coreCell.placeBuilding(new MainCore(coreCell));
+        coreCell.setOwner(Game.playerColor);
+        coreCell.extendArea(Game.playerColor, 5);
+        coreCell.addLinks(LinkDirection.values());
 
         Game.primaryPane.getChildren().setAll(zoomableScrollPane);
     }
@@ -125,6 +146,9 @@ public class CreateGameMenuController {
 
     @FXML
     private ToggleGroup colorPicker;
+
+    @FXML
+    private ToggleGroup startPosition;
 
     @FXML
     private ToggleButton toggleRed;

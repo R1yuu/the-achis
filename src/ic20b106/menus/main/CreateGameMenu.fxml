@@ -23,18 +23,37 @@
     </Button>
 
     <GridPane alignment="center" vgap="5" hgap="5">
-        <Label GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.halignment="center"
+        <fx:define>
+            <ToggleGroup fx:id="startPosition"/>
+        </fx:define>
+
+        <ToggleButton GridPane.rowIndex="0" GridPane.columnIndex="0"
+                      toggleGroup="$startPosition" prefWidth="60" prefHeight="60"
+                      textAlignment="center" text="${'Top\nLeft'}" selected="true"/>
+        <ToggleButton GridPane.rowIndex="0" GridPane.columnIndex="4"
+                      toggleGroup="$startPosition" prefWidth="60" prefHeight="60"
+                      textAlignment="center" text="${'Top\nRight'}"/>
+
+        <Label GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.halignment="center"
                fx:id="boardHeightLabel"/>
-        <Slider GridPane.rowIndex="1" GridPane.columnIndex="0"
+        <Slider GridPane.rowIndex="2" GridPane.columnIndex="1"
                 fx:id="boardHeightSlider" min="50" prefHeight="101" orientation="vertical"
                 style="-show-value-on-interaction: false"/>
-        <Rectangle GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.valignment="bottom" fill="slategrey"
+        <Rectangle GridPane.rowIndex="2" GridPane.columnIndex="2" GridPane.valignment="bottom" fill="slategrey"
                    fx:id="boardRectangle" width="1" height="1"/>
-        <Slider GridPane.rowIndex="2" GridPane.columnIndex="1"
+        <Slider GridPane.rowIndex="3" GridPane.columnIndex="2"
                 fx:id="boardWidthSlider" min="50" prefWidth="101"
                 style="-show-value-on-interaction: false"/>
-        <Label GridPane.rowIndex="2" GridPane.columnIndex="2" GridPane.valignment="center"
+        <Label GridPane.rowIndex="3" GridPane.columnIndex="3" GridPane.valignment="center"
                fx:id="boardWidthLabel" minWidth="30"/>
+
+        <ToggleButton GridPane.rowIndex="4" GridPane.columnIndex="0"
+                      toggleGroup="$startPosition" prefWidth="60" prefHeight="60"
+                      textAlignment="center" text="${'Bottom\nLeft'}"/>
+
+        <ToggleButton GridPane.rowIndex="4" GridPane.columnIndex="4"
+                      toggleGroup="$startPosition" prefWidth="60" prefHeight="60"
+                      textAlignment="center" text="${'Bottom\nRight'}"/>
     </GridPane>
 
 
