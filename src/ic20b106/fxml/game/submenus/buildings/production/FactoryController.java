@@ -1,5 +1,6 @@
-package ic20b106.menus.game.submenus.buildings;
+package ic20b106.fxml.game.submenus.buildings.production;
 
+import ic20b106.fxml.game.submenus.buildings.BuildingController;
 import javafx.fxml.FXML;
 import javafx.scene.layout.HBox;
 

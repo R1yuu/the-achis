@@ -6,12 +6,10 @@
 
 <?import javafx.scene.layout.FlowPane?>
 <HBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="ic20b106.menus.game.submenus.BuildSubMenuController">
+      xmlns:fx="http://javafx.com/fxml">
     <FlowPane>
         <Button onMouseClicked="#openLinkSubMenu">Link</Button>
         <Button onMouseClicked="#placeBuilding" fx:id="buildFactoryButton">Factory</Button>
-        <Button>Support Core</Button>
         <Button>Barracks</Button>
     </FlowPane>
 </HBox>

@@ -61,20 +61,22 @@ public class Cell extends StackPane {
 
     private void onMouseClick(MouseEvent mouseEvent) {
         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-            if (Game.activeMenu != null) {
-                Game.activeMenu.close();
-            }
-
-            try {
-                if (this.building != null) {
-                    Game.activeMenu = new BuildingMenu(this, this.building);
-                } else if (!this.links.isEmpty()) {
-                    //TODO: Links Menu
-                } else {
-                    Game.activeMenu = new BuildMenu(this);
+            if (owner == Game.playerColor) {
+                if (Game.activeMenu != null) {
+                    Game.activeMenu.close();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+
+                try {
+                    if (this.building != null) {
+                        Game.activeMenu = new BuildingMenu(this, this.building);
+                    } else if (!this.links.isEmpty()) {
+                        //TODO: Links Menu
+                    } else {
+                        Game.activeMenu = new BuildMenu(this);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -208,6 +210,10 @@ public class Cell extends StackPane {
     public void setOwner(Color newOwner) {
         this.owner = newOwner;
         this.setBackground(new Background(new BackgroundFill(newOwner, CornerRadii.EMPTY, Insets.EMPTY)));
+    }
+
+    public Color getOwner() {
+        return this.owner;
     }
 
     /**

@@ -3,7 +3,7 @@ package ic20b106.game.buildings;
 import javafx.scene.image.ImageView;
 
 /**
- * @author Andre_Schneider
+ * @author Andre Schneider
  * @version 1.0
  *
  * Interface for all Buildable Objects

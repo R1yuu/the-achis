@@ -30,6 +30,6 @@ public class Factory extends Building {
 
     @Override
     public String getMenuPath() {
-        return "/ic20b106/menus/game/submenus/buildings/Factory.fxml";
+        return "/ic20b106/fxml/game/submenus/buildings/production/Factory.fxml";
     }
 }

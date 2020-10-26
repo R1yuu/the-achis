@@ -1,15 +1,13 @@
-package ic20b106.menus.main;
+package ic20b106.fxml.main;
 
-import com.sun.javafx.font.CharToGlyphMapper;
 import ic20b106.Game;
 import ic20b106.game.Cell;
 import ic20b106.game.LinkDirection;
-import ic20b106.game.buildings.core.MainCore;
+import ic20b106.game.buildings.core.Core;
 import ic20b106.util.Pair;
 import ic20b106.util.javafx.GameBoard;
 import ic20b106.util.javafx.ZoomableScrollPane;
 import javafx.beans.binding.Bindings;
-import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -20,9 +18,6 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
-import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author Andre Schneider
@@ -121,7 +116,7 @@ public class CreateGameMenuController {
 
         Cell coreCell = Game.gameBoard.getCell(startPosition);
 
-        coreCell.placeBuilding(new MainCore(coreCell));
+        coreCell.placeBuilding(new Core(coreCell));
         coreCell.setOwner(Game.playerColor);
         coreCell.extendArea(Game.playerColor, 5);
         coreCell.addLinks(LinkDirection.values());

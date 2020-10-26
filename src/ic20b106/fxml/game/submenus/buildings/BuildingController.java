@@ -1,4 +1,4 @@
-package ic20b106.menus.game.submenus.buildings;
+package ic20b106.fxml.game.submenus.buildings;
 
 import ic20b106.Game;
 import javafx.fxml.Initializable;

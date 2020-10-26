@@ -15,7 +15,7 @@
 <?import org.controlsfx.control.ToggleSwitch?>
 <?import javafx.geometry.Insets?>
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="ic20b106.menus.main.CreateGameMenuController" alignment="center"
+      fx:controller="ic20b106.fxml.main.CreateGameMenuController" alignment="center"
       maxWidth="Infinity" maxHeight="Infinity" spacing="10">
 
     <Button fx:id="backButton" onMouseClicked="#backToMainMenu">

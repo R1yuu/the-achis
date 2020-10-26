@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="ic20b106.menus.main.MainMenuController" alignment="center"
+      fx:controller="ic20b106.fxml.main.MainMenuController" alignment="center"
       maxHeight="Infinity" maxWidth="Infinity" spacing="10">
 
     <Button onMouseClicked="#newGame">

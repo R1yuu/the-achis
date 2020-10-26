@@ -35,7 +35,7 @@ public class Game extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        mainMenu = FXMLLoader.load(getClass().getResource("/ic20b106/menus/main/MainMenu.fxml"));
+        mainMenu = FXMLLoader.load(getClass().getResource("/ic20b106/fxml/main/MainMenu.fxml"));
 
         primaryPane.getChildren().setAll(mainMenu);
 

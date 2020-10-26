@@ -8,17 +8,18 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="ic20b106.menus.game.PopupMenuController"
       fx:id="popupMenuBox"
       prefWidth="300" maxWidth="300" maxHeight="-Infinity">
     <DragBox fx:id="dragBox" prefWidth="${popupMenuBox.prefWidth}">
         <BorderPane prefWidth="${dragBox.prefWidth}">
             <right>
-                <Button onMouseClicked="#closePopupMenu">Close</Button>
+                <Button onMouseClicked="#close">Close</Button>
             </right>
         </BorderPane>
     </DragBox>
-    <HBox fx:id="submenuBox">
-
+    <HBox fx:id="submenuBox" prefWidth="${popupMenuBox.prefWidth}">
+        <VBox style="-fx-padding: 5">
+            <Button onMouseClicked="#reset" minWidth="50">Back</Button>
+        </VBox>
     </HBox>
 </VBox>

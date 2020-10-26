@@ -23,6 +23,6 @@ public class Barracks extends Defense {
 
     @Override
     public String getMenuPath() {
-        return "/ic20b106/menus/game/submenus/buildings/MainCore.fxml";
+        return "/ic20b106/fxml/game/submenus/buildings/core/Core.fxml";
     }
 }

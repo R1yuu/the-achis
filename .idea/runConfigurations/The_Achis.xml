@@ -5,7 +5,7 @@
     <option name="VM_PARAMETERS" value="--module-path &quot;C:\Program Files\Java\javafx-sdk-15\lib&quot; --add-modules javafx.controls,javafx.fxml -Dprism.vsync=false" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="ic20b106.menus.main.*" />
+        <option name="PATTERN" value="ic20b106.fxml.main.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>

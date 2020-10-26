@@ -2,7 +2,7 @@ package ic20b106.util.javafx;
 
 import ic20b106.Game;
 import ic20b106.game.Cell;
-import ic20b106.menus.game.EscapeMenuController;
+import ic20b106.fxml.game.EscapeMenuController;
 import ic20b106.util.Pair;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -52,7 +52,7 @@ public class GameBoard extends GridPane {
             if (!Game.escapeMenuOpen) {
                 VBox escapeMenu = null;
                 try {
-                    escapeMenu = FXMLLoader.load(getClass().getResource("/ic20b106/menus/game/EscapeMenu.fxml"));
+                    escapeMenu = FXMLLoader.load(getClass().getResource("/ic20b106/fxml/game/EscapeMenu.fxml"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

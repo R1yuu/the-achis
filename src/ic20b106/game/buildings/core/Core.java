@@ -14,14 +14,19 @@ import java.util.HashMap;
  * The Core is the Main Building of a Player.
  * When it gets Destroyed, the Player loses.
  */
-public abstract class Core extends Building {
+public class Core extends Building {
 
-    /**
-     * Constructor
-     *
-     */
-    protected Core(Image texture, HashMap<Material, Integer> buildingCost, Cell cell) {
-        super(texture, buildingCost, cell);
+    public Core(Cell cell) {
+        super(new Image("/images/buildings/core.png", 200, 0, true, false, true),
+          new HashMap<>() {{
+              put(Material.PEARL, 10);
+              put(Material.METAL, 5);
+          }}, cell);
+    }
+
+    @Override
+    public String getMenuPath() {
+        return "/ic20b106/fxml/game/submenus/buildings/core/Core.fxml";
     }
 
     protected HashMap<Material, Integer> storage = new HashMap<>();

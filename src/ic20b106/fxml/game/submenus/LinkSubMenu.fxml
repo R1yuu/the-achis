@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Pane?>
+
+<?import javafx.scene.layout.Region?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:id="chooseLinkDirBox" style="-fx-padding: 5">
+
+    <HBox style="-fx-translate-x: 30">
+        <Pane fx:id="topLeftPane" prefHeight="60" prefWidth="60"/>
+        <Pane fx:id="topRightPane" prefHeight="60" prefWidth="60"/>
+    </HBox>
+    <HBox>
+        <Pane fx:id="leftPane" prefHeight="60" prefWidth="60"/>
+        <Region prefHeight="60" prefWidth="60"/>
+        <Pane fx:id="rightPane" prefHeight="60" prefWidth="60"/>
+    </HBox>
+    <HBox style="-fx-translate-x: 30">
+        <Pane fx:id="bottomLeftPane" prefHeight="60" prefWidth="60"/>
+        <Pane fx:id="bottomRightPane" prefHeight="60" prefWidth="60"/>
+    </HBox>
+</VBox>
