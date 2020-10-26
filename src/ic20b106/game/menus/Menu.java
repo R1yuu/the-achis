@@ -7,8 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -41,7 +39,7 @@ public abstract class Menu implements Initializable {
 
         FXMLLoader subMenuLoader = new FXMLLoader(getClass().getResource(subMenuPath));
         subMenuLoader.setController(this);
-        this.subMenu = subMenuLoader.load();
+        Pane subMenu = subMenuLoader.load();
 
         if (this.getClass() == BuildMenu.class) {
             submenuBox.getChildren().clear();
@@ -54,12 +52,12 @@ public abstract class Menu implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        popupMenuBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
+        this.popupMenuBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
           CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
-        popupMenuBox.getStyleClass().add(JMetroStyleClass.BACKGROUND);
+        this.popupMenuBox.getStyleClass().add(JMetroStyleClass.BACKGROUND);
 
-        dragBox.setDraggable(popupMenuBox);
+        this.dragBox.setDraggable(this.popupMenuBox);
     }
 
     @FXML
@@ -69,20 +67,6 @@ public abstract class Menu implements Initializable {
             selectedCell.getChildren().remove(Game.currentlyBuilt.getTexture());
             Game.currentlyBuilt = null;
         }
-    }
-
-    public void setSubMenu(Pane subMenu) {
-        Button backButton = new Button("Back");
-        backButton.setOnMouseClicked(mouseEvent -> {
-
-        });
-        VBox backBox = new VBox(backButton);
-        backBox.setStyle("-fx-padding: 5");
-
-        backButton.setMinWidth(50);
-        backButton.setMinHeight(subMenu.getPrefHeight());
-
-        this.submenuBox.getChildren().setAll(subMenu, backBox);
     }
 
     /**
@@ -96,14 +80,13 @@ public abstract class Menu implements Initializable {
     }
 
     public Cell selectedCell;
-    public Pane subMenu;
 
     @FXML
     protected VBox popupMenuBox;
 
     @FXML
-    private DragBox dragBox;
+    protected HBox submenuBox;
 
     @FXML
-    protected HBox submenuBox;
+    private DragBox dragBox;
 }

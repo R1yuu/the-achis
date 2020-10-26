@@ -18,6 +18,8 @@ public class Link extends ImageView {
      */
     public Link(LinkDirection linkDirection) {
         super();
+
+        //TODO: Use linkDirection.toString();
         String textureName = switch (linkDirection) {
             case LEFT -> "left";
             case TOP_LEFT -> "top-left";

@@ -39,8 +39,8 @@ public class BuildMenu extends Menu {
     @FXML
     private void placeBuilding(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getSource().equals(buildFactoryButton)) {
-            Game.currentlyBuilt = new Factory(Game.activeMenu.selectedCell);
-            Game.activeMenu.selectedCell.placeBuilding(Game.currentlyBuilt);
+            Game.currentlyBuilt = new Factory(this.selectedCell);
+            this.selectedCell.placeBuilding(Game.currentlyBuilt);
             openLinkSubMenu();
         }
     }

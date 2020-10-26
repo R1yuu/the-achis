@@ -32,11 +32,11 @@ public enum LinkDirection {
 
     public static LinkDirection stringToLinkDirection(String str) {
         return switch (str) {
-            case "Top-Left" -> TOP_LEFT;
-            case "Top-Right" -> TOP_RIGHT;
+            case "Top Left", "Top\nLeft", "Top-Left" -> TOP_LEFT;
+            case "Top Right", "Top\nRight", "Top-Right" -> TOP_RIGHT;
             case "Right" -> RIGHT;
-            case "Bottom-Right" -> BOTTOM_RIGHT;
-            case "Bottom-Left" -> BOTTOM_LEFT;
+            case "Bottom Right", "Bottom\nRight", "Bottom-Right" -> BOTTOM_RIGHT;
+            case "Bottom Left", "Bottom\nLeft", "Bottom-Left" -> BOTTOM_LEFT;
             case "Left" -> LEFT;
             default -> null;
         };

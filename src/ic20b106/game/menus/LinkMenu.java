@@ -56,7 +56,6 @@ public class LinkMenu extends Menu {
 
                 Button linkButton = new Button(linkDirectionStr);
                 linkButton.setOnMouseClicked(this::createLink);
-                //linkButton.setId(linkDirectionStr);
                 linkButton.setPrefHeight(60);
                 linkButton.setPrefWidth(60);
                 linkButton.setTextAlignment(TextAlignment.CENTER);
@@ -77,9 +76,7 @@ public class LinkMenu extends Menu {
         Button clickedButton = (Button)mouseEvent.getSource();
         LinkDirection linkDirection  = LinkDirection.stringToLinkDirection(clickedButton.getText());
 
-        removeButton(clickedButton);
-
-        Game.activeMenu.selectedCell.addLinks(linkDirection);
+        this.selectedCell.addLinks(linkDirection);
 
         Game.activeMenu.close();
     }
@@ -92,16 +89,10 @@ public class LinkMenu extends Menu {
         }
     }
 
-    private void removeButton(Button button) {
-        for (Pane buttonPane : buttonPanes) {
-            buttonPane.getChildren().removeAll(button);
-        }
-    }
-
     private Pane[] buttonPanes = new Pane[6];
 
     @FXML
-    protected VBox chooseLinkDirBox;
+    private VBox chooseLinkDirBox;
 
     @FXML
     private Pane topLeftPane;
