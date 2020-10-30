@@ -31,6 +31,8 @@ public abstract class Building implements Buildable {
         this.buildingCost = buildingCost;
 
         this.cell = cell;
+
+        this.isConstructionSite = true;
     }
 
     /**
@@ -54,8 +56,8 @@ public abstract class Building implements Buildable {
     }
 
     public void openMenu(Cell selectedCell) throws IOException {
-        if (Game.activeMenu != null) {
-            Game.activeMenu.close();
+        if (Game.activeSubMenu != null) {
+            Game.activeSubMenu.close();
         }
     }
 

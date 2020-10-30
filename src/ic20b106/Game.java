@@ -1,7 +1,7 @@
 package ic20b106;
 
 import ic20b106.game.buildings.Building;
-import ic20b106.game.menus.Menu;
+import ic20b106.game.menus.SubMenu;
 import ic20b106.util.javafx.GameBoard;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -59,7 +59,7 @@ public class Game extends Application {
         //activeBuildMenu = null;
         //activeBuildingMenu = null;
 
-        activeMenu = null;
+        activeSubMenu = null;
 
         gameBoard = null;
         currentlyBuilt = null;
@@ -83,7 +83,7 @@ public class Game extends Application {
     public static Building currentlyBuilt;
 
 
-    public static Menu activeMenu;
+    public static SubMenu activeSubMenu;
     public static GameBoard gameBoard;
     public static Color playerColor;
     public static boolean escapeMenuOpen = false;

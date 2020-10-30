@@ -5,14 +5,14 @@ import ic20b106.game.buildings.Building;
 
 import java.io.IOException;
 
-public class BuildingMenu extends Menu {
+public class BuildingSubMenu extends SubMenu {
 
     /**
      * Constructor
      *
      * @param selectedCell Cell on which to Build
      */
-    public BuildingMenu(Cell selectedCell, Building building) throws IOException {
+    public BuildingSubMenu(Cell selectedCell, Building building) throws IOException {
         super(selectedCell, building.getMenuPath());
     }
 }

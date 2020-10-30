@@ -14,7 +14,7 @@ public abstract class BuildingController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Button destroyButton = new Button("Destroy");
         destroyButton.setOnMouseClicked(mouseEvent -> {
-            Game.activeMenu.selectedCell.removeBuilding();
+            Game.activeSubMenu.selectedCell.removeBuilding();
         });
 
         destroyBox = new VBox(destroyButton);

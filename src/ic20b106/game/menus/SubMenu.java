@@ -22,12 +22,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public abstract class Menu implements Initializable {
+public abstract class SubMenu implements Initializable {
 
-    protected Menu(Cell selectedCell, String subMenuPath) throws IOException {
+    protected SubMenu(Cell selectedCell, String subMenuPath) throws IOException {
 
-        if (Game.activeMenu != null) {
-            Game.activeMenu.close();
+        if (Game.activeSubMenu != null) {
+            Game.activeSubMenu.close();
         }
 
         this.selectedCell = selectedCell;
@@ -41,7 +41,7 @@ public abstract class Menu implements Initializable {
         subMenuLoader.setController(this);
         Pane subMenu = subMenuLoader.load();
 
-        if (this.getClass() == BuildMenu.class) {
+        if (this.getClass() == BuildSubMenu.class) {
             submenuBox.getChildren().clear();
         }
 
@@ -62,7 +62,7 @@ public abstract class Menu implements Initializable {
 
     @FXML
     private void reset() throws IOException {
-        Game.activeMenu = new BuildMenu(selectedCell);
+        Game.activeSubMenu = new BuildSubMenu(selectedCell);
         if (Game.currentlyBuilt != null) {
             selectedCell.getChildren().remove(Game.currentlyBuilt.getTexture());
             Game.currentlyBuilt = null;
@@ -75,7 +75,7 @@ public abstract class Menu implements Initializable {
     @FXML
     public void close() {
         Game.primaryPane.getChildren().remove(popupMenuBox);
-        Game.activeMenu = null;
+        Game.activeSubMenu = null;
         Game.primaryPane.setCursor(Cursor.DEFAULT);
     }
 

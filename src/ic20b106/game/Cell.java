@@ -2,10 +2,12 @@ package ic20b106.game;
 
 import ic20b106.Game;
 import ic20b106.game.buildings.Building;
-import ic20b106.game.menus.BuildMenu;
-import ic20b106.game.menus.BuildingMenu;
+import ic20b106.game.menus.BuildSubMenu;
+import ic20b106.game.menus.BuildingSubMenu;
 import ic20b106.util.Pair;
 import javafx.geometry.Insets;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -62,17 +64,17 @@ public class Cell extends StackPane {
     private void onMouseClick(MouseEvent mouseEvent) {
         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
             if (owner == Game.playerColor) {
-                if (Game.activeMenu != null) {
-                    Game.activeMenu.close();
+                if (Game.activeSubMenu != null) {
+                    Game.activeSubMenu.close();
                 }
 
                 try {
                     if (this.building != null) {
-                        Game.activeMenu = new BuildingMenu(this, this.building);
+                        Game.activeSubMenu = new BuildingSubMenu(this, this.building);
                     } else if (!this.links.isEmpty()) {
                         //TODO: Links Menu
                     } else {
-                        Game.activeMenu = new BuildMenu(this);
+                        Game.activeSubMenu = new BuildSubMenu(this);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -90,7 +92,10 @@ public class Cell extends StackPane {
     public void placeBuilding(Building building) {
         if (this.building == null) {
             this.building = building;
-            this.getChildren().add(this.building.getTexture());
+
+            Image constructionSite =  new Image("/images/buildings/construction-site.png", 200, 0, true, false, true);
+            this.getChildren().add(new ImageView(constructionSite));
+            //this.getChildren().add(this.building.getTexture());
         }
     }
 

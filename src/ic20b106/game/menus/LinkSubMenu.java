@@ -3,9 +3,7 @@ package ic20b106.game.menus;
 import ic20b106.Game;
 import ic20b106.game.Cell;
 import ic20b106.game.LinkDirection;
-import ic20b106.game.buildings.production.Factory;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -23,14 +21,14 @@ import java.util.Set;
  *
  * Contains the Current BuildMenu and Cell
  */
-public class LinkMenu extends Menu {
+public class LinkSubMenu extends SubMenu {
 
     /**
      * Constructor
      *
      * @param selectedCell Cell on which to Build
      */
-    public LinkMenu(Cell selectedCell) throws IOException {
+    public LinkSubMenu(Cell selectedCell) throws IOException {
         super(selectedCell, "/ic20b106/fxml/game/submenus/LinkSubMenu.fxml");
     }
 
@@ -78,7 +76,7 @@ public class LinkMenu extends Menu {
 
         this.selectedCell.addLinks(linkDirection);
 
-        Game.activeMenu.close();
+        Game.activeSubMenu.close();
     }
 
     private void clearButtons() {
