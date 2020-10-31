@@ -27,7 +27,12 @@ public abstract class SubMenu implements Initializable {
     protected SubMenu(Cell selectedCell, String subMenuPath) throws IOException {
 
         if (Game.activeSubMenu != null) {
-            Game.activeSubMenu.close();
+            if (this.getClass() == LinkSubMenu.class) {
+                Game.activeSubMenu.close(false);
+            }
+            else {
+                Game.activeSubMenu.close();
+            }
         }
 
         this.selectedCell = selectedCell;
@@ -63,20 +68,32 @@ public abstract class SubMenu implements Initializable {
     @FXML
     private void reset() throws IOException {
         Game.activeSubMenu = new BuildSubMenu(selectedCell);
-        if (Game.currentlyBuilt != null) {
-            selectedCell.getChildren().remove(Game.currentlyBuilt.getTexture());
-            Game.currentlyBuilt = null;
-        }
+        removeCurrentlyBuilt();
     }
 
     /**
      * Closes and Removes Build Menu
      */
-    @FXML
-    public void close() {
+
+    public void close(boolean removeCurrentlyBuilt) {
+        if (removeCurrentlyBuilt) {
+            removeCurrentlyBuilt();
+        }
         Game.primaryPane.getChildren().remove(popupMenuBox);
         Game.activeSubMenu = null;
         Game.primaryPane.setCursor(Cursor.DEFAULT);
+    }
+
+    @FXML
+    public void close() {
+        close(true);
+    }
+
+    private void removeCurrentlyBuilt() {
+        if (Game.currentlyBuilt != null) {
+            selectedCell.removeBuilding();
+            Game.currentlyBuilt = null;
+        }
     }
 
     public Cell selectedCell;

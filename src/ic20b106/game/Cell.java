@@ -64,6 +64,7 @@ public class Cell extends StackPane {
     private void onMouseClick(MouseEvent mouseEvent) {
         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
             if (owner == Game.playerColor) {
+
                 if (Game.activeSubMenu != null) {
                     Game.activeSubMenu.close();
                 }
@@ -92,10 +93,7 @@ public class Cell extends StackPane {
     public void placeBuilding(Building building) {
         if (this.building == null) {
             this.building = building;
-
-            Image constructionSite =  new Image("/images/buildings/construction-site.png", 200, 0, true, false, true);
-            this.getChildren().add(new ImageView(constructionSite));
-            //this.getChildren().add(this.building.getTexture());
+            this.getChildren().add(this.building.getTexture());
         }
     }
 

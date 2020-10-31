@@ -22,6 +22,8 @@ public class Core extends Building {
               put(Material.PEARL, 10);
               put(Material.METAL, 5);
           }}, cell);
+
+        this.isConstructionSite = false;
     }
 
     @Override

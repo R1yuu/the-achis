@@ -28,6 +28,11 @@ public abstract class Building implements Buildable {
         this.texture.setFitHeight(50);
         this.texture.setFitWidth(50);
 
+        this.constructionTexture = new ImageView(
+          new Image("/images/buildings/construction-site.png", 200, 0, true, false, true));
+        constructionTexture.setFitHeight(50);
+        constructionTexture.setFitWidth(50);
+
         this.buildingCost = buildingCost;
 
         this.cell = cell;
@@ -42,6 +47,9 @@ public abstract class Building implements Buildable {
      */
     @Override
     public ImageView getTexture() {
+        if (isConstructionSite) {
+            return this.constructionTexture;
+        }
         return texture;
     }
 
@@ -55,7 +63,7 @@ public abstract class Building implements Buildable {
         return isConstructionSite;
     }
 
-    public void openMenu(Cell selectedCell) throws IOException {
+    public void openMenu(Cell selectedCell) {
         if (Game.activeSubMenu != null) {
             Game.activeSubMenu.close();
         }
@@ -67,5 +75,5 @@ public abstract class Building implements Buildable {
     protected HashMap<Material, Integer> buildingCost;
     protected ImageView texture;
     protected boolean isConstructionSite;
-
+    private ImageView constructionTexture;
 }
