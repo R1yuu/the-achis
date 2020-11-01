@@ -3,8 +3,11 @@ package ic20b106.game.buildings.production;
 import ic20b106.game.Cell;
 import ic20b106.game.buildings.Building;
 import ic20b106.game.buildings.Material;
+import ic20b106.game.menus.BuildingSubMenu;
+import ic20b106.game.menus.buildings.FactorySubMenu;
 import javafx.scene.image.Image;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -23,9 +26,13 @@ public class Factory extends Building {
     public Factory(Cell cell) {
         super(new Image("/images/buildings/factory.png", 200, 0, true, false, true),
           new HashMap<>() {{
-              put(Material.PEARL, 10);
-              put(Material.METAL, 5);
+              put(Material.PEARL, 4);
           }}, cell);
+    }
+
+    @Override
+    public BuildingSubMenu getBuildingSubMenu() throws IOException {
+        return new FactorySubMenu(this.cell, this);
     }
 
     @Override

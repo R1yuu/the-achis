@@ -12,8 +12,10 @@ import javafx.scene.text.TextAlignment;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author Andre Schneider
@@ -49,25 +51,35 @@ public class LinkSubMenu extends SubMenu {
 
         for (LinkDirection linkDirection : LinkDirection.values()) {
             if (!existingLinks.contains(linkDirection)) {
+                Cell neighbourCell = Cell.getNeighbourByCell(selectedCell, linkDirection);
+                if (neighbourCell != null && neighbourCell.getOwner() == Game.playerColor) {
+                    String linkDirectionStr = linkDirection.toString().replace('-', '\n');
 
-                String linkDirectionStr = linkDirection.toString().replace('-', '\n');
+                    Button linkButton = new Button(linkDirectionStr);
+                    linkButton.setOnMouseClicked(this::createLink);
+                    linkButton.setPrefHeight(60);
+                    linkButton.setPrefWidth(60);
+                    linkButton.setTextAlignment(TextAlignment.CENTER);
 
-                Button linkButton = new Button(linkDirectionStr);
-                linkButton.setOnMouseClicked(this::createLink);
-                linkButton.setPrefHeight(60);
-                linkButton.setPrefWidth(60);
-                linkButton.setTextAlignment(TextAlignment.CENTER);
-
-                switch (linkDirection) {
-                    case TOP_LEFT -> topLeftPane.getChildren().add(linkButton);
-                    case TOP_RIGHT -> topRightPane.getChildren().add(linkButton);
-                    case RIGHT -> rightPane.getChildren().add(linkButton);
-                    case BOTTOM_RIGHT -> bottomRightPane.getChildren().add(linkButton);
-                    case BOTTOM_LEFT -> bottomLeftPane.getChildren().add(linkButton);
-                    case LEFT -> leftPane.getChildren().add(linkButton);
+                    switch (linkDirection) {
+                        case TOP_LEFT -> topLeftPane.getChildren().add(linkButton);
+                        case TOP_RIGHT -> topRightPane.getChildren().add(linkButton);
+                        case RIGHT -> rightPane.getChildren().add(linkButton);
+                        case BOTTOM_RIGHT -> bottomRightPane.getChildren().add(linkButton);
+                        case BOTTOM_LEFT -> bottomLeftPane.getChildren().add(linkButton);
+                        case LEFT -> leftPane.getChildren().add(linkButton);
+                    }
                 }
             }
         }
+
+        Button destroyButton = new Button("Destroy");
+        destroyButton.setOnMouseClicked(mouseEvent -> {
+            this.selectedCell.removeLinks(LinkDirection.values());
+            this.close();
+        });
+
+        buttonBox.getChildren().add(destroyButton);
     }
 
     private void createLink(MouseEvent mouseEvent) {
@@ -76,7 +88,13 @@ public class LinkSubMenu extends SubMenu {
 
         this.selectedCell.addLinks(linkDirection);
 
-        Game.activeSubMenu.close();
+        if (Game.currentlyBuilt != null) {
+            System.out.println(Game.gameBoard.findRoute(selectedCell, Game.playerCoreCell)
+              .stream().map(Cell::getPosition).collect(Collectors.toList()));
+            Game.currentlyBuilt = null;
+        }
+
+        Game.activeSubMenu.close(false);
     }
 
     private void clearButtons() {

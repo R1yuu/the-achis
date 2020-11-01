@@ -1,13 +1,13 @@
 package ic20b106.game;
 
 import ic20b106.Game;
+import ic20b106.game.astar.GraphNode;
 import ic20b106.game.buildings.Building;
+import ic20b106.game.buildings.core.Core;
 import ic20b106.game.menus.BuildSubMenu;
-import ic20b106.game.menus.BuildingSubMenu;
+import ic20b106.game.menus.LinkSubMenu;
 import ic20b106.util.Pair;
 import javafx.geometry.Insets;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -21,7 +21,10 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Andre Schneider
@@ -29,7 +32,7 @@ import java.util.HashMap;
  *
  * Cells are the Buildings Fields
  */
-public class Cell extends StackPane {
+public class Cell extends StackPane implements GraphNode {
 
     /**
      * Constructor
@@ -55,8 +58,10 @@ public class Cell extends StackPane {
         this.setPrefHeight(50);
         this.setPrefWidth(50);
 
-        this.row = row;
-        this.col = col;
+
+        this.position = new Pair<>(row, col);
+
+        this.setId(this.position.toString());
 
         this.setOnMouseClicked(this::onMouseClick);
     }
@@ -69,11 +74,19 @@ public class Cell extends StackPane {
                     Game.activeSubMenu.close();
                 }
 
+                boolean neighbourHasBuilding = false;
+                for (LinkDirection linkDirection : LinkDirection.values()) {
+                    Cell neighbourCell = getNeighbourByCell(this, linkDirection);
+                    if (neighbourCell != null && neighbourCell.building != null) {
+                        neighbourHasBuilding = true;
+                    }
+                }
+
                 try {
                     if (this.building != null) {
-                        Game.activeSubMenu = new BuildingSubMenu(this, this.building);
-                    } else if (!this.links.isEmpty()) {
-                        //TODO: Links Menu
+                        Game.activeSubMenu = this.building.getBuildingSubMenu();
+                    } else if (!this.links.isEmpty() || neighbourHasBuilding) {
+                        Game.activeSubMenu = new LinkSubMenu(this);
                     } else {
                         Game.activeSubMenu = new BuildSubMenu(this);
                     }
@@ -111,11 +124,13 @@ public class Cell extends StackPane {
      * @param linkDirections Directions of the Cells to link
      */
     public void addLinks(LinkDirection... linkDirections) {
+
         for (LinkDirection linkDirection : linkDirections) {
             if (!links.containsKey(linkDirection)) {
                 Cell linkCell = getNeighbourByCell(this, linkDirection);
-
                 Link newLink = new Link(linkDirection);
+                Game.gameBoard.addLink(this, linkCell);
+
                 Pair<Link, Cell> alreadyLinkedCell = this.links.putIfAbsent(linkDirection, new Pair<>(newLink, linkCell));
                 if (alreadyLinkedCell == null) {
                     this.getChildren().add(newLink);
@@ -132,6 +147,8 @@ public class Cell extends StackPane {
             if (links.containsKey(linkDirection)) {
                 Link link = links.get(linkDirection).x;
                 Cell linkedCell = links.get(linkDirection).y;
+                Game.gameBoard.removeLink(this, linkedCell);
+
                 links.remove(linkDirection);
 
                 this.getChildren().remove(link);
@@ -142,7 +159,7 @@ public class Cell extends StackPane {
 
     public static Cell getNeighbourByCell(Cell cell, LinkDirection linkDirection) {
         return Game.gameBoard.getCell(getNeighbourCoordsByCellCoords(
-          new Pair<>(cell.row, cell.col), linkDirection));
+          new Pair<>(cell.position.x, cell.position.y), linkDirection));
     }
 
     public static Pair<Integer, Integer> getNeighbourCoordsByCellCoords(Pair<Integer, Integer> cellCoords,
@@ -174,7 +191,7 @@ public class Cell extends StackPane {
     }
 
     public void extendArea(Color owner, int radius) {
-        Pair<Integer, Integer> firstCellCoords = new Pair<>(row, col);
+        Pair<Integer, Integer> firstCellCoords = new Pair<>(position.x, position.y);
         Pair<Integer, Integer> nextCellCoords;
 
         Cell firstCell;
@@ -228,9 +245,46 @@ public class Cell extends StackPane {
         return links;
     }
 
+    public Pair<Integer, Integer> getPosition() {
+        return position;
+    }
 
-    private final int row;
-    private final int col;
+    public void scoreToCore() {
+        Cell curr = this;
+        ArrayList<Cell> prevCells = new ArrayList<>();
+
+        while (curr != null) {
+            if (curr.building != null && curr.building.getClass() == Core.class) {
+                break;
+            }
+
+            boolean nextCurr = false;
+
+            for (LinkDirection linkDirection : LinkDirection.values()) {
+                if (curr.links.containsKey(linkDirection)) {
+                    Cell linkCell = curr.links.get(linkDirection).y;
+
+                    if (!prevCells.contains(linkCell)) {
+                        prevCells.add(curr);
+                        curr = linkCell;
+                        nextCurr = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!nextCurr) {
+                scoresToCore.add(-1);
+            }
+        }
+
+        scoresToCore.add(prevCells.size());
+    }
+
+    public ArrayList<Integer> scoresToCore = new ArrayList<>();
+
+    private final Pair<Integer, Integer> position;
+
     private final HashMap<LinkDirection, Pair<Link, Cell>> links = new HashMap<>();
     private Color owner;
     private Building building;

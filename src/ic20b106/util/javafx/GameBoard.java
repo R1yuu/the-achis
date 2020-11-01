@@ -3,6 +3,11 @@ package ic20b106.util.javafx;
 import ic20b106.Game;
 import ic20b106.game.Cell;
 import ic20b106.fxml.game.EscapeMenuController;
+import ic20b106.game.CellScorer;
+import ic20b106.game.Link;
+import ic20b106.game.LinkDirection;
+import ic20b106.game.astar.Graph;
+import ic20b106.game.astar.RouteFinder;
 import ic20b106.util.Pair;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -13,6 +18,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Andre Schneider
@@ -73,19 +85,66 @@ public class GameBoard extends GridPane {
      * @return Returns Found Cell
      */
     public Cell getCell (final int row, final int column) {
-        Cell result = null;
-
         for (Node child : getChildren()) {
             if(getRowIndex(child) == row && getColumnIndex(child) == column) {
-                result = (Cell)child;
-                break;
+                return (Cell) child;
             }
         }
-
-        return result;
+        return null;
     }
 
     public Cell getCell(final Pair<Integer, Integer> coordinates) {
         return getCell(coordinates.x, coordinates.y);
     }
+
+    public void addLink(Cell from, Cell to) {
+        String fromId = from.getPosition().toString();
+        String toId = to.getPosition().toString();
+        Set<String> fromConns = links.get(fromId);
+        Set<String> toConns = links.get(toId);
+
+        if (fromConns != null) {
+            fromConns.add(toId);
+        } else {
+            Game.gameBoard.links.put(fromId, Stream.of(toId).collect(Collectors.toSet()));
+        }
+
+        if (toConns != null) {
+            toConns.add(fromId);
+        } else {
+            Game.gameBoard.links.put(toId, Stream.of(fromId).collect(Collectors.toSet()));
+        }
+    }
+
+    public void removeLink(Cell from, Cell to) {
+        String fromId = from.getPosition().toString();
+        String toId = to.getPosition().toString();
+        Set<String> fromConns = links.get(fromId);
+        Set<String> toConns = links.get(toId);
+
+        if (fromConns != null) {
+            fromConns.remove(toId);
+        }
+
+        if (toConns != null) {
+            toConns.remove(fromId);
+        }
+    }
+
+
+    public List<Cell> findRoute(Cell from, Cell to) {
+        HashSet<Cell> cells = new HashSet<>();
+        for (Node child : getChildren()) {
+            if (child.getClass() == Cell.class) {
+                cells.add((Cell) child);
+            }
+        }
+
+        Graph<Cell> cellGraph = new Graph<>(cells, links);
+        RouteFinder<Cell> cellRouteFinder = new RouteFinder<>(cellGraph, new CellScorer(), new CellScorer());
+        return cellRouteFinder.findRoute(from, to);
+    }
+
+    public Map<String, Set<String>> links = new HashMap<>();
+
 }

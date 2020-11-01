@@ -1,7 +1,9 @@
 package ic20b106;
 
+import ic20b106.game.Cell;
 import ic20b106.game.buildings.Building;
 import ic20b106.game.menus.SubMenu;
+import ic20b106.util.Pair;
 import ic20b106.util.javafx.GameBoard;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -86,5 +88,6 @@ public class Game extends Application {
     public static SubMenu activeSubMenu;
     public static GameBoard gameBoard;
     public static Color playerColor;
+    public static Cell playerCoreCell;
     public static boolean escapeMenuOpen = false;
 }

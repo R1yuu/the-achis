@@ -5,77 +5,105 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
-
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Text?>
 <?import javafx.scene.control.ToggleButton?>
-<?import org.controlsfx.control.ToggleSwitch?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Separator?>
+
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="ic20b106.fxml.main.CreateGameMenuController" alignment="center"
       maxWidth="Infinity" maxHeight="Infinity" spacing="10">
 
-    <Button fx:id="backButton" onMouseClicked="#backToMainMenu">
+    <Button onMouseClicked="#backToMainMenu">
         Back
     </Button>
 
-    <GridPane alignment="center" vgap="5" hgap="5">
-        <fx:define>
-            <ToggleGroup fx:id="startPosition"/>
-        </fx:define>
+    <Separator maxWidth="150"/>
+    <VBox spacing="5">
+        <HBox alignment="center">
+            <Label text="Start-Position and Map Size"/>
+        </HBox>
+        <GridPane alignment="center" vgap="5" hgap="5">
+            <fx:define>
+                <ToggleGroup fx:id="startPosition"/>
+            </fx:define>
 
-        <ToggleButton GridPane.rowIndex="0" GridPane.columnIndex="0"
-                      toggleGroup="$startPosition" prefWidth="60" prefHeight="60"
-                      textAlignment="center" text="${'Top\nLeft'}" selected="true"/>
-        <ToggleButton GridPane.rowIndex="0" GridPane.columnIndex="4"
-                      toggleGroup="$startPosition" prefWidth="60" prefHeight="60"
-                      textAlignment="center" text="${'Top\nRight'}"/>
+            <ToggleButton GridPane.rowIndex="0" GridPane.columnIndex="0"
+                          toggleGroup="$startPosition" prefWidth="60" prefHeight="60"
+                          textAlignment="center" text="${'Top\nLeft'}" selected="true"/>
+            <ToggleButton GridPane.rowIndex="0" GridPane.columnIndex="4"
+                          toggleGroup="$startPosition" prefWidth="60" prefHeight="60"
+                          textAlignment="center" text="${'Top\nRight'}"/>
 
-        <Label GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.halignment="center"
-               fx:id="boardHeightLabel"/>
-        <Slider GridPane.rowIndex="2" GridPane.columnIndex="1"
-                fx:id="boardHeightSlider" min="50" prefHeight="101" orientation="vertical"
-                style="-show-value-on-interaction: false"/>
-        <Rectangle GridPane.rowIndex="2" GridPane.columnIndex="2" GridPane.valignment="bottom" fill="slategrey"
-                   fx:id="boardRectangle" width="1" height="1"/>
-        <Slider GridPane.rowIndex="3" GridPane.columnIndex="2"
-                fx:id="boardWidthSlider" min="50" prefWidth="101"
-                style="-show-value-on-interaction: false"/>
-        <Label GridPane.rowIndex="3" GridPane.columnIndex="3" GridPane.valignment="center"
-               fx:id="boardWidthLabel" minWidth="30"/>
+            <Label GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.halignment="center"
+                   fx:id="boardHeightLabel"/>
+            <Slider GridPane.rowIndex="2" GridPane.columnIndex="1"
+                    fx:id="boardHeightSlider" min="50" prefHeight="101" orientation="vertical"
+                    style="-show-value-on-interaction: false"/>
+            <Rectangle GridPane.rowIndex="2" GridPane.columnIndex="2" GridPane.valignment="bottom" fill="slategrey"
+                       fx:id="boardRectangle" width="1" height="1"/>
+            <Slider GridPane.rowIndex="3" GridPane.columnIndex="2"
+                    fx:id="boardWidthSlider" min="50" prefWidth="101"
+                    style="-show-value-on-interaction: false"/>
+            <Label GridPane.rowIndex="3" GridPane.columnIndex="3" GridPane.valignment="center"
+                   fx:id="boardWidthLabel" minWidth="30"/>
 
-        <ToggleButton GridPane.rowIndex="4" GridPane.columnIndex="0"
-                      toggleGroup="$startPosition" prefWidth="60" prefHeight="60"
-                      textAlignment="center" text="${'Bottom\nLeft'}"/>
+            <ToggleButton GridPane.rowIndex="4" GridPane.columnIndex="0"
+                          toggleGroup="$startPosition" prefWidth="60" prefHeight="60"
+                          textAlignment="center" text="${'Bottom\nLeft'}"/>
 
-        <ToggleButton GridPane.rowIndex="4" GridPane.columnIndex="4"
-                      toggleGroup="$startPosition" prefWidth="60" prefHeight="60"
-                      textAlignment="center" text="${'Bottom\nRight'}"/>
-    </GridPane>
+            <ToggleButton GridPane.rowIndex="4" GridPane.columnIndex="4"
+                          toggleGroup="$startPosition" prefWidth="60" prefHeight="60"
+                          textAlignment="center" text="${'Bottom\nRight'}"/>
+        </GridPane>
+    </VBox>
 
+    <VBox spacing="5">
+        <HBox alignment="center">
+            <Label text="Player-Color"/>
+        </HBox>
+        <HBox alignment="center" spacing="5">
+            <fx:define>
+                <ToggleGroup fx:id="colorPicker"/>
+            </fx:define>
+            <ToggleButton toggleGroup="$colorPicker" selected="true">
+                Red
+            </ToggleButton>
+            <ToggleButton toggleGroup="$colorPicker">
+                Blue
+            </ToggleButton>
+            <ToggleButton toggleGroup="$colorPicker">
+                Yellow
+            </ToggleButton>
+            <ToggleButton toggleGroup="$colorPicker">
+                Green
+            </ToggleButton>
+        </HBox>
+    </VBox>
 
-    <HBox alignment="center" spacing="5">
-        <fx:define>
-            <ToggleGroup fx:id="colorPicker"/>
-        </fx:define>
-        <ToggleButton toggleGroup="$colorPicker" fx:id="toggleRed" selected="true">
-            Red
-        </ToggleButton>
-        <ToggleButton toggleGroup="$colorPicker" fx:id="toggleBlue">
-            Blue
-        </ToggleButton>
-        <ToggleButton toggleGroup="$colorPicker" fx:id="toggleYellow">
-            Yellow
-        </ToggleButton>
-        <ToggleButton toggleGroup="$colorPicker" fx:id="toggleGreen">
-            Green
-        </ToggleButton>
-    </HBox>
+    <VBox spacing="5">
+        <HBox alignment="center">
+            <Label text="Start-Resources"/>
+        </HBox>
+        <HBox alignment="center" spacing="5">
+            <fx:define>
+                <ToggleGroup fx:id="startResources"/>
+            </fx:define>
+            <ToggleButton toggleGroup="$startResources">
+                Few
+            </ToggleButton>
+            <ToggleButton toggleGroup="$startResources" selected="true">
+                Medium
+            </ToggleButton>
+            <ToggleButton toggleGroup="$startResources">
+                Many
+            </ToggleButton>
+        </HBox>
+    </VBox>
+    <Separator maxWidth="150"/>
 
-    <Button fx:id="createGameButton" onMouseClicked="#createGame">
+    <Button onMouseClicked="#createGame">
         Create Game
     </Button>
 </VBox>

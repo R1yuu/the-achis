@@ -7,6 +7,11 @@ public class Pair<X, Y> {
         this.y = y;
     }
 
+    @Override
+    public String toString() {
+        return "(" + x.toString() + ", " + y.toString() + ")";
+    }
+
     public void setXY(X x, Y y) {
         this.x = x;
         this.y = y;

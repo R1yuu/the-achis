@@ -5,7 +5,6 @@
 <?import javafx.scene.text.Text?>
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="ic20b106.fxml.game.submenus.buildings.production.FactoryController"
       fx:id="factoryMenu">
     <HBox>
         <Text>Produces Pearls</Text>

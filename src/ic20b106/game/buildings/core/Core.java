@@ -3,8 +3,11 @@ package ic20b106.game.buildings.core;
 import ic20b106.game.Cell;
 import ic20b106.game.buildings.Building;
 import ic20b106.game.buildings.Material;
+import ic20b106.game.menus.BuildingSubMenu;
+import ic20b106.game.menus.buildings.CoreSubMenu;
 import javafx.scene.image.Image;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -16,14 +19,17 @@ import java.util.HashMap;
  */
 public class Core extends Building {
 
-    public Core(Cell cell) {
+    public Core(Cell cell, HashMap<Material, Integer> storage) {
         super(new Image("/images/buildings/core.png", 200, 0, true, false, true),
-          new HashMap<>() {{
-              put(Material.PEARL, 10);
-              put(Material.METAL, 5);
-          }}, cell);
+          null, cell);
 
+        this.storage = storage;
         this.isConstructionSite = false;
+    }
+
+    @Override
+    public BuildingSubMenu getBuildingSubMenu() throws IOException {
+        return new CoreSubMenu(this.cell, this);
     }
 
     @Override

@@ -18,7 +18,7 @@
         </BorderPane>
     </DragBox>
     <HBox fx:id="submenuBox" prefWidth="${popupMenuBox.prefWidth}">
-        <VBox style="-fx-padding: 5">
+        <VBox fx:id="buttonBox" style="-fx-padding: 5">
             <Button onMouseClicked="#reset" minWidth="50">Back</Button>
         </VBox>
     </HBox>

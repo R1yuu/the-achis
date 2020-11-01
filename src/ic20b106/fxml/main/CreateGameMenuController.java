@@ -3,6 +3,7 @@ package ic20b106.fxml.main;
 import ic20b106.Game;
 import ic20b106.game.Cell;
 import ic20b106.game.LinkDirection;
+import ic20b106.game.buildings.Material;
 import ic20b106.game.buildings.core.Core;
 import ic20b106.util.Pair;
 import ic20b106.util.javafx.GameBoard;
@@ -18,6 +19,8 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+
+import java.util.HashMap;
 
 /**
  * @author Andre Schneider
@@ -88,9 +91,13 @@ public class CreateGameMenuController {
 
         ToggleButton selectedColorToggle = (ToggleButton)colorPicker.getSelectedToggle();
         ToggleButton selectedStartPositionToggle = (ToggleButton)startPosition.getSelectedToggle();
+        ToggleButton selectedStartResourcesToggle = (ToggleButton)startResources.getSelectedToggle();
+
         Pair<Integer, Integer> startPosition = new Pair<>(5, 5);
+        HashMap<Material, Integer> startStorage = new HashMap<>();
 
 
+        // Sets Player Color
         switch (selectedColorToggle.getText()) {
             case "Red" -> Game.playerColor = Color.INDIANRED;
             case "Blue" -> Game.playerColor = Color.CORNFLOWERBLUE;
@@ -98,6 +105,7 @@ public class CreateGameMenuController {
             case "Green" -> Game.playerColor = Color.FORESTGREEN;
         }
 
+        // Sets Start-Position of Player
         switch (selectedStartPositionToggle.getText()) {
             case "Top\nRight" -> {
                 startPosition.setXY(5, boardWidth - 6);
@@ -114,9 +122,28 @@ public class CreateGameMenuController {
             }
         }
 
+        // Sets Starting Storage
+        switch (selectedStartResourcesToggle.getText()) {
+            case "Few" -> {
+                startStorage.put(Material.PEARL, 20);
+                startStorage.put(Material.METAL, 20);
+            }
+            case "Medium" -> {
+                startStorage.put(Material.PEARL, 40);
+                startStorage.put(Material.METAL, 40);
+            }
+            case "Many" -> {
+                startStorage.put(Material.PEARL, 60);
+                startStorage.put(Material.METAL, 60);
+            }
+        }
+
+
         Cell coreCell = Game.gameBoard.getCell(startPosition);
 
-        coreCell.placeBuilding(new Core(coreCell));
+        Game.playerCoreCell = coreCell;
+
+        coreCell.placeBuilding(new Core(coreCell, startStorage));
         coreCell.setOwner(Game.playerColor);
         coreCell.extendArea(Game.playerColor, 5);
         coreCell.addLinks(LinkDirection.values());
@@ -146,14 +173,5 @@ public class CreateGameMenuController {
     private ToggleGroup startPosition;
 
     @FXML
-    private ToggleButton toggleRed;
-
-    @FXML
-    private ToggleButton toggleBlue;
-
-    @FXML
-    private ToggleButton toggleYellow;
-
-    @FXML
-    private ToggleButton toggleGreen;
+    private ToggleGroup startResources;
 }

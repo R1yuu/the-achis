@@ -29,8 +29,7 @@ public abstract class SubMenu implements Initializable {
         if (Game.activeSubMenu != null) {
             if (this.getClass() == LinkSubMenu.class) {
                 Game.activeSubMenu.close(false);
-            }
-            else {
+            } else {
                 Game.activeSubMenu.close();
             }
         }
@@ -103,6 +102,9 @@ public abstract class SubMenu implements Initializable {
 
     @FXML
     protected HBox submenuBox;
+
+    @FXML
+    protected VBox buttonBox;
 
     @FXML
     private DragBox dragBox;
