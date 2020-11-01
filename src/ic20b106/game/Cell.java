@@ -249,40 +249,6 @@ public class Cell extends StackPane implements GraphNode {
         return position;
     }
 
-    public void scoreToCore() {
-        Cell curr = this;
-        ArrayList<Cell> prevCells = new ArrayList<>();
-
-        while (curr != null) {
-            if (curr.building != null && curr.building.getClass() == Core.class) {
-                break;
-            }
-
-            boolean nextCurr = false;
-
-            for (LinkDirection linkDirection : LinkDirection.values()) {
-                if (curr.links.containsKey(linkDirection)) {
-                    Cell linkCell = curr.links.get(linkDirection).y;
-
-                    if (!prevCells.contains(linkCell)) {
-                        prevCells.add(curr);
-                        curr = linkCell;
-                        nextCurr = true;
-                        break;
-                    }
-                }
-            }
-
-            if (!nextCurr) {
-                scoresToCore.add(-1);
-            }
-        }
-
-        scoresToCore.add(prevCells.size());
-    }
-
-    public ArrayList<Integer> scoresToCore = new ArrayList<>();
-
     private final Pair<Integer, Integer> position;
 
     private final HashMap<LinkDirection, Pair<Link, Cell>> links = new HashMap<>();

@@ -3,6 +3,8 @@ package ic20b106.game.menus;
 import ic20b106.Game;
 import ic20b106.game.Cell;
 import ic20b106.game.LinkDirection;
+import ic20b106.game.Transporter;
+import ic20b106.game.buildings.Material;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -91,6 +93,10 @@ public class LinkSubMenu extends SubMenu {
         if (Game.currentlyBuilt != null) {
             System.out.println(Game.gameBoard.findRoute(selectedCell, Game.playerCoreCell)
               .stream().map(Cell::getPosition).collect(Collectors.toList()));
+
+            Transporter transporter = new Transporter(selectedCell, Game.playerCoreCell, Material.PEARL);
+            transporter.run();
+
             Game.currentlyBuilt = null;
         }
 
