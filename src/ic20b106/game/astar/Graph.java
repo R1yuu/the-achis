@@ -1,8 +1,5 @@
 package ic20b106.game.astar;
 
-import ic20b106.util.IntPair;
-import ic20b106.util.Pair;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
