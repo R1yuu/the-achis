@@ -3,9 +3,9 @@ package ic20b106.game;
 import ic20b106.Game;
 import ic20b106.game.astar.GraphNode;
 import ic20b106.game.buildings.Building;
-import ic20b106.game.buildings.core.Core;
 import ic20b106.game.menus.BuildSubMenu;
 import ic20b106.game.menus.LinkSubMenu;
+import ic20b106.util.IntPair;
 import ic20b106.util.Pair;
 import javafx.geometry.Insets;
 import javafx.scene.input.MouseButton;
@@ -17,14 +17,11 @@ import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author Andre Schneider
@@ -32,7 +29,7 @@ import java.util.Set;
  *
  * Cells are the Buildings Fields
  */
-public class Cell extends StackPane implements GraphNode {
+public class Cell extends Pane implements GraphNode {
 
     /**
      * Constructor
@@ -59,7 +56,7 @@ public class Cell extends StackPane implements GraphNode {
         this.setPrefWidth(50);
 
 
-        this.position = new Pair<>(row, col);
+        this.position = new IntPair(row, col);
 
         this.setId(this.position.toString());
 
@@ -159,10 +156,10 @@ public class Cell extends StackPane implements GraphNode {
 
     public static Cell getNeighbourByCell(Cell cell, LinkDirection linkDirection) {
         return Game.gameBoard.getCell(getNeighbourCoordsByCellCoords(
-          new Pair<>(cell.position.x, cell.position.y), linkDirection));
+          new IntPair(cell.position.x, cell.position.y), linkDirection));
     }
 
-    public static Pair<Integer, Integer> getNeighbourCoordsByCellCoords(Pair<Integer, Integer> cellCoords,
+    public static IntPair getNeighbourCoordsByCellCoords(IntPair cellCoords,
                                                                     LinkDirection linkDirection) {
         int cellRow = cellCoords.x;
         int cellCol = cellCoords.y;
@@ -187,12 +184,12 @@ public class Cell extends StackPane implements GraphNode {
             }
         }
 
-        return new Pair<>(cellRow, cellCol);
+        return new IntPair(cellRow, cellCol);
     }
 
     public void extendArea(Color owner, int radius) {
-        Pair<Integer, Integer> firstCellCoords = new Pair<>(position.x, position.y);
-        Pair<Integer, Integer> nextCellCoords;
+        IntPair firstCellCoords = new IntPair(position.x, position.y);
+        IntPair nextCellCoords;
 
         Cell firstCell;
         Cell nextCell;
@@ -245,11 +242,11 @@ public class Cell extends StackPane implements GraphNode {
         return links;
     }
 
-    public Pair<Integer, Integer> getPosition() {
+    public IntPair getPosition() {
         return position;
     }
 
-    private final Pair<Integer, Integer> position;
+    private final IntPair position;
 
     private final HashMap<LinkDirection, Pair<Link, Cell>> links = new HashMap<>();
     private Color owner;
