@@ -1,8 +1,8 @@
 package ic20b106.fxml.main;
 
 import ic20b106.Game;
-import ic20b106.game.Cell;
-import ic20b106.game.LinkDirection;
+import ic20b106.game.board.Cell;
+import ic20b106.game.link.LinkDirection;
 import ic20b106.game.buildings.Material;
 import ic20b106.game.buildings.core.Core;
 import ic20b106.util.Pair;

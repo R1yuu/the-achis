@@ -1,10 +1,10 @@
 package ic20b106;
 
-import ic20b106.game.Cell;
-import ic20b106.game.audio.AudioManager;
+import ic20b106.game.board.Cell;
+import ic20b106.game.manager.AudioManager;
 import ic20b106.game.buildings.Building;
+import ic20b106.game.manager.FileManager;
 import ic20b106.game.menus.SubMenu;
-import ic20b106.util.Pair;
 import ic20b106.util.javafx.GameBoard;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +19,11 @@ import jfxtras.styles.jmetro.JMetroStyleClass;
 import jfxtras.styles.jmetro.Style;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
 
 /**
  * @author Andre Schneider
@@ -56,18 +61,14 @@ public class Game extends Application {
 
         primaryStage.show();
 
-        audioManager.playBackgroundMusic();
+        FileManager.getInstance().readOptions();
     }
 
     public static void resetGame() {
         primaryPane.getChildren().clear();
         primaryPane.getChildren().setAll(mainMenu);
 
-        //activeBuildMenu = null;
-        //activeBuildingMenu = null;
-
         activeSubMenu = null;
-
         gameBoard = null;
         currentlyBuilt = null;
         escapeMenuOpen = false;

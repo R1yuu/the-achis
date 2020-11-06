@@ -1,7 +1,7 @@
 package ic20b106.game.menus.buildings;
 
 import ic20b106.Game;
-import ic20b106.game.Cell;
+import ic20b106.game.board.Cell;
 import ic20b106.game.buildings.Building;
 import ic20b106.game.menus.BuildingSubMenu;
 import javafx.fxml.FXML;
@@ -10,7 +10,6 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class CoreSubMenu extends BuildingSubMenu {
 

@@ -1,14 +1,12 @@
-package ic20b106.game;
+package ic20b106.game.entities;
 
 import ic20b106.Game;
+import ic20b106.game.board.Cell;
 import ic20b106.game.buildings.Material;
-import ic20b106.util.IntPair;
 import javafx.animation.PathTransition;
 import javafx.geometry.Bounds;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;

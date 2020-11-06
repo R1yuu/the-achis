@@ -1,6 +1,6 @@
 package ic20b106.game.buildings.core;
 
-import ic20b106.game.Cell;
+import ic20b106.game.board.Cell;
 import ic20b106.game.buildings.Building;
 import ic20b106.game.buildings.Material;
 import ic20b106.game.menus.BuildingSubMenu;

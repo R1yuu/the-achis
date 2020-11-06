@@ -1,11 +1,9 @@
 package ic20b106.util.javafx;
 
 import ic20b106.Game;
-import ic20b106.game.Cell;
+import ic20b106.game.board.Cell;
 import ic20b106.fxml.game.EscapeMenuController;
-import ic20b106.game.CellScorer;
-import ic20b106.game.Link;
-import ic20b106.game.LinkDirection;
+import ic20b106.game.board.CellScorer;
 import ic20b106.game.astar.Graph;
 import ic20b106.game.astar.RouteFinder;
 import ic20b106.util.Pair;

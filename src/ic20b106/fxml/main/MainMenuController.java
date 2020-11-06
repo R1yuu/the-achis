@@ -27,6 +27,12 @@ public class MainMenuController {
         Game.primaryPane.getChildren().setAll(createGameMenu);
     }
 
+    @FXML
+    private void options() throws IOException {
+        VBox optionsMenu = FXMLLoader.load(getClass().getResource("OptionsMenu.fxml"));
+        Game.primaryPane.getChildren().setAll(optionsMenu);
+    }
+
     /**
      * Exits the Game
      */

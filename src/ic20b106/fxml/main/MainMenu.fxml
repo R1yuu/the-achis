@@ -13,7 +13,7 @@
     <Button>
         Join Game
     </Button>
-    <Button>
+    <Button onMouseClicked="#options">
         Options
     </Button>
     <Button onMouseClicked="#exitApplication">

@@ -1,4 +1,4 @@
-package ic20b106.game;
+package ic20b106.game.link;
 
 /**
  * @author Andre_Schneider

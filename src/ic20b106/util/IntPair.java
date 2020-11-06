@@ -10,17 +10,4 @@ public class IntPair extends Pair<Integer, Integer> {
         super(x, y);
     }
 
-    public static IntPair fromString(String pairString) {
-        IntPair result = new IntPair();
-        pairString = pairString.replaceAll("([()])", "");
-        System.out.println(pairString);
-        String[] values = pairString.split(",");
-
-        result.x = Integer.valueOf(values[0]);
-        result.y = Integer.valueOf(values[1]);
-
-        System.out.println(result.x);
-        System.out.println(result.y);
-        return result;
-    }
 }

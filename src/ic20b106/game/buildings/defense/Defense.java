@@ -1,6 +1,6 @@
 package ic20b106.game.buildings.defense;
 
-import ic20b106.game.Cell;
+import ic20b106.game.board.Cell;
 import ic20b106.game.buildings.Building;
 import ic20b106.game.buildings.Material;
 import javafx.scene.image.Image;

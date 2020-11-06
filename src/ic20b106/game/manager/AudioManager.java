@@ -1,5 +1,6 @@
-package ic20b106.game.audio;
+package ic20b106.game.manager;
 
+import ic20b106.Options;
 import javafx.concurrent.Task;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
@@ -12,35 +13,26 @@ public class AudioManager {
     private AudioManager() {
         backgroundMediaPlayer = new MediaPlayer(new Media(
           getClass().getResource("/sounds/music/Jeremy_Blake-Powerup!.mp3").toString()));
-        backgroundMediaPlayer.setVolume(0.5);
+        backgroundMediaPlayer.setVolume(Options.musicVolume);
         backgroundMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
     }
 
     public static AudioManager getInstance() {
-        if (single_instance == null) {
-            single_instance = new AudioManager();
+        if (singleInstance == null) {
+            singleInstance = new AudioManager();
         }
-        return single_instance;
-    }
-
-    public void playBackgroundMusic() {
-        if (backgroundMediaPlayer.getStatus() != MediaPlayer.Status.PLAYING) {
-            backgroundMediaPlayer.play();
-        }
+        return singleInstance;
     }
 
     public void playClip(AudioClip audioClip) {
-        synchronized (clips) {
-            clips.push(audioClip);
-        }
+        clips.push(audioClip);
+
         if (clipThread == null) {
             final Task<?> clipTask = new Task<>() {
                 @Override
                 protected Object call() {
-                    synchronized (clips) {
-                        while (!clips.empty()) {
-                            clips.pop().play(0.5);
-                        }
+                    while (!clips.empty()) {
+                        clips.pop().play(0.5);
                     }
                     clipThread = null;
                     return null;
@@ -56,7 +48,7 @@ public class AudioManager {
         return backgroundMediaPlayer;
     }
 
-    private static AudioManager single_instance;
+    private static AudioManager singleInstance;
     public static AudioClip TEST;
     private final MediaPlayer backgroundMediaPlayer;
     private Thread clipThread;

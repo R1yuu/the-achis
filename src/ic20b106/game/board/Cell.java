@@ -1,8 +1,10 @@
-package ic20b106.game;
+package ic20b106.game.board;
 
 import ic20b106.Game;
 import ic20b106.game.astar.GraphNode;
 import ic20b106.game.buildings.Building;
+import ic20b106.game.link.Link;
+import ic20b106.game.link.LinkDirection;
 import ic20b106.game.menus.BuildSubMenu;
 import ic20b106.game.menus.LinkSubMenu;
 import ic20b106.util.IntPair;
@@ -21,7 +23,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.EnumMap;
 
 /**
  * @author Andre Schneider
@@ -238,7 +240,7 @@ public class Cell extends Pane implements GraphNode {
      *
      * @return Returns Every Link of the Cell
      */
-    public HashMap<LinkDirection, Pair<Link, Cell>> getLinks() {
+    public EnumMap<LinkDirection, Pair<Link, Cell>> getLinks() {
         return links;
     }
 
@@ -248,7 +250,7 @@ public class Cell extends Pane implements GraphNode {
 
     private final IntPair position;
 
-    private final HashMap<LinkDirection, Pair<Link, Cell>> links = new HashMap<>();
+    private final EnumMap<LinkDirection, Pair<Link, Cell>> links = new EnumMap<>(LinkDirection.class);
     private Color owner;
     private Building building;
     private static final Border defaultBorder = new Border(new BorderStroke(

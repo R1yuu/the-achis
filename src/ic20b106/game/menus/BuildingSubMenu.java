@@ -1,7 +1,7 @@
 package ic20b106.game.menus;
 
 import ic20b106.Game;
-import ic20b106.game.Cell;
+import ic20b106.game.board.Cell;
 import ic20b106.game.buildings.Building;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;

@@ -1,4 +1,4 @@
-package ic20b106.game;
+package ic20b106.game.board;
 
 import ic20b106.exceptions.ArgumentOutOfBoundsException;
 

@@ -1,6 +1,6 @@
 package ic20b106.game.menus.buildings;
 
-import ic20b106.game.Cell;
+import ic20b106.game.board.Cell;
 import ic20b106.game.buildings.Building;
 import ic20b106.game.menus.BuildingSubMenu;
 import javafx.fxml.FXML;

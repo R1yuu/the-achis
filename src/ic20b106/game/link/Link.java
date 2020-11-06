@@ -1,4 +1,4 @@
-package ic20b106.game;
+package ic20b106.game.link;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

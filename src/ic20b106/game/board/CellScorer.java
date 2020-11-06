@@ -1,6 +1,7 @@
-package ic20b106.game;
+package ic20b106.game.board;
 
 import ic20b106.game.astar.Scorer;
+import ic20b106.game.board.Cell;
 
 public class CellScorer implements Scorer<Cell> {
     @Override
