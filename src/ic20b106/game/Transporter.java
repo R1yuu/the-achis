@@ -5,6 +5,8 @@ import ic20b106.game.buildings.Material;
 import ic20b106.util.IntPair;
 import javafx.animation.PathTransition;
 import javafx.geometry.Bounds;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.LineTo;
@@ -30,10 +32,17 @@ public class Transporter implements Runnable {
 
         Path transitionPath = new Path();
 
-        Circle transportTexture = new Circle(20, Color.BLACK);
-        transportTexture.setLayoutX(currCellBounds.getMinX());
-        transportTexture.setLayoutY(currCellBounds.getMinY());
+        ImageView transportTexture = new ImageView(new Image("/images/entities/transporter.png"));
+        transportTexture.setFitWidth(50);
+        transportTexture.setFitHeight(50);
+
+        transportTexture.setLayoutX(currCellBounds.getMinX() + transportTexture.getFitWidth() / 2);
+        transportTexture.setLayoutY(currCellBounds.getMinY() + transportTexture.getFitHeight() / 2);
+
         Game.gameBoard.getChildren().add(transportTexture);
+
+
+        //Todo: MoveTo Korrigieren
 
         transitionPath.getElements().add(new MoveTo(currCellBounds.getMinX() + 5, currCellBounds.getMinY()));
 
@@ -46,6 +55,7 @@ public class Transporter implements Runnable {
         pt.setDuration(Duration.seconds(10));
         pt.setNode(transportTexture);
         pt.setPath(transitionPath);
+        pt.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pt.play();
     }
 

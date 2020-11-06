@@ -1,6 +1,7 @@
 package ic20b106;
 
 import ic20b106.game.Cell;
+import ic20b106.game.audio.AudioManager;
 import ic20b106.game.buildings.Building;
 import ic20b106.game.menus.SubMenu;
 import ic20b106.util.Pair;
@@ -10,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import jfxtras.styles.jmetro.JMetro;
@@ -38,8 +40,9 @@ public class Game extends Application {
     public void start(Stage primaryStage) throws IOException {
 
         mainMenu = FXMLLoader.load(getClass().getResource("/ic20b106/fxml/main/MainMenu.fxml"));
+        AudioManager audioManager = AudioManager.getInstance();
 
-        primaryPane.getChildren().setAll(mainMenu);
+        primaryPane.getChildren().setAll(mainMenu, new MediaView(audioManager.getBackgroundMediaPlayer()));
 
         Scene primaryScene = new Scene(primaryPane, 1280, 720);
 
@@ -52,6 +55,8 @@ public class Game extends Application {
         primaryPane.getStyleClass().add(JMetroStyleClass.BACKGROUND);
 
         primaryStage.show();
+
+        audioManager.playBackgroundMusic();
     }
 
     public static void resetGame() {
@@ -81,9 +86,7 @@ public class Game extends Application {
 
     public static StackPane primaryPane = new StackPane();
 
-
     public static Building currentlyBuilt;
-
 
     public static SubMenu activeSubMenu;
     public static GameBoard gameBoard;
