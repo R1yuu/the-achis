@@ -1,7 +1,6 @@
 package ic20b106.game.manager;
 
 import ic20b106.Options;
-import javafx.concurrent.Task;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -13,8 +12,27 @@ public class AudioManager {
     private AudioManager() {
         backgroundMediaPlayer = new MediaPlayer(new Media(
           getClass().getResource("/sounds/music/Jeremy_Blake-Powerup!.mp3").toString()));
-        backgroundMediaPlayer.setVolume(Options.musicVolume);
+        backgroundMediaPlayer.setVolume(Options.getMusicVolume());
         backgroundMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+
+        Thread clipThread = new Thread(() -> {
+            while (!Thread.currentThread().isInterrupted()) {
+                try {
+                    synchronized (clips) {
+                        clips.wait();
+                        if (Options.getSfxEnabled()) {
+                            clips.pop().play(Options.getSfxVolume());
+                        } else {
+                            clips.pop();
+                        }
+                    }
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    return;
+                }
+            }
+        });
+        clipThread.start();
     }
 
     public static AudioManager getInstance() {
@@ -25,22 +43,9 @@ public class AudioManager {
     }
 
     public void playClip(AudioClip audioClip) {
-        clips.push(audioClip);
-
-        if (clipThread == null) {
-            final Task<?> clipTask = new Task<>() {
-                @Override
-                protected Object call() {
-                    while (!clips.empty()) {
-                        clips.pop().play(0.5);
-                    }
-                    clipThread = null;
-                    return null;
-                }
-            };
-
-            this.clipThread = new Thread(clipTask);
-            clipThread.start();
+        synchronized (clips) {
+            clips.push(audioClip);
+            clips.notify();
         }
     }
 
@@ -49,8 +54,8 @@ public class AudioManager {
     }
 
     private static AudioManager singleInstance;
-    public static AudioClip TEST;
+    public static AudioClip BUTTON_CLICK = new AudioClip(AudioManager.class.getResource("/sounds/sfx/button-click.wav").toString());
+
     private final MediaPlayer backgroundMediaPlayer;
-    private Thread clipThread;
     private final Stack<AudioClip> clips = new Stack<>();
 }

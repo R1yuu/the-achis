@@ -19,13 +19,23 @@ public class FileManager {
         void mapToOptions() {
             Options.setMusicEnabled(this.musicEnabled);
             Options.setMusicVolume(this.musicVolume);
+            Options.setSfxEnabled(this.sfxEnabled);
+            Options.setSfxVolume(this.sfxVolume);
         }
 
-        final boolean musicEnabled = Options.musicEnabled;
-        final double musicVolume = Options.musicVolume;
+        final boolean musicEnabled = Options.getMusicEnabled();
+        final int musicVolume = Options.getMusicVolume();
+        final boolean sfxEnabled = Options.getSfxEnabled();
+        final int sfxVolume = Options.getSfxVolume();
     }
 
-    private FileManager() {}
+    private FileManager() {
+        try {
+            this.optionsFile = new File(getClass().getResource("/options.json").toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static FileManager getInstance() {
         if (singleInstance == null) {
@@ -36,16 +46,15 @@ public class FileManager {
 
     public void writeOptions() {
         try {
-            File optionsFile = new File(getClass().getResource("/options.json").toURI());
-            OptionsDump optionsDump = new OptionsDump();
-            if (optionsFile.exists()) {
-                FileWriter optionsFileWriter = new FileWriter(optionsFile);
+            if (this.optionsFile.exists()) {
+                OptionsDump optionsDump = new OptionsDump();
+                FileWriter optionsFileWriter = new FileWriter(this.optionsFile);
                 optionsFileWriter.write(this.gson.toJson(optionsDump));
                 optionsFileWriter.close();
             } else {
                 throw new IOException("\"/options.json\" doesn't exists. Maybe deleted?");
             }
-        } catch (IOException | URISyntaxException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -53,19 +62,19 @@ public class FileManager {
 
     public void readOptions() {
         try {
-            File optionsFile = new File(getClass().getResource("/options.json").toURI());
-
-            if (optionsFile.exists()) {
-                FileReader optionsFileScanner = new FileReader(optionsFile);
-                gson.fromJson(optionsFileScanner, OptionsDump.class).mapToOptions();
+            if (this.optionsFile.exists()) {
+                FileReader optionsFileReader = new FileReader(this.optionsFile);
+                gson.fromJson(optionsFileReader, OptionsDump.class).mapToOptions();
+                optionsFileReader.close();
             } else {
                 throw new IOException("\"/options.json\" doesn't exists. Maybe deleted?");
             }
-        } catch (IOException | URISyntaxException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private static FileManager singleInstance;
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private File optionsFile = null;
 }

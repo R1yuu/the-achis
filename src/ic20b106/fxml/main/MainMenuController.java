@@ -1,6 +1,7 @@
 package ic20b106.fxml.main;
 
 import ic20b106.Game;
+import ic20b106.game.manager.AudioManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +24,7 @@ public class MainMenuController {
      */
     @FXML
     private void newGame() throws IOException {
+        AudioManager.getInstance().playClip(AudioManager.BUTTON_CLICK);
         VBox createGameMenu = FXMLLoader.load(getClass().getResource("CreateGameMenu.fxml"));
         Game.primaryPane.getChildren().setAll(createGameMenu);
     }
@@ -39,5 +41,6 @@ public class MainMenuController {
     @FXML
     private void exitApplication() {
         Platform.exit();
+        System.exit(0);
     }
 }

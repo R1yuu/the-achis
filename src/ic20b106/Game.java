@@ -59,6 +59,7 @@ public class Game extends Application {
 
         primaryPane.getStyleClass().add(JMetroStyleClass.BACKGROUND);
 
+        primaryStage.setOnCloseRequest(windowEvent -> System.exit(0));
         primaryStage.show();
 
         FileManager.getInstance().readOptions();
