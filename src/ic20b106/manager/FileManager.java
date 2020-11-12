@@ -1,4 +1,4 @@
-package ic20b106.game.manager;
+package ic20b106.manager;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -46,14 +46,14 @@ public class FileManager {
 
     public void writeOptions() {
         try {
-            if (this.optionsFile.exists()) {
-                OptionsDump optionsDump = new OptionsDump();
-                FileWriter optionsFileWriter = new FileWriter(this.optionsFile);
-                optionsFileWriter.write(this.gson.toJson(optionsDump));
-                optionsFileWriter.close();
-            } else {
-                throw new IOException("\"/options.json\" doesn't exists. Maybe deleted?");
-            }
+            this.optionsFile.createNewFile();
+            OptionsDump optionsDump = new OptionsDump();
+            FileWriter optionsFileWriter = new FileWriter(this.optionsFile);
+            optionsFileWriter.write(this.gson.toJson(optionsDump));
+            optionsFileWriter.close();
+            //} else {
+            //    throw new IOException("\"/options.json\" doesn't exists. Maybe deleted?");
+            //}
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,7 +64,12 @@ public class FileManager {
         try {
             if (this.optionsFile.exists()) {
                 FileReader optionsFileReader = new FileReader(this.optionsFile);
-                gson.fromJson(optionsFileReader, OptionsDump.class).mapToOptions();
+                OptionsDump optionsDump = gson.fromJson(optionsFileReader, OptionsDump.class);
+                if (optionsDump == null) {
+                    optionsDump = new OptionsDump();
+                }
+                optionsDump.mapToOptions();
+
                 optionsFileReader.close();
             } else {
                 throw new IOException("\"/options.json\" doesn't exists. Maybe deleted?");

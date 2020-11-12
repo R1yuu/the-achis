@@ -90,9 +90,6 @@ public class LinkSubMenu extends SubMenu {
         this.selectedCell.addLinks(linkDirection);
 
         if (Game.currentlyBuilt != null) {
-            System.out.println(Game.gameBoard.findRoute(selectedCell, Game.playerCoreCell)
-              .stream().map(Cell::getPosition).collect(Collectors.toList()));
-
             Transporter transporter = new Transporter(selectedCell, Game.playerCoreCell, Material.PEARL);
             transporter.run();
 

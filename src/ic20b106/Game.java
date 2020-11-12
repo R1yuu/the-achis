@@ -1,14 +1,21 @@
 package ic20b106;
 
 import ic20b106.game.board.Cell;
-import ic20b106.game.manager.AudioManager;
+import ic20b106.manager.AudioManager;
 import ic20b106.game.buildings.Building;
-import ic20b106.game.manager.FileManager;
+import ic20b106.manager.FileManager;
 import ic20b106.game.menus.SubMenu;
 import ic20b106.util.javafx.GameBoard;
+import ic20b106.util.javafx.eventhandler.ButtonSFXEventHandler;
 import javafx.application.Application;
+import javafx.beans.property.ObjectProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonBase;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaView;
@@ -19,11 +26,11 @@ import jfxtras.styles.jmetro.JMetroStyleClass;
 import jfxtras.styles.jmetro.Style;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
-import java.util.logging.Logger;
+import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * @author Andre Schneider
@@ -83,6 +90,24 @@ public class Game extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+
+    public static void setAllButtonSFXOnAction(Parent parent) {
+        Game.setAllButtonSFXOnAction(parent, List.of(ButtonBase.class));
+    }
+
+    public static void setAllButtonSFXOnAction(Parent parent, List<Class<? extends ButtonBase>> checkClasses) {
+        for (Node child : parent.getChildrenUnmodifiable()) {
+            for (Class<? extends ButtonBase> checkClass : checkClasses) {
+                if (checkClass.isInstance(child)) {
+                    checkClass.cast(child).setOnAction(new ButtonSFXEventHandler<>());
+                } else if (child instanceof Parent) {
+                    Game.setAllButtonSFXOnAction((Parent)child, checkClasses);
+                }
+            }
+        }
+    }
+
 
     private static VBox mainMenu;
 

@@ -1,7 +1,7 @@
 package ic20b106;
 
-import ic20b106.game.manager.AudioManager;
-import ic20b106.game.manager.FileManager;
+import ic20b106.manager.AudioManager;
+import ic20b106.manager.FileManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
@@ -63,7 +63,7 @@ public class Options implements Initializable, Serializable {
     public static void setMusicVolume(int musicVolume) {
         if (musicVolume >= 0 && musicVolume <= 100) {
             Options.musicVolume.set(musicVolume);
-            AudioManager.getInstance().getBackgroundMediaPlayer().setVolume(musicVolume);
+            AudioManager.getInstance().getBackgroundMediaPlayer().setVolume((double) musicVolume / 100);
         }
     }
 

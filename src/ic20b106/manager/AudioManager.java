@@ -1,6 +1,11 @@
-package ic20b106.game.manager;
+package ic20b106.manager;
 
 import ic20b106.Options;
+import ic20b106.util.IntPair;
+import ic20b106.util.javafx.eventhandler.ButtonSFXEventHandler;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.control.ButtonBase;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -21,7 +26,7 @@ public class AudioManager {
                     synchronized (clips) {
                         clips.wait();
                         if (Options.getSfxEnabled()) {
-                            clips.pop().play(Options.getSfxVolume());
+                            clips.pop().play((double) Options.getSfxVolume() / 100);
                         } else {
                             clips.pop();
                         }
@@ -54,7 +59,7 @@ public class AudioManager {
     }
 
     private static AudioManager singleInstance;
-    public static AudioClip BUTTON_CLICK = new AudioClip(AudioManager.class.getResource("/sounds/sfx/button-click.wav").toString());
+    public static AudioClip BUTTON_CLICK = new AudioClip(AudioManager.class.getResource("/sounds/sfx/button-click.mp3").toString());
 
     private final MediaPlayer backgroundMediaPlayer;
     private final Stack<AudioClip> clips = new Stack<>();

@@ -5,11 +5,17 @@ import ic20b106.game.board.Cell;
 import ic20b106.game.link.LinkDirection;
 import ic20b106.game.buildings.Material;
 import ic20b106.game.buildings.core.Core;
+import ic20b106.manager.AudioManager;
 import ic20b106.util.Pair;
 import ic20b106.util.javafx.GameBoard;
 import ic20b106.util.javafx.ZoomableScrollPane;
+import ic20b106.util.javafx.eventhandler.ButtonSFXEventHandler;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBase;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
@@ -17,10 +23,12 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author Andre Schneider
@@ -30,11 +38,14 @@ import java.util.HashMap;
  */
 public class CreateGameMenuController {
 
+
     /**
      * Initializes Nodes
      */
     @FXML
     private void initialize() {
+        Game.setAllButtonSFXOnAction(mainBox, List.of(ToggleButton.class));
+
         boardWidthLabel.setText(String.valueOf((int)boardWidthSlider.getValue()));
         boardHeightLabel.setText(String.valueOf((int)boardHeightSlider.getValue()));
 
@@ -150,6 +161,9 @@ public class CreateGameMenuController {
 
         Game.primaryPane.getChildren().setAll(zoomableScrollPane);
     }
+
+    @FXML
+    private VBox mainBox;
 
     @FXML
     private Slider boardWidthSlider;

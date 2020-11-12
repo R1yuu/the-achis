@@ -20,7 +20,7 @@ import java.util.HashMap;
 public class Core extends Building {
 
     public Core(Cell cell, HashMap<Material, Integer> storage) {
-        super(new Image("/images/buildings/core.png", 200, 0, true, false, true),
+        super(new Image("/images/buildings/core2.png", 128, 128, true, false, true),
           null, cell);
 
         this.storage = storage;
