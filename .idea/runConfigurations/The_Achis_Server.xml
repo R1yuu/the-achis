@@ -1,9 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="The Achis Server" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="ic20b106.GameServer" />
-    <module name="server" />
-    <method v="2">
-      <option name="Make" enabled="true" />
-    </method>
-  </configuration>
-</component>

@@ -1,7 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Run Game" type="CompoundRunConfigurationType">
-    <toRun name="The Achis" type="Application" />
-    <toRun name="The Achis Server" type="Application" />
-    <method v="2" />
-  </configuration>
-</component>
