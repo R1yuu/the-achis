@@ -1,4 +1,4 @@
-package ic20b106.client.game.link;
+package ic20b106.client.game.buildings.link;
 
 /**
  * @author Andre_Schneider

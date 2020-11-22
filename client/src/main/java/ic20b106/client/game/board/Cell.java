@@ -3,10 +3,10 @@ package ic20b106.client.game.board;
 import ic20b106.client.Game;
 import ic20b106.client.game.astar.GraphNode;
 import ic20b106.client.game.buildings.Building;
-import ic20b106.client.game.link.Link;
-import ic20b106.client.game.link.LinkDirection;
-import ic20b106.client.game.menus.BuildSubMenu;
-import ic20b106.client.game.menus.LinkSubMenu;
+import ic20b106.client.game.buildings.link.Link;
+import ic20b106.client.game.buildings.link.LinkDirection;
+import ic20b106.client.game.menus.submenus.BuildSubMenu;
+import ic20b106.client.game.menus.submenus.LinkSubMenu;
 import ic20b106.shared.utils.IntPair;
 import ic20b106.shared.utils.Pair;
 import javafx.geometry.Insets;
@@ -127,13 +127,13 @@ public class Cell extends Pane implements GraphNode {
         for (LinkDirection linkDirection : linkDirections) {
             if (!links.containsKey(linkDirection)) {
                 Cell linkCell = getNeighbourByCell(this, linkDirection);
-                Link newLink = new Link(linkDirection);
+                Link newLink = new Link(linkDirection, this);
                 Game.gameBoard.addLink(this, linkCell);
 
                 Pair<Link, Cell> alreadyLinkedCell = this.links.putIfAbsent(linkDirection, new Pair<>(newLink, linkCell));
                 if (alreadyLinkedCell == null) {
-                    this.getChildren().add(newLink);
-                    newLink.toBack();
+                    this.getChildren().add(newLink.getTexture());
+                    newLink.getTexture().toBack();
                 }
 
                 linkCell.addLinks(LinkDirection.getOpposite(linkDirection));
@@ -150,7 +150,7 @@ public class Cell extends Pane implements GraphNode {
 
                 links.remove(linkDirection);
 
-                this.getChildren().remove(link);
+                this.getChildren().remove(link.getTexture());
                 linkedCell.removeLinks(LinkDirection.getOpposite(linkDirection));
             }
         }

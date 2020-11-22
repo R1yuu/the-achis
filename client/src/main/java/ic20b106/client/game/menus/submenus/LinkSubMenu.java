@@ -1,8 +1,8 @@
-package ic20b106.client.game.menus;
+package ic20b106.client.game.menus.submenus;
 
 import ic20b106.client.Game;
 import ic20b106.client.game.board.Cell;
-import ic20b106.client.game.link.LinkDirection;
+import ic20b106.client.game.buildings.link.LinkDirection;
 import ic20b106.client.game.entities.Transporter;
 import ic20b106.client.game.buildings.Material;
 import javafx.fxml.FXML;

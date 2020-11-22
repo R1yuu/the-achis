@@ -6,7 +6,7 @@ import ic20b106.client.game.board.Cell;
 import ic20b106.client.manager.AudioManager;
 import ic20b106.client.game.buildings.Building;
 import ic20b106.client.manager.FileManager;
-import ic20b106.client.game.menus.SubMenu;
+import ic20b106.client.game.menus.submenus.SubMenu;
 import ic20b106.client.util.javafx.GameBoard;
 import ic20b106.client.util.javafx.eventhandler.ButtonSFXEventHandler;
 import javafx.application.Application;
@@ -15,17 +15,13 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonBase;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * @author Andre Schneider

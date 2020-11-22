@@ -2,7 +2,7 @@ package ic20b106.client.util.javafx;
 
 import ic20b106.client.Game;
 import ic20b106.client.game.board.Cell;
-import ic20b106.client.fxml.game.EscapeMenuController;
+import ic20b106.client.game.menus.EscapeMenuController;
 import ic20b106.client.game.board.CellScorer;
 import ic20b106.client.game.astar.Graph;
 import ic20b106.client.game.astar.RouteFinder;

@@ -1,4 +1,4 @@
-package ic20b106.client.fxml.main;
+package ic20b106.client.game.menus;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;

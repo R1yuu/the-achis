@@ -1,9 +1,9 @@
-package ic20b106.client.game.menus.buildings;
+package ic20b106.client.game.menus.submenus.buildings;
 
 import ic20b106.client.Game;
 import ic20b106.client.game.board.Cell;
 import ic20b106.client.game.buildings.Building;
-import ic20b106.client.game.menus.BuildingSubMenu;
+import ic20b106.client.game.menus.submenus.BuildingSubMenu;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 

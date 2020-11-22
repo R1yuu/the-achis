@@ -1,4 +1,4 @@
-package ic20b106.client.fxml.game;
+package ic20b106.client.game.menus;
 
 import ic20b106.client.Game;
 import javafx.fxml.FXML;

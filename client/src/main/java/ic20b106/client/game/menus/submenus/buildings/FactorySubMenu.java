@@ -1,18 +1,18 @@
-package ic20b106.client.game.menus.buildings;
+package ic20b106.client.game.menus.submenus.buildings;
 
 import ic20b106.client.game.board.Cell;
 import ic20b106.client.game.buildings.Building;
-import ic20b106.client.game.menus.BuildingSubMenu;
+import ic20b106.client.game.menus.submenus.BuildingSubMenu;
 import javafx.fxml.FXML;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class BarracksSubMenu extends BuildingSubMenu {
+public class FactorySubMenu extends BuildingSubMenu {
 
-    public BarracksSubMenu(Cell selectedCell, Building building) throws IOException {
+    public FactorySubMenu(Cell selectedCell, Building building) throws IOException {
         super(selectedCell, building);
     }
 
@@ -24,9 +24,9 @@ public class BarracksSubMenu extends BuildingSubMenu {
             return;
         }
 
-        barracksMenu.getChildren().add(destroyBox);
+        factoryMenu.getChildren().add(destroyBox);
     }
 
     @FXML
-    private AnchorPane barracksMenu;
+    private HBox factoryMenu;
 }

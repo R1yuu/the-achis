@@ -3,9 +3,8 @@ package ic20b106.client.game.buildings.production;
 import ic20b106.client.game.board.Cell;
 import ic20b106.client.game.buildings.Building;
 import ic20b106.client.game.buildings.Material;
-import ic20b106.client.game.menus.BuildingSubMenu;
-import ic20b106.client.game.menus.buildings.FactorySubMenu;
-import javafx.scene.image.Image;
+import ic20b106.client.game.menus.submenus.BuildingSubMenu;
+import ic20b106.client.game.menus.submenus.buildings.FactorySubMenu;
 
 import java.io.IOException;
 import java.util.HashMap;

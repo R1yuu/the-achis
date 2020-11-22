@@ -1,10 +1,10 @@
-package ic20b106.client.fxml.main;
+package ic20b106.client.game.menus;
 
 import ic20b106.client.Game;
 import ic20b106.shared.PlayerColor;
 import ic20b106.shared.PlayerStartPosition;
 import ic20b106.client.game.board.Cell;
-import ic20b106.client.game.link.LinkDirection;
+import ic20b106.client.game.buildings.link.LinkDirection;
 import ic20b106.client.game.buildings.Material;
 import ic20b106.client.game.buildings.core.Core;
 import ic20b106.client.manager.NetworkManager;

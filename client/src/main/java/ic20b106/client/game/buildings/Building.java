@@ -3,7 +3,7 @@ package ic20b106.client.game.buildings;
 import ic20b106.shared.Buildable;
 import ic20b106.client.Game;
 import ic20b106.client.game.board.Cell;
-import ic20b106.client.game.menus.BuildingSubMenu;
+import ic20b106.client.game.menus.submenus.BuildingSubMenu;
 import ic20b106.shared.utils.IntPair;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,22 +27,30 @@ public abstract class Building implements Buildable {
      * @param texturePath Texture of the Building
      */
     protected Building(String texturePath, HashMap<Material, Integer> buildingCost, Cell cell) {
+        this (texturePath, buildingCost, cell, true);
+    }
+
+    /**
+     * Constructor
+     * Sets the View Texture of a Building
+     *
+     * @param texturePath Texture of the Building
+     */
+    protected Building(String texturePath, HashMap<Material, Integer> buildingCost,
+                       Cell cell, boolean isConstructionSite) {
         this.texture = new ImageView(new Image(getClass().getResource(texturePath).toString(),
           200, 0, true, false, true));
         this.texture.setFitHeight(50);
         this.texture.setFitWidth(50);
 
-        this.constructionTexture = new ImageView(
-          new Image(getClass().getResource("/images/buildings/construction-site.png").toString(),
-            200, 0, true, false, true));
-        constructionTexture.setFitHeight(50);
-        constructionTexture.setFitWidth(50);
+        this.isConstructionSite = isConstructionSite;
+        this.constructionTexture = new ImageView(constructionImage);
+        this.constructionTexture.setFitHeight(50);
+        this.constructionTexture.setFitWidth(50);
 
         this.buildingCost = buildingCost;
 
         this.cell = cell;
-
-        this.isConstructionSite = true;
     }
 
     /**
@@ -53,7 +61,7 @@ public abstract class Building implements Buildable {
     @Override
     public ImageView getTexture() {
         if (isConstructionSite) {
-            return this.constructionTexture;
+            return constructionTexture;
         }
         return texture;
     }
@@ -87,5 +95,10 @@ public abstract class Building implements Buildable {
     protected HashMap<Material, Integer> buildingCost;
     protected ImageView texture;
     protected boolean isConstructionSite;
-    private ImageView constructionTexture;
+    private final ImageView constructionTexture;
+    private static final Image constructionImage;
+    static {
+        constructionImage = new Image(Building.class.getResource("/images/buildings/construction-site.png").toString(),
+            200, 0, true, false, true);
+    }
 }

@@ -1,4 +1,4 @@
-package ic20b106.client.game.menus;
+package ic20b106.client.game.menus.submenus;
 
 import ic20b106.client.Game;
 import ic20b106.client.game.board.Cell;
