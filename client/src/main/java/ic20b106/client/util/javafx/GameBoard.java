@@ -62,7 +62,7 @@ public class GameBoard extends GridPane {
             if (!Game.escapeMenuOpen) {
                 VBox escapeMenu = null;
                 try {
-                    escapeMenu = FXMLLoader.load(getClass().getResource("/fxml/EscapeMenu.fxml"));
+                    escapeMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/EscapeMenu.fxml"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

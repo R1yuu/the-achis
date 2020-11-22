@@ -35,7 +35,7 @@ public class Link extends Building {
 
     @Override
     public String getMenuPath() {
-        return "/fxml/Link.fxml";
+        return "/fxml/buildings/Link.fxml";
     }
 
     public LinkDirection linkDirection;

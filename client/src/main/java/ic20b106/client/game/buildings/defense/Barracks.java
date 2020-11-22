@@ -30,6 +30,6 @@ public class Barracks extends Defense {
 
     @Override
     public String getMenuPath() {
-        return "/fxml/Barracks.fxml";
+        return "/fxml/buildings/Barracks.fxml";
     }
 }

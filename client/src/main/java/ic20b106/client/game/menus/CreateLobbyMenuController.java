@@ -13,6 +13,7 @@ import ic20b106.client.util.javafx.GameBoard;
 import ic20b106.client.util.javafx.ZoomableScrollPane;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
@@ -23,6 +24,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +35,7 @@ import java.util.List;
  *
  * Controller Class of CreateGameMenu.fxml
  */
-public class CreateGameMenuController {
+public class CreateLobbyMenuController {
 
 
     /**
@@ -157,9 +159,15 @@ public class CreateGameMenuController {
             e.printStackTrace();
         }
 
+        try {
+            VBox lobbyMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/LobbyMenu.fxml"));
+            Game.primaryPane.getChildren().setAll(lobbyMenu);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
-        Game.primaryPane.getChildren().setAll(zoomableScrollPane);
+        //Game.primaryPane.getChildren().setAll(zoomableScrollPane);
     }
 
     @FXML

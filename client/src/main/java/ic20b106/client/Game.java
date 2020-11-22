@@ -42,7 +42,7 @@ public class Game extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        mainMenu = FXMLLoader.load(getClass().getResource("/fxml/MainMenu.fxml"));
+        mainMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/MainMenu.fxml"));
         AudioManager audioManager = AudioManager.getInstance();
 
         primaryPane.getChildren().setAll(mainMenu, new MediaView(audioManager.getBackgroundMediaPlayer()));

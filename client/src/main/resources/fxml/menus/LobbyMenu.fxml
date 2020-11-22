@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.text.Text?>
+
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ic20b106.client.Lobby" alignment="center"
+      maxWidth="Infinity" maxHeight="Infinity" spacing="10">
+
+    <Button>
+        Close Lobby
+    </Button>
+
+    <GridPane fx:id="playerGridPane" alignment="center" vgap="5" hgap="5">
+        <Label      GridPane.rowIndex="0" GridPane.columnIndex="0"
+                        text="Player Color"/>
+        <Label      GridPane.rowIndex="0" GridPane.columnIndex="1"
+                        text="Start Position"/>
+        <Label      GridPane.rowIndex="0" GridPane.columnIndex="2"
+                        text="Ready?"/>
+
+        <Rectangle  GridPane.rowIndex="1" GridPane.columnIndex="0"
+                        fill="gray" width="20" height="20" arcHeight="5" arcWidth="5"/>
+        <Label      GridPane.rowIndex="1" GridPane.columnIndex="1" />
+        <CheckBox   GridPane.rowIndex="1" GridPane.columnIndex="2" />
+
+        <Rectangle  GridPane.rowIndex="2" GridPane.columnIndex="0"
+                        fill="gray" width="20" height="20" arcHeight="5" arcWidth="5"/>
+        <Label      GridPane.rowIndex="2" GridPane.columnIndex="1" />
+        <CheckBox   GridPane.rowIndex="2" GridPane.columnIndex="2" />
+
+        <Rectangle  GridPane.rowIndex="3" GridPane.columnIndex="0"
+                        fill="gray" width="20" height="20" arcHeight="5" arcWidth="5"/>
+        <Label      GridPane.rowIndex="3" GridPane.columnIndex="1" />
+        <CheckBox   GridPane.rowIndex="3" GridPane.columnIndex="2" />
+
+        <Rectangle  GridPane.rowIndex="4" GridPane.columnIndex="0"
+                        fill="gray" width="20" height="20" arcHeight="5" arcWidth="5"/>
+        <Label      GridPane.rowIndex="4" GridPane.columnIndex="1" />
+        <CheckBox   GridPane.rowIndex="4" GridPane.columnIndex="2" />
+    </GridPane>
+
+    <Button onMouseClicked="#startGame">
+        Start Game
+    </Button>
+</VBox>

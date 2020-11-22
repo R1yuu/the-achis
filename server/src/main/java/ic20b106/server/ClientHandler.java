@@ -4,6 +4,7 @@ import ic20b106.shared.Buildable;
 import ic20b106.shared.ClientCommands;
 import ic20b106.shared.NetworkConstants;
 import ic20b106.shared.PlayerColor;
+import ic20b106.shared.PlayerProfile;
 import ic20b106.shared.PlayerStartPosition;
 import ic20b106.shared.RemoteCommands;
 
@@ -15,9 +16,17 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 import java.util.UUID;
 
 public class ClientHandler extends UnicastRemoteObject implements RemoteCommands {
+
+    private final UUID playerUUID;
+    public ClientCommands clientStub;
+    private Room room;
+    private PlayerColor playerColor;
+    private PlayerStartPosition playerStartPosition;
+    private Boolean isReady = false;
 
     public ClientHandler(Socket socket) throws IOException {
         this.playerUUID = UUID.randomUUID();
@@ -48,7 +57,7 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
     public String createRoom(String roomName, PlayerColor playerColor,
                              PlayerStartPosition playerStartPosition) throws RemoteException {
         this.playerColor = playerColor;
-        this.startPosition = playerStartPosition;
+        this.playerStartPosition = playerStartPosition;
         this.room =
           new Room(this, roomName);
         if (clientStub != null) {
@@ -69,8 +78,8 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
     }
 
     @Override
-    public String showRoom() {
-        return null;
+    public List<PlayerProfile> showRoom() {
+        return this.room.getRoomContent();
     }
 
     @Override
@@ -83,6 +92,18 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
 
     }
 
+    public PlayerColor getPlayerColor() {
+        return this.playerColor;
+    }
+
+    public PlayerStartPosition getPlayerStartPosition() {
+        return this.playerStartPosition;
+    }
+
+    public Boolean isReady() {
+        return this.isReady;
+    }
+
     public void close() {
         try {
             this.clientStub.close();
@@ -92,10 +113,4 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
             e.printStackTrace();
         }
     }
-
-    private final UUID playerUUID;
-    public ClientCommands clientStub;
-    private Room room;
-    private PlayerColor playerColor;
-    private PlayerStartPosition startPosition;
 }

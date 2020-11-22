@@ -2,6 +2,7 @@ package ic20b106.shared;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 public interface RemoteCommands extends Remote {
     void sendClientStub(ClientCommands clientStub) throws RemoteException;
@@ -10,7 +11,7 @@ public interface RemoteCommands extends Remote {
                       PlayerStartPosition playerStartPosition) throws RemoteException;
     String listRooms() throws RemoteException;
     String joinRoom() throws RemoteException;
-    String showRoom() throws RemoteException;
+    List<PlayerProfile> showRoom() throws RemoteException;
     String startRoom() throws RemoteException;
     void placeBuilding(Buildable building) throws RemoteException;
 }

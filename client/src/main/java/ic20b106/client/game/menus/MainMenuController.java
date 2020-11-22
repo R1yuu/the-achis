@@ -35,7 +35,7 @@ public class MainMenuController {
 
     private void newGame(ActionEvent actionEvent) {
         try {
-            VBox createGameMenu = FXMLLoader.load(getClass().getResource("/fxml/CreateGameMenu.fxml"));
+            VBox createGameMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/CreateGameMenu.fxml"));
             Game.primaryPane.getChildren().setAll(createGameMenu);
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,7 +44,7 @@ public class MainMenuController {
 
     private void lobbyList(ActionEvent actionEvent) {
         try {
-            VBox lobbyListMenu = FXMLLoader.load(getClass().getResource("/fxml/LobbyList.fxml"));
+            VBox lobbyListMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/LobbyList.fxml"));
             Game.primaryPane.getChildren().setAll(lobbyListMenu);
         } catch (IOException e) {
             e.printStackTrace();
@@ -53,7 +53,7 @@ public class MainMenuController {
 
     private void options(ActionEvent actionEvent) {
         try {
-            VBox optionsMenu = FXMLLoader.load(getClass().getResource("/fxml/OptionsMenu.fxml"));
+            VBox optionsMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/OptionsMenu.fxml"));
             Game.primaryPane.getChildren().setAll(optionsMenu);
         } catch (IOException e) {
             e.printStackTrace();

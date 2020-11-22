@@ -12,7 +12,7 @@
 <?import javafx.scene.control.Separator?>
 
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="ic20b106.client.game.menus.CreateGameMenuController" alignment="center"
+      fx:controller="ic20b106.client.game.menus.CreateLobbyMenuController" alignment="center"
       maxWidth="Infinity" maxHeight="Infinity" spacing="10" fx:id="mainBox">
 
     <Button onMouseClicked="#backToMainMenu">
@@ -104,6 +104,6 @@
     <Separator maxWidth="150"/>
 
     <Button onMouseClicked="#createLobby">
-        Create Game
+        Create Lobby
     </Button>
 </VBox>

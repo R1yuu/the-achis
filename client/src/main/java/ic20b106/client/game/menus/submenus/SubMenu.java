@@ -39,7 +39,7 @@ public abstract class SubMenu implements Initializable {
         this.selectedCell = selectedCell;
 
         FXMLLoader popupMenuLoader =
-          new FXMLLoader(getClass().getResource("/fxml/PopupMenu.fxml"));
+          new FXMLLoader(getClass().getResource("/fxml/popup/PopupMenu.fxml"));
         popupMenuLoader.setController(this);
         this.popupMenuBox = popupMenuLoader.load();
         this.popupMenuBox.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));

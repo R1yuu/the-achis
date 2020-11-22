@@ -31,7 +31,7 @@ public class LinkSubMenu extends SubMenu {
      * @param selectedCell Cell on which to Build
      */
     public LinkSubMenu(Cell selectedCell) throws IOException {
-        super(selectedCell, "/fxml/LinkSubMenu.fxml");
+        super(selectedCell, "/fxml/popup/LinkSubMenu.fxml");
     }
 
     @Override

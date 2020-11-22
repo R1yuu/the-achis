@@ -3,9 +3,18 @@ package ic20b106.server;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import ic20b106.shared.PlayerColor;
+import ic20b106.shared.PlayerProfile;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.value.ObservableListValue;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
 
 import java.rmi.RemoteException;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 public class Room {
@@ -90,6 +99,21 @@ public class Room {
 
     public ClientHandler getRoomOwner() {
         return roomOwner;
+    }
+
+
+    public List<PlayerProfile> getRoomContent() {
+        List<PlayerProfile> clientProfiles = new LinkedList<>();
+
+        for (ClientHandler client : clients) {
+            clientProfiles.add(
+              new PlayerProfile(
+                client.getPlayerColor(),
+                client.getPlayerStartPosition(),
+                client.isReady()));
+        }
+
+        return clientProfiles;
     }
 
     private static final int MAX_CAPACITY = 4;

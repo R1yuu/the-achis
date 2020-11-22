@@ -25,7 +25,7 @@ public class BuildSubMenu extends SubMenu {
      * @param selectedCell Cell on which to Build
      */
     public BuildSubMenu(Cell selectedCell) throws IOException {
-        super(selectedCell, "/fxml/BuildSubMenu.fxml");
+        super(selectedCell, "/fxml/popup/BuildSubMenu.fxml");
     }
 
     @Override

@@ -33,7 +33,7 @@ public class Core extends Building {
 
     @Override
     public String getMenuPath() {
-        return "/fxml/Core.fxml";
+        return "/fxml/buildings/Core.fxml";
     }
 
     protected HashMap<Material, Integer> storage = new HashMap<>();

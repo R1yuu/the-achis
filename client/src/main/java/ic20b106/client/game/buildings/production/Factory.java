@@ -37,6 +37,6 @@ public class Factory extends Building {
 
     @Override
     public String getMenuPath() {
-        return "/fxml/Factory.fxml";
+        return "/fxml/buildings/Factory.fxml";
     }
 }
