@@ -1,6 +1,7 @@
 package ic20b106.client.game.menus;
 
 import ic20b106.client.Game;
+import ic20b106.client.manager.NetworkManager;
 import ic20b106.client.util.javafx.eventhandler.ButtonSFXEventHandler;
 import ic20b106.client.util.javafx.eventhandler.SFXEventHandler;
 import javafx.application.Platform;
@@ -28,10 +29,23 @@ public class MainMenuController {
             sfxEventHandler.setEventHandler(new ButtonSFXEventHandler<>());
         }
 
-        createGame.setOnAction(new ButtonSFXEventHandler<>(this::newGame));
+        createGame.setOnAction(new ButtonSFXEventHandler<>(this::openLobby));
         lobbyList.setOnAction(new ButtonSFXEventHandler<>(this::lobbyList));
         options.setOnAction(new ButtonSFXEventHandler<>(this::options));
     }
+
+    private void openLobby(ActionEvent actionEvent) {
+        try {
+            NetworkManager.getInstance().serverStub.createRoom();
+            System.out.println("Connection established");
+            Game.roomOwner = true;
+            VBox lobbyMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/LobbyMenu.fxml"));
+            Game.primaryPane.getChildren().setAll(lobbyMenu);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void newGame(ActionEvent actionEvent) {
         try {

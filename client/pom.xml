@@ -108,7 +108,7 @@
                         <phase>package</phase>
                         <goals>
                             <goal>
-                                run
+                                jlink
                             </goal>
                         </goals>
                     </execution>

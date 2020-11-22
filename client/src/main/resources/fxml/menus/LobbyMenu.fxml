@@ -2,22 +2,54 @@
 
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.text.Text?>
-
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.FlowPane?>
+
+<?import javafx.scene.control.TextField?>
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="ic20b106.client.Lobby" alignment="center"
       maxWidth="Infinity" maxHeight="Infinity" spacing="10">
 
-    <Button>
+    <Button fx:id="exitLobbyButton">
         Close Lobby
     </Button>
+
+    <FlowPane alignment="center" hgap="20">
+        <VBox fx:id="roomNameBox" spacing="5" alignment="center">
+            <Label text="Room Name" style="-fx-font-weight: bold" />
+        </VBox>
+        <VBox spacing="5" alignment="center">
+            <Label text="Room Owner" style="-fx-font-weight: bold" />
+            <Label fx:id="roomOwnerLabel" />
+        </VBox>
+        <VBox spacing="5" alignment="center">
+            <Label text="Room UUID" style="-fx-font-weight: bold" />
+            <Label fx:id="roomUUIDLabel" />
+        </VBox>
+    </FlowPane>
+
+    <FlowPane alignment="center" hgap="20">
+        <VBox fx:id="colorBox" spacing="5" alignment="center">
+            <Label text="Your Color"  style="-fx-font-weight: bold" />
+
+        </VBox>
+        <VBox fx:id="positionBox" spacing="5" alignment="center">
+            <Label text="Your Position" style="-fx-font-weight: bold" />
+
+        </VBox>
+        <VBox spacing="5" alignment="center">
+            <Label text="Your Name" style="-fx-font-weight: bold" />
+            <TextField />
+        </VBox>
+    </FlowPane>
+
+
+    <Pane fx:id="box">
+    </Pane>
 
     <GridPane fx:id="playerGridPane" alignment="center" vgap="5" hgap="5">
         <Label      GridPane.rowIndex="0" GridPane.columnIndex="0"
@@ -28,7 +60,7 @@
                         text="Ready?"/>
 
         <Rectangle  GridPane.rowIndex="1" GridPane.columnIndex="0"
-                        fill="gray" width="20" height="20" arcHeight="5" arcWidth="5"/>
+                    fill="gray" width="20" height="20" arcHeight="5" arcWidth="5"/>
         <Label      GridPane.rowIndex="1" GridPane.columnIndex="1" />
         <CheckBox   GridPane.rowIndex="1" GridPane.columnIndex="2" />
 

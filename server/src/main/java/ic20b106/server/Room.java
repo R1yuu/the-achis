@@ -5,11 +5,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import ic20b106.shared.PlayerColor;
 import ic20b106.shared.PlayerProfile;
-import javafx.beans.property.SimpleListProperty;
-import javafx.beans.value.ObservableListValue;
-import javafx.collections.ObservableList;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableView;
 
 import java.rmi.RemoteException;
 import java.util.HashSet;
@@ -23,7 +18,7 @@ public class Room {
         this.id = UUID.randomUUID();
         this.roomName = roomName;
         this.roomOwner = client;
-        this.addClient(client);
+        this.clients.add(client);
         synchronized (rooms) {
             rooms.add(this);
             System.out.println("Added");
@@ -34,7 +29,24 @@ public class Room {
         synchronized (clients) {
             if (clients.size() < MAX_CAPACITY) {
                 clients.add(client);
+                clients.parallelStream().forEach(clientHandler -> {
+                    try {
+                        clientHandler.clientStub.updateLobby();
+                    } catch (RemoteException remoteException) {
+                        remoteException.printStackTrace();
+                    }
+                });
             }
+        }
+    }
+
+    public static void addClient(UUID roomUUID, ClientHandler client) {
+        synchronized (rooms) {
+            rooms.forEach(room -> {
+                if (room.id.equals(roomUUID)) {
+                    room.addClient(client);
+                }
+            });
         }
     }
 
@@ -42,6 +54,13 @@ public class Room {
         synchronized (clients) {
             clientHandler.close();
             clients.remove(clientHandler);
+            clients.parallelStream().forEach(clientHandler1 -> {
+                try {
+                    clientHandler.clientStub.updateLobby();
+                } catch (RemoteException remoteException) {
+                    remoteException.printStackTrace();
+                }
+            });
         }
     }
 
@@ -114,6 +133,19 @@ public class Room {
         }
 
         return clientProfiles;
+    }
+
+    public void updateAvailableColors(PlayerColor freeColor, PlayerColor takenColor) {
+        synchronized (clients) {
+            clients.parallelStream().forEach(
+              clientHandler -> {
+                  try {
+                      clientHandler.clientStub.updateColors(freeColor, takenColor);
+                  } catch (RemoteException remoteException) {
+                      remoteException.printStackTrace();
+                  }
+              });
+        }
     }
 
     private static final int MAX_CAPACITY = 4;

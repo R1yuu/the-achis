@@ -66,6 +66,7 @@ public class Game extends Application {
         gameBoard = null;
         currentlyBuilt = null;
         escapeMenuOpen = false;
+        roomOwner = false;
     }
 
     /**
@@ -107,5 +108,6 @@ public class Game extends Application {
     public static PlayerStartPosition playerStartPosition;
     public static Cell playerCoreCell;
     public static boolean escapeMenuOpen = false;
+    public static boolean roomOwner = false;
 
 }

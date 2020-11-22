@@ -152,7 +152,7 @@ public class CreateLobbyMenuController {
         coreCell.addLinks(LinkDirection.values());
 
         try {
-            NetworkManager.getInstance().serverStub.createRoom("Test", Game.playerColor, Game.playerStartPosition);
+            NetworkManager.getInstance().serverStub.createRoom();
         } catch (RemoteException e) {
             NetworkManager.getInstance().close();
             // TODO: Handle Properly

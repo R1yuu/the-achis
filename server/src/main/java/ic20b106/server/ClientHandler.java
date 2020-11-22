@@ -49,17 +49,18 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
 
     @Override
     public String quitRoom() {
-        this.room.removeClient(this);
+        if (this.playerUUID == this.room.getId()) {
+            this.room.closeRoom();
+        } else {
+            this.room.removeClient(this);
+        }
         return null;
     }
 
     @Override
-    public String createRoom(String roomName, PlayerColor playerColor,
-                             PlayerStartPosition playerStartPosition) throws RemoteException {
-        this.playerColor = playerColor;
-        this.playerStartPosition = playerStartPosition;
+    public String createRoom() throws RemoteException {
         this.room =
-          new Room(this, roomName);
+          new Room(this, "");
         if (clientStub != null) {
             clientStub.sendMessage("Room Created");
         }
@@ -73,7 +74,8 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
     }
 
     @Override
-    public String joinRoom() {
+    public String joinRoom(UUID roomUUID) {
+        Room.addClient(roomUUID, this);
         return null;
     }
 
@@ -89,6 +91,13 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
 
     @Override
     public void placeBuilding(Buildable building) {
+
+    }
+
+    @Override
+    public void updateColor(PlayerColor playerColor) {
+        PlayerColor oldColor = this.playerColor;
+        this.playerColor = playerColor;
 
     }
 
