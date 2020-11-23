@@ -16,7 +16,9 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class ClientHandler extends UnicastRemoteObject implements RemoteCommands {
@@ -69,7 +71,7 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
     }
 
     @Override
-    public String listRooms() {
+    public List<LinkedHashMap<String, String>> listRooms() {
         return Room.getRoomList();
     }
 

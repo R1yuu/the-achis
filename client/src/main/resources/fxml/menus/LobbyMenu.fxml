@@ -10,6 +10,8 @@
 <?import javafx.scene.layout.FlowPane?>
 
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="ic20b106.client.Lobby" alignment="center"
       maxWidth="Infinity" maxHeight="Infinity" spacing="10">
@@ -52,6 +54,12 @@
     </Pane>
 
     <GridPane fx:id="playerGridPane" alignment="center" vgap="5" hgap="5">
+        <columnConstraints>
+            <ColumnConstraints halignment="center" />
+            <ColumnConstraints halignment="center" />
+            <ColumnConstraints halignment="center" />
+        </columnConstraints>
+
         <Label      GridPane.rowIndex="0" GridPane.columnIndex="0"
                         text="Player Color"/>
         <Label      GridPane.rowIndex="0" GridPane.columnIndex="1"

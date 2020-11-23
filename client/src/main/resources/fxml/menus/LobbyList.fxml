@@ -5,14 +5,19 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.GridPane?>
 
+<?import javafx.scene.control.Label?>
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="ic20b106.client.game.menus.LobbyListController" alignment="center"
       maxHeight="Infinity" maxWidth="Infinity" spacing="10">
 
     <Button>Back</Button>
 
-    <ScrollPane prefHeight="500" maxHeight="500" prefWidth="500" fx:id="listPane">
-        <GridPane>
+    <ScrollPane prefHeight="500" maxHeight="500" prefWidth="500" maxWidth="500" fx:id="listPane">
+        <GridPane fx:id="lobbyListPane" alignment="center">
+            <Label GridPane.rowIndex="0" GridPane.columnIndex="0" text="Room Id" />
+            <Label GridPane.rowIndex="0" GridPane.columnIndex="1" text="Room Name" />
+            <Label GridPane.rowIndex="0" GridPane.columnIndex="2" text="Players" />
+            <Label GridPane.rowIndex="0" GridPane.columnIndex="3" text="Join" />
         </GridPane>
     </ScrollPane>
 

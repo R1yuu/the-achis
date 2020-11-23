@@ -7,9 +7,13 @@ import ic20b106.shared.PlayerColor;
 import ic20b106.shared.PlayerProfile;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class Room {
@@ -89,19 +93,19 @@ public class Room {
         return this.id;
     }
 
-    public static String getRoomList() {
-        Gson gson = new Gson();
-        JsonArray jsonRoomArray = new JsonArray();
-        JsonObject jsonRoomObject = new JsonObject();
+    public static List<LinkedHashMap<String, String>> getRoomList() {
+        List<LinkedHashMap<String, String>> roomList = new ArrayList<>();
         synchronized (rooms) {
             rooms.forEach((room) -> {
-                jsonRoomObject.addProperty("id", room.id.toString());
-                jsonRoomObject.addProperty("roomName", room.roomName);
-                jsonRoomObject.addProperty("playerCount", room.clients.size());
-                jsonRoomArray.add(jsonRoomObject);
+                LinkedHashMap<String, String> roomMap = new LinkedHashMap<>();
+                roomMap.put("id", room.id.toString());
+                roomMap.put("roomName", room.roomName);
+                roomMap.put("playerCount", String.valueOf(room.clients.size()));
+
+                roomList.add(roomMap);
             });
         }
-        return gson.toJson(jsonRoomArray);
+        return roomList;
     }
 
     public String getRoomName() {

@@ -70,8 +70,6 @@ public class Lobby {
             }
         }
 
-        playerGridPane.getChildren().parallelStream().forEach((node -> GridPane.setHalignment(node, HPos.CENTER)));
-
         if (Game.roomOwner) {
             exitLobbyButton.setText("Close Lobby");
             exitLobbyButton.setOnAction(actionEven -> {
