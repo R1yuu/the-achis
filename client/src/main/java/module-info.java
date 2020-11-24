@@ -7,6 +7,7 @@ module client {
     requires javafx.fxml;
     requires javafx.media;
     requires com.google.gson;
+    requires hashids;
 
     exports ic20b106.client;
     exports ic20b106.client.game.menus;

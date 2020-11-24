@@ -109,5 +109,4 @@ public class Game extends Application {
     public static Cell playerCoreCell;
     public static boolean escapeMenuOpen = false;
     public static boolean roomOwner = false;
-
 }

@@ -4,8 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import ic20b106.client.Game;
 import ic20b106.client.manager.NetworkManager;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -18,10 +20,13 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+import java.io.IOException;
+import java.net.NetworkInterface;
 import java.rmi.RemoteException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class LobbyListController {
 
@@ -55,7 +60,17 @@ public class LobbyListController {
                     lobbyListPane.add(new Label(value), colIdx, rowIdx);
                     colIdx++;
                 }
-                lobbyListPane.add(new Button("Join"), colIdx, rowIdx);
+                Button joinButton = new Button("Join");
+                joinButton.setOnAction(actionEvent -> {
+                    try {
+                        NetworkManager.getInstance().serverStub.joinRoom(UUID.fromString(roomMap.get("id")));
+                        VBox lobbyMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/LobbyMenu.fxml"));
+                        Game.primaryPane.getChildren().setAll(lobbyMenu);
+                    } catch (IOException remoteException) {
+                        remoteException.printStackTrace();
+                    }
+                });
+                lobbyListPane.add(joinButton, colIdx, rowIdx);
                 rowIdx++;
             }
         } catch (RemoteException e) {

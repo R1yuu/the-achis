@@ -1,11 +1,12 @@
 package ic20b106.client;
 
 import ic20b106.client.manager.NetworkManager;
+import ic20b106.client.util.ByteUtils;
 import ic20b106.shared.PlayerColor;
 import ic20b106.shared.PlayerProfile;
 import ic20b106.shared.PlayerStartPosition;
+import ic20b106.shared.utils.Pair;
 import javafx.fxml.FXML;
-import javafx.geometry.HPos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -85,9 +86,9 @@ public class Lobby {
 
         colorComboBox.setCellFactory(listView -> new ColorLabelCell());
         colorComboBox.setButtonCell(new ColorLabelCell());
-        colorComboBox.buttonCellProperty().addListener((observable, oldValue, newValue) -> {
+        colorComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             try {
-                NetworkManager.getInstance().serverStub.updateColor(PlayerColor.fromString(newValue.getItem()));
+                NetworkManager.getInstance().serverStub.updateColor(PlayerColor.fromString(newValue));
             } catch (RemoteException remoteException) {
                 remoteException.printStackTrace();
             }
@@ -116,16 +117,21 @@ public class Lobby {
                         int colIdx = GridPane.getColumnIndex(child);
                         switch (colIdx) {
                             case 0 -> {
+                                if (playerProfile.id != null) {
+                                    ((Label) child).setText(playerProfile.id);
+                                }
+                            }
+                            case 1 -> {
                                 if (playerProfile.color != null) {
                                     ((Rectangle) child).setFill(playerProfile.color.toColor());
                                 }
                             }
-                            case 1 -> {
+                            case 2 -> {
                                 if (playerProfile.startPosition != null) {
                                     ((Label) child).setText(playerProfile.startPosition.toString());
                                 }
                             }
-                            case 2 -> {
+                            case 3 -> {
                                 if (playerProfile.isReady != null) {
                                     ((CheckBox) child).setSelected(playerProfile.isReady);
                                 }

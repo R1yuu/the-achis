@@ -1,22 +1,26 @@
 package ic20b106.server;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import ic20b106.shared.PlayerColor;
 import ic20b106.shared.PlayerProfile;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Room {
+
+    private static final int MAX_CAPACITY = 4;
+    private static final HashSet<Room> rooms = new HashSet<>();
+    private final HashSet<ClientHandler> clients = new HashSet<>(MAX_CAPACITY);
+    private final ClientHandler roomOwner;
+    private String roomName;
+    private final Object roomNameLock = new Object();
+    private final UUID id;
 
     public Room(ClientHandler client, String roomName) {
         this.id = UUID.randomUUID();
@@ -44,14 +48,17 @@ public class Room {
         }
     }
 
-    public static void addClient(UUID roomUUID, ClientHandler client) {
+    public static Room addClient(UUID roomUUID, ClientHandler client) {
+        AtomicReference<Room> addedToRoom = new AtomicReference<>();
         synchronized (rooms) {
             rooms.forEach(room -> {
                 if (room.id.equals(roomUUID)) {
                     room.addClient(client);
+                    addedToRoom.set(room);
                 }
             });
         }
+        return addedToRoom.get();
     }
 
     public void removeClient(ClientHandler clientHandler) {
@@ -128,12 +135,16 @@ public class Room {
     public List<PlayerProfile> getRoomContent() {
         List<PlayerProfile> clientProfiles = new LinkedList<>();
 
-        for (ClientHandler client : clients) {
-            clientProfiles.add(
-              new PlayerProfile(
-                client.getPlayerColor(),
-                client.getPlayerStartPosition(),
-                client.isReady()));
+        synchronized (clients) {
+            for (ClientHandler client : clients) {
+                clientProfiles.add(
+                  new PlayerProfile(
+                    client.getPlayerHash(),
+                    client.getPlayerId(),
+                    client.getPlayerColor(),
+                    client.getPlayerStartPosition(),
+                    client.isReady()));
+            }
         }
 
         return clientProfiles;
@@ -151,12 +162,4 @@ public class Room {
               });
         }
     }
-
-    private static final int MAX_CAPACITY = 4;
-    private static final HashSet<Room> rooms = new HashSet<>();
-    private final HashSet<ClientHandler> clients = new HashSet<>(MAX_CAPACITY);
-    private final ClientHandler roomOwner;
-    private String roomName;
-    private final Object roomNameLock = new Object();
-    private final UUID id;
 }

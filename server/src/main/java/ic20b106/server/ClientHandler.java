@@ -8,7 +8,9 @@ import ic20b106.shared.PlayerProfile;
 import ic20b106.shared.PlayerStartPosition;
 import ic20b106.shared.RemoteCommands;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.net.Socket;
@@ -18,12 +20,12 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class ClientHandler extends UnicastRemoteObject implements RemoteCommands {
 
-    private final UUID playerUUID;
+    private final String playerHash;
+    private final String playerId;
     public ClientCommands clientStub;
     private Room room;
     private PlayerColor playerColor;
@@ -31,17 +33,21 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
     private Boolean isReady = false;
 
     public ClientHandler(Socket socket) throws IOException {
-        this.playerUUID = UUID.randomUUID();
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        this.playerHash = buffer.readLine();
 
-        Naming.rebind(NetworkConstants.RMI_HOST + ":" + NetworkConstants.RMI_PORT + "/" + this.playerUUID.toString(),
+        Naming.rebind(NetworkConstants.RMI_HOST + ":" + NetworkConstants.RMI_PORT + "/" + this.playerHash,
           this);
 
         PrintStream printer = new PrintStream(socket.getOutputStream(), true);
 
-        printer.println(this.playerUUID.toString());
+        printer.println("RECEIVED");
 
         printer.close();
         socket.close();
+
+        ClientDatabase.getInstance().addClient(this.playerHash);
+        this.playerId = ClientDatabase.getInstance().getId(this.playerHash);
     }
 
     @Override
@@ -51,7 +57,7 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
 
     @Override
     public String quitRoom() {
-        if (this.playerUUID == this.room.getId()) {
+        if (this.room.getRoomOwner() == this) {
             this.room.closeRoom();
         } else {
             this.room.removeClient(this);
@@ -77,7 +83,13 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
 
     @Override
     public String joinRoom(UUID roomUUID) {
-        Room.addClient(roomUUID, this);
+        this.room = Room.addClient(roomUUID, this);
+
+        try {
+            clientStub.updateLobby();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -101,7 +113,18 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
         PlayerColor oldColor = this.playerColor;
         this.playerColor = playerColor;
 
+        try {
+            clientStub.updateLobby();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
+
+    public String getPlayerHash() {
+        return this.playerHash;
+    }
+
+    public String getPlayerId() { return this.playerId; }
 
     public PlayerColor getPlayerColor() {
         return this.playerColor;
@@ -118,7 +141,7 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
     public void close() {
         try {
             this.clientStub.close();
-            Naming.unbind(NetworkConstants.RMI_HOST + ":" + NetworkConstants.RMI_PORT + "/" + this.playerUUID.toString());
+            Naming.unbind(NetworkConstants.RMI_HOST + ":" + NetworkConstants.RMI_PORT + "/" + this.playerHash);
             GameServer.removeClient(this);
         } catch (RemoteException | NotBoundException | MalformedURLException e) {
             e.printStackTrace();

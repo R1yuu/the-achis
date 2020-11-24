@@ -16,7 +16,9 @@ public class GameServer {
 
     public static void main(String[] args) {
         ServerSocket serverSocket = null;
-        Socket socket = null;
+        Socket socket;
+
+        ClientDatabase.getInstance();
 
         try {
             LocateRegistry.createRegistry(NetworkConstants.RMI_PORT);
