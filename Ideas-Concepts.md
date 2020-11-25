@@ -25,3 +25,12 @@ graph TD
 
 ```
 
+### Handle same Hash; Server-side
+
+```mermaid
+graph TD
+	client[[Client generated Hash]]
+	
+	client -->|Send| server[(Server)]
+	server --> action1["Adds '_' + Random UUID"]
+```

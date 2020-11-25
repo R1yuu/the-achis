@@ -76,9 +76,9 @@ public class FileManager {
         try {
             this.optionsFile.createNewFile();
             OptionsDump optionsDump = new OptionsDump();
-            FileWriter optionsFileWriter = new FileWriter(this.optionsFile);
-            optionsFileWriter.write(this.gson.toJson(optionsDump));
-            optionsFileWriter.close();
+            FileWriter fileWriter = new FileWriter(this.optionsFile);
+            fileWriter.write(this.gson.toJson(optionsDump));
+            fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -107,11 +107,9 @@ public class FileManager {
         String hashid = "";
         try {
             if (this.hashidFile.exists()) {
-                FileInputStream inputStream = new FileInputStream(this.hashidFile);
-                byte[] hashidBytes = inputStream.readAllBytes();
-
-                hashid = new String(hashidBytes, StandardCharsets.UTF_8);
-                inputStream.close();
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(this.hashidFile));
+                hashid = bufferedReader.readLine();
+                bufferedReader.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -122,9 +120,9 @@ public class FileManager {
     public void writeHashid(String hashid) {
         try {
             this.hashidFile.createNewFile();
-            FileOutputStream outputStream = new FileOutputStream(this.hashidFile);
-            outputStream.write(hashid.getBytes());
-            outputStream.close();
+            FileWriter fileWriter = new FileWriter(this.hashidFile);
+            fileWriter.write(hashid);
+            fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

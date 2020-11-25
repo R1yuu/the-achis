@@ -1,20 +1,20 @@
-#The Achis
-##Introduction
-##How to play
-##How to build
+# The Achis
+## Introduction
+## How to play
+## How to build
 This is a modular maven project, to build it you need maven:
 https://maven.apache.org/
-###Client
+### Client
 Switch to the "client" module/directory and execute:
 ```shell script
 $ mvn
 ```
-##File Structure
-###Client
+## File Structure
+### Client generated Files
 The client will create ".the_achis/options.json" in your home directory
-###Server
+### Server generated FIles
 The client will create ".the_achis/clients.db" in your home directory
-##External Libraries
+## External Libraries
 * [JavaFx]
   * OpenSource Java GUI client application platform
   * Used for the whole Client-Side Graphical User Interface
