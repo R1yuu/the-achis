@@ -7,6 +7,13 @@
     <groupId>ic20b106</groupId>
     <artifactId>shared</artifactId>
     <version>0.1.0</version>
+
+    <parent>
+        <groupId>ic20b106</groupId>
+        <artifactId>the-achis</artifactId>
+        <version>0.1.0</version>
+    </parent>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>14</maven.compiler.release>

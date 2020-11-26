@@ -20,12 +20,14 @@
         <module name="client" />
         <module name="server" />
         <module name="shared" />
+        <module name="the-achis" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="client" target="14" />
       <module name="server" target="14" />
       <module name="shared" target="14" />
+      <module name="the-achis" target="14" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
