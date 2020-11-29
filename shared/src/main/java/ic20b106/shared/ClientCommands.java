@@ -6,7 +6,7 @@ import java.rmi.RemoteException;
 public interface ClientCommands extends Remote {
     void updateBuilding(Buildable buildable) throws RemoteException;
     void sendMessage(Object message) throws RemoteException;
-    void close() throws RemoteException;
+    void disconnect() throws RemoteException;
     void updateColors(PlayerColor freeColor, PlayerColor takenColor) throws RemoteException;
     void updateLobby() throws RemoteException;
 }

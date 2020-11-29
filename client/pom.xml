@@ -36,10 +36,17 @@
             <artifactId>javafx-media</artifactId>
             <version>${javafx.version}</version>
         </dependency>
+        <!--
         <dependency>
             <groupId>org.hashids</groupId>
             <artifactId>hashids</artifactId>
             <version>1.0.3</version>
+        </dependency>
+        -->
+        <dependency>
+            <groupId>org.hashids</groupId>
+            <artifactId>hashids</artifactId>
+            <version>1.0.3-LOCAL</version>
         </dependency>
     </dependencies>
 
@@ -66,7 +73,7 @@
                 <version>2.5</version>
                 <executions>
                     <execution>
-                        <id>clientClean</id>
+                        <id>clean</id>
                         <phase>initialize</phase>
                         <goals>
                             <goal>clean</goal>
@@ -81,13 +88,25 @@
                 <configuration>
                     <release>${maven.compiler.release}</release>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.2</version>
                 <executions>
                     <execution>
-                        <id>compileToJar</id>
+                        <id>copy-dependencies</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>compile</goal>
+                            <goal>copy-dependencies</goal>
                         </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                            <includeScope>compile</includeScope>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -101,7 +120,6 @@
                     <noHeaderFiles>true</noHeaderFiles>
                     <noManPages>true</noManPages>
                     <jlinkImageName>AchiClient</jlinkImageName>
-                    <jlinkZipName>AchiClientZip</jlinkZipName>
                     <ignoreSigningInformation>true</ignoreSigningInformation>
                     <launcher>the_achis</launcher>
                     <mainClass>client/ic20b106.client.Game</mainClass>
@@ -111,17 +129,11 @@
                         <id>link</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>
-                                run
-                            </goal>
+                            <goal>run</goal>
                         </goals>
                     </execution>
                 </executions>
-
-
             </plugin>
         </plugins>
     </build>
-
-
 </project>

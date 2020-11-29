@@ -3,7 +3,6 @@ package ic20b106.server;
 import ic20b106.shared.NetworkConstants;
 
 import java.io.IOException;
-import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.rmi.registry.LocateRegistry;

@@ -140,7 +140,7 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
 
     public void close() {
         try {
-            this.clientStub.close();
+            this.clientStub.disconnect();
             Naming.unbind(NetworkConstants.RMI_HOST + ":" + NetworkConstants.RMI_PORT + "/" + this.playerHash);
             GameServer.removeClient(this);
         } catch (RemoteException | NotBoundException | MalformedURLException e) {

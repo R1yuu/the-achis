@@ -10,11 +10,13 @@ import java.util.Stack;
 public class AudioManager {
 
     private AudioManager() {
+        /*
         backgroundMediaPlayer = new MediaPlayer(new Media(
           getClass().getResource("/sounds/music/Jeremy_Blake-Powerup!.mp3").toString()));
 
         backgroundMediaPlayer.setVolume(Options.getMusicVolume());
         backgroundMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        */
 
         Thread clipThread = new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
@@ -57,6 +59,6 @@ public class AudioManager {
     private static AudioManager singleInstance;
     public static AudioClip BUTTON_CLICK = new AudioClip(AudioManager.class.getResource("/sounds/sfx/button-click.mp3").toString());
 
-    private final MediaPlayer backgroundMediaPlayer;
+    private final MediaPlayer backgroundMediaPlayer = null;
     private final Stack<AudioClip> clips = new Stack<>();
 }

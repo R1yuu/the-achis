@@ -19,12 +19,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="client" />
         <module name="server" />
+        <module name="hashids" />
         <module name="shared" />
-        <module name="the-achis" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="client" target="14" />
+      <module name="hashids" target="1.6" />
       <module name="server" target="14" />
       <module name="shared" target="14" />
       <module name="the-achis" target="14" />

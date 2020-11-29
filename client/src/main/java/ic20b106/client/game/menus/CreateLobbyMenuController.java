@@ -154,7 +154,7 @@ public class CreateLobbyMenuController {
         try {
             NetworkManager.getInstance().serverStub.createRoom();
         } catch (RemoteException e) {
-            NetworkManager.getInstance().close();
+            NetworkManager.close(false);
             // TODO: Handle Properly
             e.printStackTrace();
         }

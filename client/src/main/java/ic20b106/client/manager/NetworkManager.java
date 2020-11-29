@@ -17,6 +17,7 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class NetworkManager extends UnicastRemoteObject implements ClientCommands, Serializable {
@@ -68,8 +69,8 @@ public class NetworkManager extends UnicastRemoteObject implements ClientCommand
     }
 
     @Override
-    public void close() {
-        singleInstance = null;
+    public void disconnect() {
+        close(true);
     }
 
     public static NetworkManager getInstance() {
@@ -81,6 +82,20 @@ public class NetworkManager extends UnicastRemoteObject implements ClientCommand
             }
         }
         return singleInstance;
+    }
+
+    public static void close(boolean serverInvocation) {
+        if (singleInstance != null) {
+            if (!serverInvocation) {
+                try {
+                    singleInstance.serverStub.quitRoom();
+                } catch (RemoteException remoteException) {
+                    //TODO: Handle If Server is gone
+                    remoteException.printStackTrace();
+                }
+            }
+            singleInstance = null;
+        }
     }
 
     @Override

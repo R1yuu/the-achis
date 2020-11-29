@@ -1,5 +1,6 @@
 package ic20b106.client;
 
+import ic20b106.client.manager.NetworkManager;
 import ic20b106.shared.PlayerColor;
 import ic20b106.shared.PlayerStartPosition;
 import ic20b106.client.game.board.Cell;
@@ -52,10 +53,14 @@ public class Game extends Application {
         primaryStage.setTitle("The Achis");
         primaryStage.setScene(primaryScene);
 
-        primaryStage.setOnCloseRequest(windowEvent -> System.exit(0));
+        // TODO: Correctly End Program on exit
+        primaryStage.setOnCloseRequest(windowEvent -> {
+            System.exit(0);
+            NetworkManager.close(false);
+        });
         primaryStage.show();
 
-        FileManager.getInstance().readOptions();
+        //FileManager.getInstance().readOptions();
     }
 
     public static void resetGame() {
@@ -69,13 +74,17 @@ public class Game extends Application {
         roomOwner = false;
     }
 
+    public void start(String[] args) {
+        launch(args);
+    }
+
     /**
      * Main Method of Program
      *
      * @param args Console Parameters
      */
     public static void main(String[] args) {
-        Application.launch(args);
+        launch(args);
     }
 
 
