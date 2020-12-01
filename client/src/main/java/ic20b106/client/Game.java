@@ -45,8 +45,7 @@ public class Game extends Application {
 
         mainMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/MainMenu.fxml"));
         AudioManager audioManager = AudioManager.getInstance();
-
-        primaryPane.getChildren().setAll(mainMenu, new MediaView(audioManager.getBackgroundMediaPlayer()));
+        primaryPane.getChildren().setAll(mainMenu);
 
         Scene primaryScene = new Scene(primaryPane, 1280, 720);
 
@@ -56,7 +55,7 @@ public class Game extends Application {
         // TODO: Correctly End Program on exit
         primaryStage.setOnCloseRequest(windowEvent -> {
             System.exit(0);
-            NetworkManager.close(false);
+            NetworkManager.getInstance().close();
         });
         primaryStage.show();
 

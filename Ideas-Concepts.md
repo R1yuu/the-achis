@@ -3,15 +3,49 @@ Development file in which I note and think through Concepts of ideas.
 It uses mermaid diagrams which are not supported by Github.
 ## Concepts
 
+### Client-Server Connection Handshake
+
+```mermaid
+sequenceDiagram
+
+participant Client
+participant Server
+
+activate Client
+note left of Client: Generate Hash
+deactivate Client
+Note over Client,Server: Open Socket
+Client->>Server: Player-Hash
+activate Server
+Note right of Server: Check if <br/> Hash taken
+alt Hash Ok
+Note left of Client: Client<br/>Stops
+    Server-->>Client: TAKEN
+else Hash Taken
+    Server-->>Client: OK
+end
+Note right of Server: Open RMI
+Server->>Client: OPEN
+deactivate Server
+Client-->Server: RMI Communication
+
+
+
+```
+
+
+
+
+
 ### User Unique Ids
 
 ```mermaid
 graph TD
 	playerHash[Unique Player Hash]
 	macUUID[Mac UUID]
-	macUUIDNote>UUID from first readable Mac Address]
+	macUUIDNote>UUID from first <br/> readable Mac Address]
 	rdmLong[Random Long]
-	playerHashFile[("account.achiid (Binary File)")]
+	playerHashFile[("account.achiid<br/>(Binary File)")]
 	genHash([Generate Hash])
 	
 	macUUID -.-> playerHash
@@ -26,7 +60,7 @@ graph TD
 
 ```
 
-### Handle same Hash; Server-side
+### ~~Handle same Hash; Server-side~~
 
 ```mermaid
 graph TD

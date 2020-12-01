@@ -9,6 +9,7 @@ import ic20b106.shared.PlayerStartPosition;
 import ic20b106.shared.RemoteCommands;
 
 import java.io.BufferedReader;
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -22,7 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class ClientHandler extends UnicastRemoteObject implements RemoteCommands {
+public class ClientHandler extends UnicastRemoteObject implements RemoteCommands, Closeable, AutoCloseable {
 
     private final String playerHash;
     private final String playerId;
@@ -34,14 +35,20 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
 
     public ClientHandler(Socket socket) throws IOException {
         BufferedReader buffer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        PrintStream printer = new PrintStream(socket.getOutputStream(), true);
         this.playerHash = buffer.readLine();
+
+        if (!GameServer.contains(this)) {
+            printer.println("OK");
+            GameServer.addClient(this);
+        } else {
+            printer.println("TAKEN");
+        }
 
         Naming.rebind(NetworkConstants.RMI_HOST + ":" + NetworkConstants.RMI_PORT + "/" + this.playerHash,
           this);
 
-        PrintStream printer = new PrintStream(socket.getOutputStream(), true);
-
-        printer.println("RECEIVED");
+        printer.println("OPEN");
 
         printer.close();
         socket.close();

@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.ExportException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * @author t
@@ -16,7 +18,7 @@ import java.util.ArrayList;
 public class GameServer {
 
     public static void main(String[] args) {
-        ServerSocket serverSocket = null;
+        ServerSocket serverSocket;
         Socket socket;
 
         ClientDatabase.getInstance();
@@ -55,11 +57,9 @@ public class GameServer {
         //noinspection InfiniteLoopStatement
         while (true) {
             try {
-                assert serverSocket != null;
                 socket = serverSocket.accept();
 
-                // new thread for a client
-                addClient(new ClientHandler(socket));
+                new ClientHandler(socket);
             } catch (IOException e) {
                 System.out.println("I/O error: " + e);
                 e.printStackTrace();
@@ -68,22 +68,22 @@ public class GameServer {
     }
 
     public static void addClient(ClientHandler clientHandler) {
-        synchronized (clientHandlers) {
-            clientHandlers.add(clientHandler);
+        synchronized (clients) {
+            clients.putIfAbsent(clientHandler.getPlayerHash(), clientHandler);
         }
     }
 
     public static void removeClient(ClientHandler clientHandler) {
-        synchronized (clientHandlers) {
-            clientHandlers.remove(clientHandler);
+        synchronized (clients) {
+            clients.remove(clientHandler.getPlayerHash());
         }
     }
 
-    public static ClientHandler getClient(int idx) {
-        synchronized (clientHandlers) {
-            return clientHandlers.get(idx);
+    public static boolean contains(ClientHandler clientHandler) {
+        synchronized (clients) {
+            return clients.containsKey(clientHandler.getPlayerHash());
         }
     }
 
-    private static final ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
+    private static final HashMap<String, ClientHandler> clients = new HashMap<>();
 }

@@ -5,14 +5,17 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.media.AudioClip;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.Clip;
+
 public class SFXEventHandler<T extends Event> implements EventHandler<T> {
 
-    public SFXEventHandler(AudioClip sfx) {
-        this(sfx, null);
+    public SFXEventHandler(AudioInputStream sfxInputStream) {
+        this(sfxInputStream, null);
     }
 
-    public SFXEventHandler(AudioClip sfx, EventHandler<T> eventHandler) {
-        this.sfx = sfx;
+    public SFXEventHandler(AudioInputStream sfxInputStream, EventHandler<T> eventHandler) {
+        this.sfxInputStream = sfxInputStream;
         this.eventHandler = eventHandler;
     }
 
@@ -24,22 +27,22 @@ public class SFXEventHandler<T extends Event> implements EventHandler<T> {
         this.eventHandler = eventHandler;
     }
 
-    public AudioClip getSfx() {
-        return this.sfx;
+    public AudioInputStream getSfx() {
+        return this.sfxInputStream;
     }
 
-    public void setSfx(AudioClip sfx) {
-        this.sfx = sfx;
+    public void setSfx(AudioInputStream sfx) {
+        this.sfxInputStream = sfx;
     }
 
     @Override
     public void handle(T event) {
-        AudioManager.getInstance().playClip(sfx);
+        AudioManager.getInstance().playClip(sfxInputStream);
         if (eventHandler != null) {
             eventHandler.handle(event);
         }
     }
 
     private EventHandler<T> eventHandler;
-    private AudioClip sfx;
+    private AudioInputStream sfxInputStream;
 }

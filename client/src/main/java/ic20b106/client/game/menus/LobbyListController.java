@@ -74,7 +74,7 @@ public class LobbyListController {
                 rowIdx++;
             }
         } catch (RemoteException e) {
-            NetworkManager.close(false);
+            NetworkManager.getInstance().close();
 
             e.printStackTrace();
 

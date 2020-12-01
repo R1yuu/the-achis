@@ -8,6 +8,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 
+import javax.sound.sampled.Control;
+import javax.sound.sampled.FloatControl;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -50,9 +52,11 @@ public class Options implements Initializable, Serializable {
     public static void setMusicEnabled(boolean musicEnabled) {
         Options.musicEnabled.set(musicEnabled);
         if (musicEnabled) {
-            AudioManager.getInstance().getBackgroundMediaPlayer().play();
+            AudioManager.getInstance().getBackgroundBigClip().start();
+            //AudioManager.getInstance().getBackgroundMediaPlayer().play();
         } else {
-            AudioManager.getInstance().getBackgroundMediaPlayer().stop();
+            AudioManager.getInstance().getBackgroundBigClip().stop();
+            //AudioManager.getInstance().getBackgroundMediaPlayer().stop();
         }
     }
 
@@ -63,7 +67,15 @@ public class Options implements Initializable, Serializable {
     public static void setMusicVolume(int musicVolume) {
         if (musicVolume >= 0 && musicVolume <= 100) {
             Options.musicVolume.set(musicVolume);
-            AudioManager.getInstance().getBackgroundMediaPlayer().setVolume((double) musicVolume / 100);
+
+            FloatControl gainControl = (FloatControl) AudioManager.getInstance().getBackgroundBigClip()
+              .getControl(FloatControl.Type.MASTER_GAIN);
+            float range = gainControl.getMaximum() - gainControl.getMinimum();
+            float gain = (range * ((float) musicVolume / 100)) + gainControl.getMinimum();
+            gainControl.setValue(gain);
+
+            //AudioManager.getInstance().getBackgroundBigClip().
+            //AudioManager.getInstance().getBackgroundMediaPlayer().setVolume((double) musicVolume / 100);
         }
     }
 

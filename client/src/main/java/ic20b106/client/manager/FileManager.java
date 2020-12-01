@@ -23,6 +23,7 @@ import java.io.OutputStreamWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
@@ -58,6 +59,7 @@ public class FileManager {
           "/.the_achis/options.json");
         this.hashidFile = new File(System.getProperty("user.home").replace("\\", "/") +
           "/.the_achis/account.achiid");
+
 
         File externalSafeFolder = this.optionsFile.getParentFile();
         if (!externalSafeFolder.exists() && !externalSafeFolder.mkdirs()) {
@@ -131,6 +133,5 @@ public class FileManager {
     private static FileManager singleInstance;
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private final File optionsFile;
-    // TODO: Hash in OptionsFile
     private final File hashidFile;
 }

@@ -43,7 +43,7 @@ The client will create following files in your home directory:
 The client will create following files in your home directory:
 1. ".the_achis/clients.db"
    * Contains client related data as sqlite database
-## External Libraries
+## External Libraries/Classes
 * [JavaFx]
   * OpenSource Java GUI client application platform
   * Used for the whole Client-Side Graphical User Interface
@@ -53,8 +53,12 @@ The client will create following files in your home directory:
 * [sqlite-jdbc]
   * Library to create and access [SQLite] Databases in Java
   * Used to save anonymous User-Data (like blocked users) on the Server
+* [BigClip]
+  * Class from Stackoverflow used to load Big Audio Files
+  * client/ic20b106.client.util.audio.BigClip
 
 [JavaFx]: https://openjfx.io/
 [gson]: https://github.com/google/gson
 [sqlite-jdbc]: https://github.com/xerial/sqlite-jdbc
 [SQLite]: https://www.sqlite.org/index.html
+[BigClip]: https://stackoverflow.com/a/9470886
