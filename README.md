@@ -56,9 +56,13 @@ The client will create following files in your home directory:
 * [BigClip]
   * Class from Stackoverflow used to load Big Audio Files
   * client/ic20b106.client.util.audio.BigClip
+* [astar algorithm]
+  * Implementation of the A* Algorithm from the Baeldung Tutorial
+  * client/ic20b106.client.game.astar
 
 [JavaFx]: https://openjfx.io/
 [gson]: https://github.com/google/gson
 [sqlite-jdbc]: https://github.com/xerial/sqlite-jdbc
 [SQLite]: https://www.sqlite.org/index.html
 [BigClip]: https://stackoverflow.com/a/9470886
+[astar algorithm]: https://www.baeldung.com/java-a-star-pathfinding

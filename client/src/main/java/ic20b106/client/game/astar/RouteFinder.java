@@ -8,17 +8,38 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.stream.Collectors;
 
+/**
+ * @author Graham Cox
+ * @version Last modified: October 3. 2020
+ * https://www.baeldung.com/java-a-star-pathfinding
+ *
+ * @param <T> Nodes that build the Graph
+ */
 public class RouteFinder<T extends GraphNode> {
     private final Graph<T> graph;
     private final Scorer<T> nextNodeScorer;
     private final Scorer<T> targetScorer;
 
+    /**
+     * Constructor
+     *
+     * @param graph Graph to use astar on
+     * @param nextNodeScorer Scorer of the next Node
+     * @param targetScorer Scorer of the target Node
+     */
     public RouteFinder(Graph<T> graph, Scorer<T> nextNodeScorer, Scorer<T> targetScorer) {
         this.graph = graph;
         this.nextNodeScorer = nextNodeScorer;
         this.targetScorer = targetScorer;
     }
 
+    /**
+     * Route Finder
+     *
+     * @param from Start Node
+     * @param to End Node
+     * @return List of Nodes with the shortest connection from Start to End
+     */
     public List<T> findRoute(T from, T to) {
         Map<T, RouteNode<T>> allNodes = new HashMap<>();
         Queue<RouteNode<T>> openSet = new PriorityQueue<>();

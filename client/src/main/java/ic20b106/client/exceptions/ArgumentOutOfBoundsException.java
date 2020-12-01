@@ -16,6 +16,4 @@ public class ArgumentOutOfBoundsException extends IllegalArgumentException {
     public ArgumentOutOfBoundsException(String msg) {
         super(msg);
     }
-
-    public String msg;
 }
