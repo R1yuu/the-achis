@@ -14,14 +14,36 @@ import javafx.util.Duration;
 
 import java.util.List;
 
+/**
+ * @author Andre Schneider
+ * @version 1.0
+ *
+ * Transporters carry a material from Node Node to another
+ */
 public class Transporter implements Runnable {
 
+    private final Cell from;
+    private final Cell to;
+    private final Material cargo;
+
+    /**
+     * Constructor
+     *
+     * @param from Start Node
+     * @param to End Node
+     * @param cargo Carried Material
+     */
     public Transporter(Cell from, Cell to, Material cargo) {
         this.from = from;
         this.to = to;
         this.cargo = cargo;
     }
 
+    /**
+     * Thread Method
+     * Calculates shortest Route using A*
+     * Moves the Transporter accordingly
+     */
     @Override
     public void run() {
         List<Cell> transportPath = Game.gameBoard.findRoute(from , to);
@@ -57,11 +79,12 @@ public class Transporter implements Runnable {
         pt.play();
     }
 
+    /**
+     * Getter
+     *
+     * @return Retungs Material cargo
+     */
     public Material getCargo() {
         return cargo;
     }
-
-    private final Cell from;
-    private final Cell to;
-    private final Material cargo;
 }

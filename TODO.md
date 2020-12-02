@@ -13,7 +13,7 @@
         * [X] defense
         * [X] link
         * [X] production
-      * [ ] entities
+      * [X] entities
       * [ ] menus
         * [ ] submenus
           * [ ] buildings
