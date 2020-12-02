@@ -1,12 +1,13 @@
 # General
 * [ ] Use Closeable and AutoCloseable
 * [ ] Use try-with-resource Blocks
+* [ ] Terrain (more complicated Travel Calculation)
 * [ ] JavaDoc
   * [ ] client
     * [X] exceptions
     * [ ] game
       * [X] astar
-      * [ ] board
+      * [X] board
       * [ ] buildings
         * [X] core
         * [ ] defense

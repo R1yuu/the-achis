@@ -10,6 +10,9 @@ import ic20b106.client.exceptions.ArgumentOutOfBoundsException;
  */
 public class Terrain {
 
+    private double fertility;
+    private double speed;
+
     /**
      * Default Constructor
      */
@@ -78,7 +81,4 @@ public class Terrain {
         }
         this.speed = speed;
     }
-
-    private double fertility;
-    private double speed;
 }
