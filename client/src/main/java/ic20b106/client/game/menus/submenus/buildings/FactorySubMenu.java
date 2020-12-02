@@ -10,12 +10,34 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * @author Andre Schneider
+ * @version 1.0
+ *
+ * Submenu of the Factory Building
+ */
 public class FactorySubMenu extends BuildingSubMenu {
 
+    @FXML
+    private HBox factoryMenu;
+
+    /**
+     * Constructor
+     *
+     * @param selectedCell Clicked Cell
+     * @param building Corresponding Building
+     * @throws IOException Thrown if fxml file couldn't be found
+     */
     public FactorySubMenu(Cell selectedCell, Building building) throws IOException {
         super(selectedCell, building);
     }
 
+    /**
+     * FXML initialize Method
+     *
+     * @param location FXML file location
+     * @param resources FXML Node Resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
@@ -26,7 +48,4 @@ public class FactorySubMenu extends BuildingSubMenu {
 
         factoryMenu.getChildren().add(destroyBox);
     }
-
-    @FXML
-    private HBox factoryMenu;
 }

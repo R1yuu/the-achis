@@ -10,17 +10,33 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * @author Andre Schneider
+ * @version 1.0
+ *
+ * The Popup Submenu of a Building
+ */
 public abstract class BuildingSubMenu extends SubMenu {
+
+    protected VBox destroyBox;
 
     /**
      * Constructor
      *
-     * @param selectedCell Cell on which to Build
+     * @param selectedCell Clicked Cell
+     * @param building Corresponding Building
+     * @throws IOException Thrown if fxml file couldn't be found
      */
     public BuildingSubMenu(Cell selectedCell, Building building) throws IOException {
         super(selectedCell, building.getMenuPath());
     }
 
+    /**
+     * FXML initialize Method
+     *
+     * @param location FXML file location
+     * @param resources FXML Node Resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
@@ -34,6 +50,4 @@ public abstract class BuildingSubMenu extends SubMenu {
         destroyBox = new VBox(destroyButton);
         destroyBox.setStyle("-fx-alignment: center");
     }
-
-    protected VBox destroyBox;
 }

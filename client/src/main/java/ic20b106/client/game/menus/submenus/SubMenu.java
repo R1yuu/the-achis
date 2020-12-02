@@ -24,8 +24,35 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * @author Andre Schneider
+ * @version 1.0
+ *
+ * Popup Submenu
+ */
 public abstract class SubMenu implements Initializable {
 
+    public Cell selectedCell;
+
+    @FXML
+    protected VBox popupMenuBox;
+
+    @FXML
+    protected HBox submenuBox;
+
+    @FXML
+    protected VBox buttonBox;
+
+    @FXML
+    private DragBox dragBox;
+
+    /**
+     * Constructor
+     *
+     * @param selectedCell Cell to open SubMenu for
+     * @param subMenuPath Path of the underlying opened SubMenu
+     * @throws IOException Thrown if fxml file couldn't be found
+     */
     protected SubMenu(Cell selectedCell, String subMenuPath) throws IOException {
 
         if (Game.activeSubMenu != null) {
@@ -57,6 +84,12 @@ public abstract class SubMenu implements Initializable {
         Game.primaryPane.getChildren().add(this.popupMenuBox);
     }
 
+    /**
+     * FXML initialize Method
+     *
+     * @param location FXML file location
+     * @param resources FXML Node Resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.popupMenuBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
@@ -65,6 +98,11 @@ public abstract class SubMenu implements Initializable {
         this.dragBox.setDraggable(this.popupMenuBox);
     }
 
+    /**
+     * Resets the SubMenu
+     *
+     * @throws IOException Thrown if fxml file couldn't be found
+     */
     @FXML
     private void reset() throws IOException {
         Game.activeSubMenu = new BuildSubMenu(selectedCell);
@@ -72,9 +110,10 @@ public abstract class SubMenu implements Initializable {
     }
 
     /**
-     * Closes and Removes Build Menu
+     * Closes and removes if neccessary current SubMenu and Building
+     *
+     * @param removeCurrentlyBuilt boolean if Building should be removed
      */
-
     public void close(boolean removeCurrentlyBuilt) {
         if (removeCurrentlyBuilt) {
             removeCurrentlyBuilt();
@@ -84,29 +123,21 @@ public abstract class SubMenu implements Initializable {
         Game.primaryPane.setCursor(Cursor.DEFAULT);
     }
 
+    /**
+     * Default Close method
+     */
     @FXML
     public void close() {
         close(true);
     }
 
+    /**
+     * Removes the currently Built Building
+     */
     private void removeCurrentlyBuilt() {
         if (Game.currentlyBuilt != null) {
             selectedCell.removeBuilding();
             Game.currentlyBuilt = null;
         }
     }
-
-    public Cell selectedCell;
-
-    @FXML
-    protected VBox popupMenuBox;
-
-    @FXML
-    protected HBox submenuBox;
-
-    @FXML
-    protected VBox buttonBox;
-
-    @FXML
-    private DragBox dragBox;
 }

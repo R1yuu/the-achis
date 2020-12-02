@@ -15,8 +15,8 @@
         * [X] production
       * [X] entities
       * [ ] menus
-        * [ ] submenus
-          * [ ] buildings
+        * [X] submenus
+          * [X] buildings
     * [ ] manager
     * [ ] utils
       * [ ] audio

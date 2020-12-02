@@ -10,9 +10,11 @@ module client {
     requires hashids;
 
     exports ic20b106.client;
+    exports ic20b106.client.game.board;
     exports ic20b106.client.game.menus;
     exports ic20b106.client.game.menus.submenus;
     exports ic20b106.client.game.menus.submenus.buildings;
+    exports ic20b106.client.game.buildings;
 
     opens ic20b106.client                               to javafx.fxml;
     opens ic20b106.client.game.menus                    to javafx.fxml;

@@ -11,12 +11,34 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * @author Andre Schneider
+ * @version 1.0
+ *
+ * Submenu of the Core Building
+ */
 public class CoreSubMenu extends BuildingSubMenu {
 
+    @FXML
+    private AnchorPane coreMenu;
+
+    /**
+     * Constructor
+     *
+     * @param selectedCell Clicked Cell
+     * @param building Corresponding Building
+     * @throws IOException Thrown if fxml file couldn't be found
+     */
     public CoreSubMenu(Cell selectedCell, Building building) throws IOException {
         super(selectedCell, building);
     }
 
+    /**
+     * FXML initialize Method
+     *
+     * @param location FXML file location
+     * @param resources FXML Node Resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
@@ -27,17 +49,13 @@ public class CoreSubMenu extends BuildingSubMenu {
 
         coreMenu.getChildren().add(destroyBox);
 
-        String output = "";
         for (String key : Game.gameBoard.links.keySet()) {
-            output = key + ": [";
+            StringBuilder output = new StringBuilder(key + ": [");
             for (String value : Game.gameBoard.links.get(key)) {
-                output += value + ", ";
+                output.append(value).append(", ");
             }
-            output += "]";
+            output.append("]");
             System.out.println(output);
         }
     }
-
-    @FXML
-    private AnchorPane coreMenu;
 }

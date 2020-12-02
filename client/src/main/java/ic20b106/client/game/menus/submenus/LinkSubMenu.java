@@ -21,19 +21,49 @@ import java.util.Set;
  * @author Andre Schneider
  * @version 1.0
  *
- * Contains the Current BuildMenu and Cell
+ * Submenu of Links
  */
 public class LinkSubMenu extends SubMenu {
+
+    private Pane[] buttonPanes = new Pane[6];
+
+    @FXML
+    private VBox chooseLinkDirBox;
+
+    @FXML
+    private Pane topLeftPane;
+
+    @FXML
+    private Pane topRightPane;
+
+    @FXML
+    private Pane leftPane;
+
+    @FXML
+    private Pane rightPane;
+
+    @FXML
+    private Pane bottomLeftPane;
+
+    @FXML
+    private Pane bottomRightPane;
 
     /**
      * Constructor
      *
      * @param selectedCell Cell on which to Build
+     * @throws IOException Thrown if fxml file couldn't be found
      */
     public LinkSubMenu(Cell selectedCell) throws IOException {
         super(selectedCell, "/fxml/popup/LinkSubMenu.fxml");
     }
 
+    /**
+     * FXML initialize Method
+     *
+     * @param location FXML file location
+     * @param resources FXML Node Resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
@@ -82,6 +112,11 @@ public class LinkSubMenu extends SubMenu {
         buttonBox.getChildren().add(destroyButton);
     }
 
+    /**
+     * Creates a Link with its Texture
+     *
+     * @param mouseEvent Activated Mouse Event
+     */
     private void createLink(MouseEvent mouseEvent) {
         Button clickedButton = (Button)mouseEvent.getSource();
         LinkDirection linkDirection  = LinkDirection.stringToLinkDirection(clickedButton.getText());
@@ -98,6 +133,9 @@ public class LinkSubMenu extends SubMenu {
         Game.activeSubMenu.close(false);
     }
 
+    /**
+     * Removes all the Link Building Buttons
+     */
     private void clearButtons() {
         for (Pane buttonPane : buttonPanes) {
             if (buttonPane != null) {
@@ -105,28 +143,5 @@ public class LinkSubMenu extends SubMenu {
             }
         }
     }
-
-    private Pane[] buttonPanes = new Pane[6];
-
-    @FXML
-    private VBox chooseLinkDirBox;
-
-    @FXML
-    private Pane topLeftPane;
-
-    @FXML
-    private Pane topRightPane;
-
-    @FXML
-    private Pane leftPane;
-
-    @FXML
-    private Pane rightPane;
-
-    @FXML
-    private Pane bottomLeftPane;
-
-    @FXML
-    private Pane bottomRightPane;
 
 }

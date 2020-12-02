@@ -19,6 +19,9 @@ import java.util.ResourceBundle;
  */
 public class BuildSubMenu extends SubMenu {
 
+    @FXML
+    private Button buildFactoryButton;
+
     /**
      * Constructor
      *
@@ -28,11 +31,23 @@ public class BuildSubMenu extends SubMenu {
         super(selectedCell, "/fxml/popup/BuildSubMenu.fxml");
     }
 
+    /**
+     * FXML initialize Method
+     *
+     * @param location FXML file location
+     * @param resources FXML Node Resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
     }
 
+    /**
+     * Places corresponding Building
+     *
+     * @param mouseEvent Event Triggered by a mouse action
+     * @throws IOException Thrown if fxml file couldn't be found
+     */
     @FXML
     private void placeBuilding(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getSource().equals(buildFactoryButton)) {
@@ -42,11 +57,13 @@ public class BuildSubMenu extends SubMenu {
         }
     }
 
+    /**
+     * Opens the corresponding Submenu
+     *
+     * @throws IOException Thrown if fxml file couldn't be found
+     */
     @FXML
     private void openLinkSubMenu() throws IOException {
         Game.activeSubMenu = new LinkSubMenu(selectedCell);
     }
-
-    @FXML
-    private Button buildFactoryButton;
 }
