@@ -8,7 +8,7 @@
     * [ ] game
       * [X] astar
       * [X] board
-      * [ ] buildings
+      * [X] buildings
         * [X] core
         * [X] defense
         * [X] link

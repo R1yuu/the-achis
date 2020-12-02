@@ -20,6 +20,17 @@ import java.util.HashMap;
  */
 public abstract class Building implements Buildable {
 
+    protected Cell cell;
+    protected HashMap<Material, Integer> buildingCost;
+    protected ImageView texture;
+    protected boolean isConstructionSite;
+    private final ImageView constructionTexture;
+    private static final Image constructionImage;
+    static {
+        constructionImage = new Image(Building.class.getResource("/images/buildings/construction-site.png").toString(),
+          200, 0, true, false, true);
+    }
+
     /**
      * Constructor
      * Sets the View Texture of a Building
@@ -87,18 +98,18 @@ public abstract class Building implements Buildable {
         }
     }
 
+    /**
+     * Getter
+     *
+     * @return Returns Path of corresponding fxml file
+     */
     public abstract String getMenuPath();
 
+    /**
+     * Getter
+     *
+     * @return Gets Submenu Node
+     * @throws IOException Thrown if fxml file couldn't be found
+     */
     public abstract BuildingSubMenu getBuildingSubMenu() throws IOException;
-
-    protected Cell cell;
-    protected HashMap<Material, Integer> buildingCost;
-    protected ImageView texture;
-    protected boolean isConstructionSite;
-    private final ImageView constructionTexture;
-    private static final Image constructionImage;
-    static {
-        constructionImage = new Image(Building.class.getResource("/images/buildings/construction-site.png").toString(),
-            200, 0, true, false, true);
-    }
 }
