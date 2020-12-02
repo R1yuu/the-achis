@@ -15,6 +15,8 @@ import java.io.IOException;
  */
 public class Link extends Building {
 
+    public LinkDirection linkDirection;
+
     /**
      * Constructor
      *
@@ -28,15 +30,24 @@ public class Link extends Building {
         this.linkDirection = linkDirection;
     }
 
+    /**
+     * Getter
+     *
+     * @return Gets Submenu Node
+     * @throws IOException Thrown if fxml file couldn't be found
+     */
     @Override
     public BuildingSubMenu getBuildingSubMenu() throws IOException {
         return new LinkSubMenu(this.cell, this);
     }
 
+    /**
+     * Getter
+     *
+     * @return Returns Path of corresponding fxml file
+     */
     @Override
     public String getMenuPath() {
         return "/fxml/buildings/Link.fxml";
     }
-
-    public LinkDirection linkDirection;
 }

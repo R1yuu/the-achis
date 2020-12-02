@@ -30,18 +30,29 @@ public enum LinkDirection {
         return opposite;
     }
 
+    /**
+     * Creates a LinkDirection out of a String
+     *
+     * @param str Direction String
+     * @return LinkDirection of the corresponding String
+     */
     public static LinkDirection stringToLinkDirection(String str) {
-        return switch (str) {
-            case "Top Left", "Top\nLeft", "Top-Left" -> TOP_LEFT;
-            case "Top Right", "Top\nRight", "Top-Right" -> TOP_RIGHT;
-            case "Right" -> RIGHT;
-            case "Bottom Right", "Bottom\nRight", "Bottom-Right" -> BOTTOM_RIGHT;
-            case "Bottom Left", "Bottom\nLeft", "Bottom-Left" -> BOTTOM_LEFT;
-            case "Left" -> LEFT;
+        return switch (str.toLowerCase()) {
+            case "top left", "top\nleft", "top-left" -> TOP_LEFT;
+            case "top right", "top\nright", "top-right" -> TOP_RIGHT;
+            case "right" -> RIGHT;
+            case "bottom right", "bottom\nright", "Bottom-right" -> BOTTOM_RIGHT;
+            case "bottom left", "bottom\nleft", "Bottom-left" -> BOTTOM_LEFT;
+            case "left" -> LEFT;
             default -> null;
         };
     }
 
+    /**
+     * toString
+     *
+     * @return String to corresponding Direction
+     */
     @Override
     public String toString() {
         String res = "";

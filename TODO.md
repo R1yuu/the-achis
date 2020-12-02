@@ -11,7 +11,7 @@
       * [ ] buildings
         * [X] core
         * [X] defense
-        * [ ] link
+        * [X] link
         * [ ] production
       * [ ] entities
       * [ ] menus
