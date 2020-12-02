@@ -8,7 +8,7 @@
       * [X] astar
       * [ ] board
       * [ ] buildings
-        * [ ] core
+        * [X] core
         * [ ] defense
         * [ ] link
         * [ ] production

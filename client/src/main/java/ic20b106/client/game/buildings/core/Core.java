@@ -18,6 +18,14 @@ import java.util.HashMap;
  */
 public class Core extends Building {
 
+    protected HashMap<Material, Integer> storage;
+
+    /**
+     * Constructor
+     *
+     * @param cell Cell the Core is placed on
+     * @param storage Storage content of the Core
+     */
     public Core(Cell cell, HashMap<Material, Integer> storage) {
         super("/images/buildings/core2.png",
           null, cell);
@@ -26,15 +34,24 @@ public class Core extends Building {
         this.isConstructionSite = false;
     }
 
+    /**
+     * Getter
+     *
+     * @return Gets Submenu Node
+     * @throws IOException Thrown if fxml file couldn't be found
+     */
     @Override
     public BuildingSubMenu getBuildingSubMenu() throws IOException {
         return new CoreSubMenu(this.cell, this);
     }
 
+    /**
+     * Getter
+     *
+     * @return Returns Path of corresponding fxml file
+     */
     @Override
     public String getMenuPath() {
         return "/fxml/buildings/Core.fxml";
     }
-
-    protected HashMap<Material, Integer> storage = new HashMap<>();
 }
