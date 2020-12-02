@@ -8,8 +8,22 @@ import javafx.scene.paint.Color;
 
 import java.util.HashMap;
 
+/**
+ * @author Andre Schneider
+ * @version 1.0
+ *
+ * Defensive Buildings allow combat and extend a players area
+ */
 public abstract class Defense extends Building {
 
+    /**
+     * Constructor
+     *
+     * @param texturePath Path to the texture of this building
+     * @param buildingCost Material cost to build the building
+     * @param cell Cell the building is placed
+     * @param area Area to extend
+     */
     protected Defense(String texturePath, HashMap<Material, Integer> buildingCost, Cell cell, int area) {
         super(texturePath, buildingCost, cell);
         cell.extendArea(Color.LIGHTCYAN, area);

@@ -8,12 +8,18 @@ import ic20b106.client.game.menus.submenus.buildings.CoreSubMenu;
 import java.io.IOException;
 import java.util.HashMap;
 
+/**
+ * @author Andre Schneider
+ * @version 1.0
+ *
+ * Barracks are the smallest defensive building
+ */
 public class Barracks extends Defense {
 
     /**
      * Constructor
-     * Sets the View Texture of a Building
      *
+     * @param cell Cell on which the Barracks are placed
      */
     protected Barracks(Cell cell) {
         super("/images/buildings/core.png",
@@ -23,11 +29,22 @@ public class Barracks extends Defense {
           }}, cell, 2);
     }
 
+    /**
+     * Getter
+     *
+     * @return Gets Submenu Node
+     * @throws IOException Thrown if fxml file couldn't be found
+     */
     @Override
     public BuildingSubMenu getBuildingSubMenu() throws IOException {
         return new CoreSubMenu(this.cell, this);
     }
 
+    /**
+     * Getter
+     *
+     * @return Returns Path of corresponding fxml file
+     */
     @Override
     public String getMenuPath() {
         return "/fxml/buildings/Barracks.fxml";

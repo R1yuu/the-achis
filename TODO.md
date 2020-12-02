@@ -10,7 +10,7 @@
       * [X] board
       * [ ] buildings
         * [X] core
-        * [ ] defense
+        * [X] defense
         * [ ] link
         * [ ] production
       * [ ] entities
