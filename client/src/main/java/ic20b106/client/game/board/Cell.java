@@ -33,6 +33,13 @@ import java.util.EnumMap;
  */
 public class Cell extends Pane implements GraphNode {
 
+    private final IntPair position;
+    private final EnumMap<LinkDirection, Pair<Link, Cell>> links = new EnumMap<>(LinkDirection.class);
+    private Color owner;
+    private Building building;
+    private static final Border defaultBorder = new Border(new BorderStroke(
+      Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
+
     /**
      * Constructor
      * Sets Height and Width of HBox
@@ -65,6 +72,11 @@ public class Cell extends Pane implements GraphNode {
         this.setOnMouseClicked(this::onMouseClick);
     }
 
+    /**
+     * MouseEvent
+     *
+     * @param mouseEvent mouseEvent that gets Triggered on Click
+     */
     private void onMouseClick(MouseEvent mouseEvent) {
         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
             if (owner == Game.playerColor.toColor()) {
@@ -109,6 +121,9 @@ public class Cell extends Pane implements GraphNode {
         }
     }
 
+    /**
+     * Removes the Building of this Cell
+     */
     public void removeBuilding() {
         if (this.building != null) {
             this.getChildren().remove(this.building.getTexture());
@@ -141,6 +156,11 @@ public class Cell extends Pane implements GraphNode {
         }
     }
 
+    /**
+     * Removes Links from the Cell
+     *
+     * @param linkDirections Links to be removed
+     */
     public void removeLinks(LinkDirection... linkDirections) {
         for (LinkDirection linkDirection : linkDirections) {
             if (links.containsKey(linkDirection)) {
@@ -156,11 +176,25 @@ public class Cell extends Pane implements GraphNode {
         }
     }
 
+    /**
+     * Gets Neighouring Cell through Cell
+     *
+     * @param cell Cell to get Neighbour of
+     * @param linkDirection Direction of the Neighbour Cell
+     * @return Neighbouring Cell
+     */
     public static Cell getNeighbourByCell(Cell cell, LinkDirection linkDirection) {
         return Game.gameBoard.getCell(getNeighbourCoordsByCellCoords(
           new IntPair(cell.position.x, cell.position.y), linkDirection));
     }
 
+    /**
+     * Gets Neighbouring Cell through Coordinates
+     *
+     * @param cellCoords Coordinates to get Neighbour of
+     * @param linkDirection Direction of the Neighbour Cell
+     * @return Neighbouring Cell Coordinates
+     */
     public static IntPair getNeighbourCoordsByCellCoords(IntPair cellCoords,
                                                                     LinkDirection linkDirection) {
         int cellRow = cellCoords.x;
@@ -189,6 +223,12 @@ public class Cell extends Pane implements GraphNode {
         return new IntPair(cellRow, cellCol);
     }
 
+    /**
+     * Changes the Cell Owner of every Cell in a given radius
+     *
+     * @param owner Color of the new Owner
+     * @param radius Radius in which the Cells should be Changes
+     */
     public void extendArea(Color owner, int radius) {
         IntPair firstCellCoords = new IntPair(position.x, position.y);
         IntPair nextCellCoords;
@@ -226,11 +266,21 @@ public class Cell extends Pane implements GraphNode {
         }
     }
 
+    /**
+     * Setter
+     *
+     * @param newOwner Color of Owner
+     */
     public void setOwner(Color newOwner) {
         this.owner = newOwner;
         this.setBackground(new Background(new BackgroundFill(newOwner, CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
+    /**
+     * Getter
+     *
+     * @return Owner-Color of the Cell
+     */
     public Color getOwner() {
         return this.owner;
     }
@@ -244,16 +294,13 @@ public class Cell extends Pane implements GraphNode {
         return links;
     }
 
+    /**
+     * Getter
+     *
+     * @return Position of the Cell
+     */
     public IntPair getPosition() {
         return position;
     }
-
-    private final IntPair position;
-
-    private final EnumMap<LinkDirection, Pair<Link, Cell>> links = new EnumMap<>(LinkDirection.class);
-    private Color owner;
-    private Building building;
-    private static final Border defaultBorder = new Border(new BorderStroke(
-            Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
 
 }
