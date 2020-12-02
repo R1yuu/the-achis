@@ -30,11 +30,22 @@ public class Factory extends Building {
           cell);
     }
 
+    /**
+     * Getter
+     *
+     * @return Gets Submenu Node
+     * @throws IOException Thrown if fxml file couldn't be found
+     */
     @Override
     public BuildingSubMenu getBuildingSubMenu() throws IOException {
         return new FactorySubMenu(this.cell, this);
     }
 
+    /**
+     * Getter
+     *
+     * @return Returns Path of corresponding fxml file
+     */
     @Override
     public String getMenuPath() {
         return "/fxml/buildings/Factory.fxml";
