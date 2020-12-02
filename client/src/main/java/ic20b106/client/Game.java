@@ -44,7 +44,7 @@ public class Game extends Application {
     public void start(Stage primaryStage) throws IOException {
 
         mainMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/MainMenu.fxml"));
-        AudioManager audioManager = AudioManager.getInstance();
+        AudioManager.getInstance();
         primaryPane.getChildren().setAll(mainMenu);
 
         Scene primaryScene = new Scene(primaryPane, 1280, 720);
@@ -59,7 +59,7 @@ public class Game extends Application {
         });
         primaryStage.show();
 
-        //FileManager.getInstance().readOptions();
+        FileManager.getInstance().readOptions();
     }
 
     public static void resetGame() {

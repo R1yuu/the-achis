@@ -15,6 +15,7 @@ module client {
     exports ic20b106.client.game.menus.submenus;
     exports ic20b106.client.game.menus.submenus.buildings;
     exports ic20b106.client.game.buildings;
+    exports ic20b106.client.util.javafx;
 
     opens ic20b106.client                               to javafx.fxml;
     opens ic20b106.client.game.menus                    to javafx.fxml;

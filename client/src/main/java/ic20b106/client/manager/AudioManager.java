@@ -1,8 +1,6 @@
 package ic20b106.client.manager;
 
 import ic20b106.client.Options;
-import ic20b106.client.util.audio.BigClip;
-import javafx.scene.media.MediaPlayer;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -14,10 +12,9 @@ import java.util.Stack;
 
 public class AudioManager {
 
-    private final BigClip backgroundBigClip;
+    private final Clip backgroundBigClip;
     private final Stack<Clip> clips = new Stack<>();
     private static AudioManager singleInstance;
-    //public static AudioClip BUTTON_CLICK = new AudioClip(AudioManager.class.getResource("/sounds/sfx/button-click.mp3").toString());
     public static AudioInputStream BUTTON_CLICK;
 
     static {
@@ -29,15 +26,9 @@ public class AudioManager {
     }
 
 
-    private AudioManager() {
-        /*
-        backgroundMediaPlayer = new MediaPlayer(new Media(
-          getClass().getResource("/sounds/music/Jeremy_Blake-Powerup!.mp3").toString()));
+    private AudioManager() throws LineUnavailableException {
 
-        backgroundMediaPlayer.setVolume(Options.getMusicVolume());
-        backgroundMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        */
-        this.backgroundBigClip = new BigClip();
+        this.backgroundBigClip = AudioSystem.getClip();
 
         try {
             AudioInputStream inputStream = AudioSystem.getAudioInputStream(
@@ -60,7 +51,6 @@ public class AudioManager {
                         if (Options.getSfxEnabled()) {
                             clip.setFramePosition(0);
                             clip.start();
-                            //clips.pop().play((double) Options.getSfxVolume() / 100);
                         }
                     }
                 } catch (InterruptedException e) {
@@ -74,7 +64,11 @@ public class AudioManager {
 
     public static AudioManager getInstance() {
         if (singleInstance == null) {
-            singleInstance = new AudioManager();
+            try {
+                singleInstance = new AudioManager();
+            } catch (LineUnavailableException e) {
+                e.printStackTrace();
+            }
         }
         return singleInstance;
     }
@@ -88,12 +82,11 @@ public class AudioManager {
             } catch (LineUnavailableException | IOException e) {
                 e.printStackTrace();
             }
-            //clips.push(audioClip);
             clips.notify();
         }
     }
 
-    public BigClip getBackgroundBigClip() {
+    public Clip getBackgroundBigClip() {
         return backgroundBigClip;
     }
 }

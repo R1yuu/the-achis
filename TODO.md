@@ -5,7 +5,7 @@
 * [ ] JavaDoc
   * [ ] client
     * [X] exceptions
-    * [ ] game
+    * [X] game
       * [X] astar
       * [X] board
       * [X] buildings
@@ -14,7 +14,7 @@
         * [X] link
         * [X] production
       * [X] entities
-      * [ ] menus
+      * [X] menus
         * [X] submenus
           * [X] buildings
     * [ ] manager
@@ -29,6 +29,7 @@
 * [ ] All Variables to top of Class
 
 # Client
+* [ ] Make fxml String constant
 # Server
 # Other
 # Done

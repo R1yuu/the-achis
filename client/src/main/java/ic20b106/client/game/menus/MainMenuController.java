@@ -22,6 +22,21 @@ import java.io.IOException;
 public class MainMenuController {
 
     @FXML
+    private VBox mainBox;
+
+    @FXML
+    private Button createGame;
+
+    @FXML
+    private Button lobbyList;
+
+    @FXML
+    private Button options;
+
+    /**
+     * Initializes MainMenu
+     */
+    @FXML
     private void initialize() {
         Game.setAllButtonSFXOnAction(mainBox);
         if (createGame.getOnAction() instanceof SFXEventHandler) {
@@ -34,6 +49,11 @@ public class MainMenuController {
         options.setOnAction(new ButtonSFXEventHandler<>(this::options));
     }
 
+    /**
+     * Opens a new Lobby
+     *
+     * @param actionEvent Action Event
+     */
     private void openLobby(ActionEvent actionEvent) {
         try {
             NetworkManager.getInstance().serverStub.createRoom();
@@ -46,16 +66,11 @@ public class MainMenuController {
         }
     }
 
-
-    private void newGame(ActionEvent actionEvent) {
-        try {
-            VBox createGameMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/CreateGameMenu.fxml"));
-            Game.primaryPane.getChildren().setAll(createGameMenu);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
+    /**
+     * Opens the Lobby List
+     *
+     * @param actionEvent Action Event
+     */
     private void lobbyList(ActionEvent actionEvent) {
         try {
             VBox lobbyListMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/LobbyList.fxml"));
@@ -65,6 +80,11 @@ public class MainMenuController {
         }
     }
 
+    /**
+     * Opens the Options Menu
+     *
+     * @param actionEvent Action Event
+     */
     private void options(ActionEvent actionEvent) {
         try {
             VBox optionsMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/OptionsMenu.fxml"));
@@ -82,16 +102,4 @@ public class MainMenuController {
         Platform.exit();
         System.exit(0);
     }
-
-    @FXML
-    private VBox mainBox;
-
-    @FXML
-    private Button createGame;
-
-    @FXML
-    private Button lobbyList;
-
-    @FXML
-    private Button options;
 }

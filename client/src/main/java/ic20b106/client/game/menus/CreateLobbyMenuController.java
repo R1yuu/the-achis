@@ -37,6 +37,32 @@ import java.util.List;
  */
 public class CreateLobbyMenuController {
 
+    @FXML
+    private VBox mainBox;
+
+    @FXML
+    private Slider boardWidthSlider;
+
+    @FXML
+    private Slider boardHeightSlider;
+
+    @FXML
+    private Label boardWidthLabel;
+
+    @FXML
+    private Label boardHeightLabel;
+
+    @FXML
+    private Rectangle boardRectangle;
+
+    @FXML
+    private ToggleGroup colorPicker;
+
+    @FXML
+    private ToggleGroup startPosition;
+
+    @FXML
+    private ToggleGroup startResources;
 
     /**
      * Initializes Nodes
@@ -169,31 +195,4 @@ public class CreateLobbyMenuController {
 
         //Game.primaryPane.getChildren().setAll(zoomableScrollPane);
     }
-
-    @FXML
-    private VBox mainBox;
-
-    @FXML
-    private Slider boardWidthSlider;
-
-    @FXML
-    private Slider boardHeightSlider;
-
-    @FXML
-    private Label boardWidthLabel;
-
-    @FXML
-    private Label boardHeightLabel;
-
-    @FXML
-    private Rectangle boardRectangle;
-
-    @FXML
-    private ToggleGroup colorPicker;
-
-    @FXML
-    private ToggleGroup startPosition;
-
-    @FXML
-    private ToggleGroup startResources;
 }

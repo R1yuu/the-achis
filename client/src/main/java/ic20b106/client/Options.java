@@ -8,6 +8,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 
+import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Control;
 import javax.sound.sampled.FloatControl;
 import java.io.Serializable;
@@ -68,11 +69,18 @@ public class Options implements Initializable, Serializable {
         if (musicVolume >= 0 && musicVolume <= 100) {
             Options.musicVolume.set(musicVolume);
 
+            /*
             FloatControl gainControl = (FloatControl) AudioManager.getInstance().getBackgroundBigClip()
               .getControl(FloatControl.Type.MASTER_GAIN);
             float range = gainControl.getMaximum() - gainControl.getMinimum();
             float gain = (range * ((float) musicVolume / 100)) + gainControl.getMinimum();
             gainControl.setValue(gain);
+
+             */
+
+            FloatControl gainControl = (FloatControl) AudioManager.getInstance().getBackgroundBigClip()
+              .getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(20f * (float) Math.log10((float) (musicVolume) / 100));
 
             //AudioManager.getInstance().getBackgroundBigClip().
             //AudioManager.getInstance().getBackgroundMediaPlayer().setVolume((double) musicVolume / 100);

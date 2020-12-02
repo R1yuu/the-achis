@@ -1,9 +1,5 @@
 package ic20b106.client.game.menus;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import ic20b106.client.Game;
 import ic20b106.client.manager.NetworkManager;
 import javafx.fxml.FXML;
@@ -21,13 +17,17 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
-import java.net.NetworkInterface;
 import java.rmi.RemoteException;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
+/**
+ * @author Andre Schneider
+ * @version 1.0
+ *
+ * Controller Class of EscapeMenu.fxml
+ */
 public class LobbyListController {
 
     @FXML
@@ -39,6 +39,9 @@ public class LobbyListController {
     @FXML
     private GridPane lobbyListPane;
 
+    /**
+     * Initializes Lobby List
+     */
     @FXML
     private void initialize() {
         listPane.setBorder(new Border(
@@ -46,6 +49,9 @@ public class LobbyListController {
         retrieveLobbies();
     }
 
+    /**
+     * Retrieves all Lobbies from the Server and Displays them
+     */
     private void retrieveLobbies() {
         try {
             List<LinkedHashMap<String, String>> roomList = NetworkManager.getInstance().serverStub.listRooms();
