@@ -5,11 +5,22 @@ import org.hashids.Hashids;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.security.SecureRandom;
-import java.util.Arrays;
 import java.util.Iterator;
 
+/**
+ * @author Andre Schneider
+ * @version 1.0
+ *
+ * Hash Utility Class
+ */
 public class HashUtils {
 
+    /**
+     * Checks the Hashs validity
+     *
+     * @param hash hash to check
+     * @return boolean if hash is valid or invalid
+     */
     public static boolean checkHashValidity(String hash) {
         if (hash.equals("")) {
             return false;
@@ -26,6 +37,11 @@ public class HashUtils {
         return Long.numberOfLeadingZeros(hashLongs[0]) >= 16 && hashLongs[1] <= 9007199254740992L;
     }
 
+    /**
+     * Generates a new Player Hash
+     *
+     * @return Generated Hash String
+     */
     public static String generateHash() {
         long hardwareLong = 0L;
 

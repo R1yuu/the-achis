@@ -18,9 +18,8 @@
         * [X] submenus
           * [X] buildings
     * [X] manager
-    * [ ] utils
-      * [ ] audio
-      * [ ] javafx
+    * [X] utils
+      * [X] javafx
         * [X] eventhandler
   * [ ] server
   * [ ] shared
@@ -32,8 +31,3 @@
 * [ ] Make fxml String constant
 # Server
 # Other
-# Done
-## General
-## Client
-## Server
-## Other

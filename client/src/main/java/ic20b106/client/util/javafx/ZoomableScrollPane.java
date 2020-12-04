@@ -21,6 +21,11 @@ import java.util.Arrays;
  */
 public class ZoomableScrollPane extends ScrollPane {
 
+    private double scaleValue = 0.7;
+    private static final double zoomIntensity = 0.02;
+    private final Node target;
+    private final Node zoomNode;
+
     /**
      * Constructor
      *
@@ -66,6 +71,12 @@ public class ZoomableScrollPane extends ScrollPane {
 
     }
 
+    /**
+     * Sets Scroll Event on outer Node
+     *
+     * @param node Outer Node
+     * @return OuterNode
+     */
     private Node outerNode(Node node) {
         Node outerNode = centeredNode(node);
         outerNode.setOnScroll(e -> {
@@ -75,17 +86,32 @@ public class ZoomableScrollPane extends ScrollPane {
         return outerNode;
     }
 
+    /**
+     * Centers Node
+     *
+     * @param node Node to be centered
+     * @return VBox around Centered Node
+     */
     private Node centeredNode(Node node) {
         VBox vBox = new VBox(node);
         vBox.setAlignment(Pos.CENTER);
         return vBox;
     }
 
+    /**
+     * Updates Scaling
+     */
     private void updateScale() {
         target.setScaleX(scaleValue);
         target.setScaleY(scaleValue);
     }
 
+    /**
+     * OnScroll Event
+     *
+     * @param wheelDelta Relative Wheel Movement
+     * @param mousePoint Position of Mouse
+     */
     void onScroll(double wheelDelta, Point2D mousePoint) {
         double zoomFactor = Math.exp(wheelDelta * zoomIntensity);
 
@@ -112,9 +138,4 @@ public class ZoomableScrollPane extends ScrollPane {
         this.setHvalue((valX + adjustment.getX()) / (updatedInnerBounds.getWidth() - viewportBounds.getWidth()));
         this.setVvalue((valY + adjustment.getY()) / (updatedInnerBounds.getHeight() - viewportBounds.getHeight()));
     }
-
-    private double scaleValue = 0.7;
-    private static final double zoomIntensity = 0.02;
-    private final Node target;
-    private final Node zoomNode;
 }

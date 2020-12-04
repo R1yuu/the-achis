@@ -8,6 +8,7 @@ import ic20b106.client.game.buildings.link.LinkDirection;
 import ic20b106.client.game.buildings.Material;
 import ic20b106.client.game.buildings.core.Core;
 import ic20b106.client.manager.NetworkManager;
+import ic20b106.shared.utils.IntPair;
 import ic20b106.shared.utils.Pair;
 import ic20b106.client.util.javafx.GameBoard;
 import ic20b106.client.util.javafx.ZoomableScrollPane;
@@ -125,7 +126,7 @@ public class CreateLobbyMenuController {
         ToggleButton selectedStartPositionToggle = (ToggleButton)startPosition.getSelectedToggle();
         ToggleButton selectedStartResourcesToggle = (ToggleButton)startResources.getSelectedToggle();
 
-        Pair<Integer, Integer> startPosition = new Pair<>(5, 5);
+        IntPair startPosition = new IntPair(5, 5);
         HashMap<Material, Integer> startStorage = new HashMap<>();
 
 

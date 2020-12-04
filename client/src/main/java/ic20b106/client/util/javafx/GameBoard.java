@@ -6,6 +6,7 @@ import ic20b106.client.game.menus.EscapeMenuController;
 import ic20b106.client.game.board.CellScorer;
 import ic20b106.client.game.astar.Graph;
 import ic20b106.client.game.astar.RouteFinder;
+import ic20b106.shared.utils.IntPair;
 import ic20b106.shared.utils.Pair;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -32,6 +33,8 @@ import java.util.stream.Stream;
  */
 public class GameBoard extends GridPane {
 
+    public Map<String, Set<String>> links = new HashMap<>();
+
     /**
      * Constructor
      * Fills the Board with Cells
@@ -57,6 +60,11 @@ public class GameBoard extends GridPane {
         }
     }
 
+    /**
+     * On KeyPressed Event Handler
+     *
+     * @param keyEvent Key related Event
+     */
     private void onKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ESCAPE) {
             if (!Game.escapeMenuOpen) {
@@ -91,10 +99,22 @@ public class GameBoard extends GridPane {
         return null;
     }
 
-    public Cell getCell(final Pair<Integer, Integer> coordinates) {
+    /**
+     * Get Cell for intPairs
+     *
+     * @param coordinates IntPair of Position
+     * @return Cell on position
+     */
+    public Cell getCell(final IntPair coordinates) {
         return getCell(coordinates.x, coordinates.y);
     }
 
+    /**
+     * Adds Link between two Cells
+     *
+     * @param from From Cell
+     * @param to To Cell
+     */
     public void addLink(Cell from, Cell to) {
         String fromId = from.getPosition().toString();
         String toId = to.getPosition().toString();
@@ -114,6 +134,12 @@ public class GameBoard extends GridPane {
         }
     }
 
+    /**
+     * Removes Link between two Cells
+     *
+     * @param from From Cell
+     * @param to To Cell
+     */
     public void removeLink(Cell from, Cell to) {
         String fromId = from.getPosition().toString();
         String toId = to.getPosition().toString();
@@ -129,7 +155,13 @@ public class GameBoard extends GridPane {
         }
     }
 
-
+    /**
+     * Find Route between two Cells
+     *
+     * @param from From Cell
+     * @param to To Cell
+     * @return List of Route Cells
+     */
     public List<Cell> findRoute(Cell from, Cell to) {
         HashSet<Cell> cells = new HashSet<>();
         for (Node child : getChildren()) {
@@ -142,7 +174,4 @@ public class GameBoard extends GridPane {
         RouteFinder<Cell> cellRouteFinder = new RouteFinder<>(cellGraph, new CellScorer(), new CellScorer());
         return cellRouteFinder.findRoute(from, to);
     }
-
-    public Map<String, Set<String>> links = new HashMap<>();
-
 }

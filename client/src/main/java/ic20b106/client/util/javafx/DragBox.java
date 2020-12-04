@@ -5,12 +5,15 @@ import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
 /**
- * @author Andre_Schneider
+ * @author Andre Schneider
  * @version 1.0
  *
- *
+ * Draggable Pane
  */
 public class DragBox extends Pane {
+
+    private double deltaX;
+    private double deltaY;
 
     /**
      * Constructor
@@ -63,7 +66,4 @@ public class DragBox extends Pane {
             target.setTranslateY(target.getTranslateY() + mouseEvent.getY() - deltaY);
         });
     }
-
-    private double deltaX;
-    private double deltaY;
 }
