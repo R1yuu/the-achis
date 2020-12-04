@@ -10,9 +10,15 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.util.Stack;
 
+/**
+ * @author Andre Schneider
+ * @version 1.0
+ *
+ * Manages all Audio/Sound related Features
+ */
 public class AudioManager {
 
-    private final Clip backgroundBigClip;
+    private final Clip backgroundClip;
     private final Stack<Clip> clips = new Stack<>();
     private static AudioManager singleInstance;
     public static AudioInputStream BUTTON_CLICK;
@@ -25,16 +31,20 @@ public class AudioManager {
         }
     }
 
-
+    /**
+     * Constructor
+     *
+     * @throws LineUnavailableException Thrown when the Audio File couldn't be found
+     */
     private AudioManager() throws LineUnavailableException {
 
-        this.backgroundBigClip = AudioSystem.getClip();
+        this.backgroundClip = AudioSystem.getClip();
 
         try {
             AudioInputStream inputStream = AudioSystem.getAudioInputStream(
               getClass().getResource("/sounds/music/Jeremy_Blake-Powerup!.wav"));
-            this.backgroundBigClip.open(inputStream);
-            this.backgroundBigClip.start();
+            this.backgroundClip.open(inputStream);
+            this.backgroundClip.start();
         } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
             e.printStackTrace();
         }
@@ -62,6 +72,11 @@ public class AudioManager {
         clipThread.start();
     }
 
+    /**
+     * Singleton Instanciation
+     *
+     * @return Single Instance of AudioManger
+     */
     public static AudioManager getInstance() {
         if (singleInstance == null) {
             try {
@@ -73,6 +88,11 @@ public class AudioManager {
         return singleInstance;
     }
 
+    /**
+     * Plays a given AudioClip
+     *
+     * @param inputStream InputStream of the AudioClip
+     */
     public void playClip(AudioInputStream inputStream) {
         synchronized (clips) {
             try {
@@ -86,7 +106,12 @@ public class AudioManager {
         }
     }
 
-    public Clip getBackgroundBigClip() {
-        return backgroundBigClip;
+    /**
+     * Getter
+     *
+     * @return Running BackgroundClip
+     */
+    public Clip getBackgroundClip() {
+        return backgroundClip;
     }
 }

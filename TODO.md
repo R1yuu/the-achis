@@ -17,7 +17,7 @@
       * [X] menus
         * [X] submenus
           * [X] buildings
-    * [ ] manager
+    * [X] manager
     * [ ] utils
       * [ ] audio
       * [ ] javafx

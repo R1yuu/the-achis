@@ -23,6 +23,12 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
+/**
+ * @author Andre Schneider
+ * @version 1.0
+ *
+ * Manages all Network/RMI related Stuff related Features
+ */
 public class NetworkManager extends UnicastRemoteObject
   implements ClientCommands, Serializable, Closeable, AutoCloseable {
 
@@ -31,6 +37,13 @@ public class NetworkManager extends UnicastRemoteObject
     public RemoteCommands serverStub;
     private boolean serverInvocedClose = false;
 
+    /**
+     * Constructor
+     *
+     * @throws IOException Thrown is the Socket connection gets cut
+     * @throws NotBoundException Thrown if the RMI Address has no Bound
+     * @throws HashTakenException Thrown if the player hash is already taken on the server
+     */
     private NetworkManager() throws IOException, NotBoundException, HashTakenException {
 
         String hash = FileManager.getInstance().readHashid();
@@ -67,22 +80,40 @@ public class NetworkManager extends UnicastRemoteObject
         this.serverStub.sendClientStub(this);
     }
 
+    /**
+     * Updates a Building on a Cell
+     *
+     * @param buildable Building
+     */
     @Override
     public void updateBuilding(Buildable buildable) {
 
     }
 
+    /**
+     * Writes out a sent Message
+     *
+     * @param message Message to be Written
+     */
     @Override
     public void sendMessage(Object message) {
         System.out.println(message);
     }
 
+    /**
+     * Disconnects the Client from the Server
+     */
     @Override
     public void disconnect() {
         serverInvocedClose = true;
         close();
     }
 
+    /**
+     * Singleton Instanciation
+     *
+     * @return Single Instance of NetworkManager
+     */
     public static NetworkManager getInstance() {
         if (singleInstance == null) {
             try {
@@ -94,6 +125,9 @@ public class NetworkManager extends UnicastRemoteObject
         return singleInstance;
     }
 
+    /**
+     * Closes the Connection to the Server and removes the Instance
+     */
     public void close() {
         if (singleInstance != null) {
             if (!serverInvocedClose) {
@@ -108,12 +142,21 @@ public class NetworkManager extends UnicastRemoteObject
         }
     }
 
+    /**
+     * Updates the Colors in the Lobby Color Choose
+     *
+     * @param freeColor Color that got freed
+     * @param takenColor Color that got chosen
+     */
     @Override
     public void updateColors(PlayerColor freeColor, PlayerColor takenColor) {
         Lobby.colorComboBox.getItems().remove(takenColor.toString());
         Lobby.colorComboBox.getItems().add(freeColor.toString());
     }
 
+    /**
+     * Forces the Client to reload the Lobby Info from the Server
+     */
     @Override
     public void updateLobby() {
         Lobby.updateTable();

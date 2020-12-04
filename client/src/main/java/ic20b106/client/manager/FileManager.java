@@ -34,8 +34,22 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * @author Andre Schneider
+ * @version 1.0
+ *
+ * Manages all File/Save related Features
+ */
 public class FileManager {
 
+    private static FileManager singleInstance;
+    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private final File optionsFile;
+    private final File hashidFile;
+
+    /**
+     * Class used by Gson to Map the Json File too
+     */
     static class OptionsDump {
 
         OptionsDump() {}
@@ -53,6 +67,9 @@ public class FileManager {
         final int sfxVolume = Options.getSfxVolume();
     }
 
+    /**
+     * Constructor
+     */
     private FileManager() {
 
         this.optionsFile = new File(System.getProperty("user.home").replace("\\", "/") +
@@ -67,6 +84,11 @@ public class FileManager {
         }
     }
 
+    /**
+     * Singleton Instanciation
+     *
+     * @return Single Instance of FileManager
+     */
     public static FileManager getInstance() {
         if (singleInstance == null) {
             singleInstance = new FileManager();
@@ -74,6 +96,9 @@ public class FileManager {
         return singleInstance;
     }
 
+    /**
+     * Writes Options to the options File
+     */
     public void writeOptions() {
         try {
             this.optionsFile.createNewFile();
@@ -87,6 +112,9 @@ public class FileManager {
 
     }
 
+    /**
+     * Reads Options from the options File
+     */
     public void readOptions() {
         try {
             if (!this.optionsFile.createNewFile()) {
@@ -105,6 +133,11 @@ public class FileManager {
         }
     }
 
+    /**
+     * Reads the Players Hashid from the account.achiid file
+     *
+     * @return Hashid String
+     */
     public String readHashid() {
         String hashid = "";
         try {
@@ -119,6 +152,11 @@ public class FileManager {
         return hashid;
     }
 
+    /**
+     * Writes Players Hashid to the account.achiid file
+     *
+     * @param hashid
+     */
     public void writeHashid(String hashid) {
         try {
             this.hashidFile.createNewFile();
@@ -129,9 +167,4 @@ public class FileManager {
             e.printStackTrace();
         }
     }
-
-    private static FileManager singleInstance;
-    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private final File optionsFile;
-    private final File hashidFile;
 }
