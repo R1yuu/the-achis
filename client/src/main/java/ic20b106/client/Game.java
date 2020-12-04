@@ -34,6 +34,17 @@ import java.util.List;
  */
 public class Game extends Application {
 
+    private static VBox mainMenu;
+    public static StackPane primaryPane = new StackPane();
+    public static Building currentlyBuilt;
+    public static SubMenu activeSubMenu;
+    public static GameBoard gameBoard;
+    public static PlayerColor playerColor;
+    public static PlayerStartPosition playerStartPosition;
+    public static Cell playerCoreCell;
+    public static boolean escapeMenuOpen = false;
+    public static boolean roomOwner = false;
+
     /**
      * Start Method of JavaFX
      *
@@ -62,6 +73,9 @@ public class Game extends Application {
         FileManager.getInstance().readOptions();
     }
 
+    /**
+     * Resets the Client to its default State in the MainMenu
+     */
     public static void resetGame() {
         primaryPane.getChildren().clear();
         primaryPane.getChildren().setAll(mainMenu);
@@ -71,10 +85,7 @@ public class Game extends Application {
         currentlyBuilt = null;
         escapeMenuOpen = false;
         roomOwner = false;
-    }
-
-    public void start(String[] args) {
-        launch(args);
+        // TODO: Close Connections
     }
 
     /**
@@ -86,11 +97,21 @@ public class Game extends Application {
         launch(args);
     }
 
-
+    /**
+     * Adds SFX to all Child Nodes of Type ButtonBase
+     *
+     * @param parent Root Node
+     */
     public static void setAllButtonSFXOnAction(Parent parent) {
         Game.setAllButtonSFXOnAction(parent, List.of(ButtonBase.class));
     }
 
+    /**
+     * Adds SFX to all Child Nodes of the chosen Type
+     *
+     * @param parent Root Node
+     * @param checkClasses Classes to set on
+     */
     public static void setAllButtonSFXOnAction(Parent parent, List<Class<? extends ButtonBase>> checkClasses) {
         for (Node child : parent.getChildrenUnmodifiable()) {
             for (Class<? extends ButtonBase> checkClass : checkClasses) {
@@ -102,19 +123,4 @@ public class Game extends Application {
             }
         }
     }
-
-
-    private static VBox mainMenu;
-
-    public static StackPane primaryPane = new StackPane();
-
-    public static Building currentlyBuilt;
-
-    public static SubMenu activeSubMenu;
-    public static GameBoard gameBoard;
-    public static PlayerColor playerColor;
-    public static PlayerStartPosition playerStartPosition;
-    public static Cell playerCoreCell;
-    public static boolean escapeMenuOpen = false;
-    public static boolean roomOwner = false;
 }

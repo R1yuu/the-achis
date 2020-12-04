@@ -3,7 +3,7 @@
 * [ ] Use try-with-resource Blocks
 * [ ] Terrain (more complicated Travel Calculation)
 * [ ] JavaDoc
-  * [ ] client
+  * [X] client
     * [X] exceptions
     * [X] game
       * [X] astar
@@ -29,5 +29,6 @@
 
 # Client
 * [ ] Make fxml String constant
+* [ ] client/ic20b106.client.Options Constructor check if booleans synchronized
 # Server
 # Other

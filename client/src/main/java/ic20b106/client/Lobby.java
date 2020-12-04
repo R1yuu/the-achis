@@ -19,33 +19,34 @@ import javafx.scene.shape.Rectangle;
 
 import java.rmi.RemoteException;
 
+/**
+ * @author Andre Schneider
+ * @version 1.0
+ *
+ * Multiplayer Lobby to set Settings
+ */
 public class Lobby {
 
     public static ComboBox<String> colorComboBox = new ComboBox<>();
-
     public static GridPane playerPane;
-
     @FXML
     private GridPane playerGridPane;
-
     @FXML
     private Button exitLobbyButton;
-
     @FXML
     private VBox roomNameBox;
-
     @FXML
     private Label roomOwnerLabel;
-
     @FXML
     private Label roomUUIDLabel;
-
     @FXML
     private VBox colorBox;
-
     @FXML
     private VBox positionBox;
 
+    /**
+     * FXML initialize Method
+     */
     @FXML
     private void initialize() {
 
@@ -103,11 +104,17 @@ public class Lobby {
         updateTable();
     }
 
+    /**
+     * Starts the Lobby for all Clients
+     */
     @FXML
     private void startGame() {
 
     }
 
+    /**
+     * Updates the Table List and Player information
+     */
     public static void updateTable() {
         try {
             int rowIdx = 1;
