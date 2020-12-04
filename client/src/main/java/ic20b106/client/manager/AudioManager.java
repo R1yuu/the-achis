@@ -8,6 +8,8 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
 import java.util.Stack;
 
 /**
@@ -21,15 +23,7 @@ public class AudioManager {
     private final Clip backgroundClip;
     private final Stack<Clip> clips = new Stack<>();
     private static AudioManager singleInstance;
-    public static AudioInputStream BUTTON_CLICK;
-
-    static {
-        try {
-            BUTTON_CLICK = AudioSystem.getAudioInputStream(AudioManager.class.getResource("/sounds/sfx/button-click.wav"));
-        } catch (UnsupportedAudioFileException | IOException e) {
-            e.printStackTrace();
-        }
-    }
+    public static URL BUTTON_CLICK = AudioManager.class.getResource("/sounds/sfx/button-click.wav");
 
     /**
      * Constructor
@@ -91,15 +85,16 @@ public class AudioManager {
     /**
      * Plays a given AudioClip
      *
-     * @param inputStream InputStream of the AudioClip
+     * @param audioResourceUrl Resource URL of Audio Clip
      */
-    public void playClip(AudioInputStream inputStream) {
+    public void playClip(URL audioResourceUrl) {
         synchronized (clips) {
             try {
+                AudioInputStream inputStream = AudioSystem.getAudioInputStream(audioResourceUrl);
                 Clip clip = AudioSystem.getClip();
                 clip.open(inputStream);
                 clips.push(clip);
-            } catch (LineUnavailableException | IOException e) {
+            } catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
                 e.printStackTrace();
             }
             clips.notify();

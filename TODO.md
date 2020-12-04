@@ -21,7 +21,7 @@
     * [ ] utils
       * [ ] audio
       * [ ] javafx
-        * [ ] eventhandler
+        * [X] eventhandler
   * [ ] server
   * [ ] shared
 * [ ] Logging

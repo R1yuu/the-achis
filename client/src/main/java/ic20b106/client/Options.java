@@ -53,10 +53,10 @@ public class Options implements Initializable, Serializable {
     public static void setMusicEnabled(boolean musicEnabled) {
         Options.musicEnabled.set(musicEnabled);
         if (musicEnabled) {
-            AudioManager.getInstance().getBackgroundBigClip().start();
+            AudioManager.getInstance().getBackgroundClip().start();
             //AudioManager.getInstance().getBackgroundMediaPlayer().play();
         } else {
-            AudioManager.getInstance().getBackgroundBigClip().stop();
+            AudioManager.getInstance().getBackgroundClip().stop();
             //AudioManager.getInstance().getBackgroundMediaPlayer().stop();
         }
     }
@@ -78,7 +78,7 @@ public class Options implements Initializable, Serializable {
 
              */
 
-            FloatControl gainControl = (FloatControl) AudioManager.getInstance().getBackgroundBigClip()
+            FloatControl gainControl = (FloatControl) AudioManager.getInstance().getBackgroundClip()
               .getControl(FloatControl.Type.MASTER_GAIN);
             gainControl.setValue(20f * (float) Math.log10((float) (musicVolume) / 100));
 
