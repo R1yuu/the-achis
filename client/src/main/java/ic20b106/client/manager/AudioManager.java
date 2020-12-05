@@ -7,6 +7,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.Closeable;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
@@ -18,12 +20,15 @@ import java.util.Stack;
  *
  * Manages all Audio/Sound related Features
  */
-public class AudioManager {
+public class AudioManager implements Closeable, AutoCloseable {
 
     private final Clip backgroundClip;
     private final Stack<Clip> clips = new Stack<>();
     private static AudioManager singleInstance;
-    public static URL BUTTON_CLICK = AudioManager.class.getResource("/sounds/sfx/button-click.wav");
+    private static final String sfxPath = File.pathSeparator + "sounds" + File.pathSeparator + "sfx";
+    private static final String musicPath = File.pathSeparator + "sounds" + File.pathSeparator + "music";
+    public static URL BUTTON_CLICK =
+      AudioManager.class.getResource(sfxPath + File.separatorChar + "button-click.wav");
 
     /**
      * Constructor
@@ -80,6 +85,12 @@ public class AudioManager {
             }
         }
         return singleInstance;
+    }
+
+    public void close() {
+        if (singleInstance != null) {
+            singleInstance = null;
+        }
     }
 
     /**
