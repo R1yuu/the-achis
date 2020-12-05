@@ -5,14 +5,14 @@ import ic20b106.client.Options;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.Closeable;
-import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URL;
-import java.util.Stack;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * @author Andre Schneider
@@ -20,55 +20,60 @@ import java.util.Stack;
  *
  * Manages all Audio/Sound related Features
  */
-public class AudioManager implements Closeable, AutoCloseable {
+public class AudioManager implements Closeable {
 
-    private final Clip backgroundClip;
-    private final Stack<Clip> clips = new Stack<>();
+    private Clip backgroundClip = null;
+    private final Queue<Clip> clips = new LinkedList<>();
     private static AudioManager singleInstance;
-    private static final String sfxPath = File.pathSeparator + "sounds" + File.pathSeparator + "sfx";
-    private static final String musicPath = File.pathSeparator + "sounds" + File.pathSeparator + "music";
-    public static URL BUTTON_CLICK =
-      AudioManager.class.getResource(sfxPath + File.separatorChar + "button-click.wav");
+    private static final String sfxPath = "/sounds/sfx";
+    private static final String musicPath = "/sounds/music";
+    public static final URL MUSIC_1 =
+      AudioManager.class.getResource(musicPath + "/Jeremy_Blake-Powerup!.wav");
+    public static final URL BUTTON_CLICK =
+      AudioManager.class.getResource(sfxPath + "/button-click.wav");
 
     /**
      * Constructor
-     *
-     * @throws LineUnavailableException Thrown when the Audio File couldn't be found
      */
-    private AudioManager() throws LineUnavailableException {
-
-        this.backgroundClip = AudioSystem.getClip();
-
+    private AudioManager() {
         try {
-            AudioInputStream inputStream = AudioSystem.getAudioInputStream(
-              getClass().getResource("/sounds/music/Jeremy_Blake-Powerup!.wav"));
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(MUSIC_1);
+            this.backgroundClip = AudioSystem.getClip();
             this.backgroundClip.open(inputStream);
             this.backgroundClip.start();
         } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
             e.printStackTrace();
         }
 
-
-
-
-        Thread clipThread = new Thread(() -> {
-            while (!Thread.currentThread().isInterrupted()) {
-                try {
-                    synchronized (clips) {
-                        clips.wait();
-                        Clip clip = clips.pop();
-                        if (Options.getSfxEnabled()) {
-                            clip.setFramePosition(0);
-                            clip.start();
-                        }
-                    }
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    return;
-                }
-            }
-        });
+        Thread clipThread = new Thread(this::clipListener);
         clipThread.start();
+    }
+
+    /**
+     * Threaded Method.
+     * Waits for Clips to be pushed to the Queue
+     */
+    private void clipListener() {
+        while (!Thread.currentThread().isInterrupted()) {
+            try {
+                synchronized (clips) {
+                    clips.wait();
+                    Clip clip = clips.poll();
+                    if (Options.getSfxEnabled() && clip != null) {
+                        clip.addLineListener(event -> {
+                            if (event.getType() == LineEvent.Type.STOP) {
+                                event.getLine().close();
+                            }
+                        });
+                        clip.setFramePosition(0);
+                        clip.start();
+                    }
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return;
+            }
+        }
     }
 
     /**
@@ -78,15 +83,14 @@ public class AudioManager implements Closeable, AutoCloseable {
      */
     public static AudioManager getInstance() {
         if (singleInstance == null) {
-            try {
-                singleInstance = new AudioManager();
-            } catch (LineUnavailableException e) {
-                e.printStackTrace();
-            }
+            singleInstance = new AudioManager();
         }
         return singleInstance;
     }
 
+    /**
+     * Closes the Audio Manager and sets its Memory to be free
+     */
     public void close() {
         if (singleInstance != null) {
             singleInstance = null;
@@ -104,7 +108,7 @@ public class AudioManager implements Closeable, AutoCloseable {
                 AudioInputStream inputStream = AudioSystem.getAudioInputStream(audioResourceUrl);
                 Clip clip = AudioSystem.getClip();
                 clip.open(inputStream);
-                clips.push(clip);
+                clips.offer(clip);
             } catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
                 e.printStackTrace();
             }

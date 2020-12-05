@@ -41,13 +41,13 @@ import java.util.Random;
  *
  * Manages all File/Save related Features
  */
-public class FileManager implements Closeable, AutoCloseable {
+public class FileManager implements Closeable {
 
     private static FileManager singleInstance;
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private static final String savePath = System.getProperty("user.home") + File.separatorChar + ".the_achis";
-    private static final String optionsFilePath = savePath + File.separatorChar + "options.json";
-    private static final String hashidFilePath = savePath + File.separatorChar + "account.achiid";
+    private static final String savePath = System.getProperty("user.home") + "/.the_achis";
+    private static final String optionsFilePath = savePath + "/options.json";
+    private static final String hashidFilePath = savePath + "/account.achiid";
 
     /**
      * Class used by Gson to Map the Json File too
@@ -103,9 +103,7 @@ public class FileManager implements Closeable, AutoCloseable {
      */
     public static FileManager getInstance() {
         if (singleInstance == null) {
-            try (FileManager fileManager = new FileManager()) {
-                singleInstance = fileManager;
-            }
+            singleInstance = new FileManager();
         }
         return singleInstance;
     }
