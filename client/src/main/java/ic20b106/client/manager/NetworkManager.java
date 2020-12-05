@@ -116,8 +116,8 @@ public class NetworkManager extends UnicastRemoteObject
      */
     public static NetworkManager getInstance() {
         if (singleInstance == null) {
-            try {
-                singleInstance = new NetworkManager();
+            try (NetworkManager networkManager = new NetworkManager()) {
+                singleInstance = networkManager;
             } catch (IOException | NotBoundException | HashException e) {
                 e.printStackTrace();
             }

@@ -10,6 +10,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -40,12 +41,13 @@ import java.util.Random;
  *
  * Manages all File/Save related Features
  */
-public class FileManager {
+public class FileManager implements Closeable, AutoCloseable {
 
     private static FileManager singleInstance;
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private final File optionsFile;
-    private final File hashidFile;
+    private static final String savePath = System.getProperty("user.home") + File.separatorChar + ".the_achis";
+    private static final String optionsFilePath = savePath + File.separatorChar + "options.json";
+    private static final String hashidFilePath = savePath + File.separatorChar + "account.achiid";
 
     /**
      * Class used by Gson to Map the Json File too
@@ -71,16 +73,26 @@ public class FileManager {
      * Constructor
      */
     private FileManager() {
-
-        this.optionsFile = new File(System.getProperty("user.home").replace("\\", "/") +
-          "/.the_achis/options.json");
-        this.hashidFile = new File(System.getProperty("user.home").replace("\\", "/") +
-          "/.the_achis/account.achiid");
-
-
-        File externalSafeFolder = this.optionsFile.getParentFile();
-        if (!externalSafeFolder.exists() && !externalSafeFolder.mkdirs()) {
-            throw new IllegalStateException("Couldn't create dir: " + externalSafeFolder);
+        File safeFolder = new File(savePath);
+        if (!safeFolder.exists() && !safeFolder.mkdirs()) {
+            throw new IllegalStateException("Couldn't create dir: " + safeFolder);
+        }
+        File optionsFile = new File(optionsFilePath);
+        File hashidFile = new File(hashidFilePath);
+        try {
+            if (optionsFile.createNewFile()) {
+                System.out.println("File Created");
+                this.writeOptions();
+            } else {
+                System.out.println("File exists");
+            }
+            if (hashidFile.createNewFile()) {
+                System.out.println("File Created");
+            } else {
+                System.out.println("File exists");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -91,43 +103,44 @@ public class FileManager {
      */
     public static FileManager getInstance() {
         if (singleInstance == null) {
-            singleInstance = new FileManager();
+            try (FileManager fileManager = new FileManager()) {
+                singleInstance = fileManager;
+            }
         }
         return singleInstance;
+    }
+
+    /**
+     * Closes the File Manager and sets its Memory to be free
+     */
+    public void close() {
+        if (singleInstance != null) {
+            singleInstance = null;
+        }
     }
 
     /**
      * Writes Options to the options File
      */
     public void writeOptions() {
-        try {
-            this.optionsFile.createNewFile();
+        try (FileWriter fileWriter = new FileWriter(optionsFilePath)) {
             OptionsDump optionsDump = new OptionsDump();
-            FileWriter fileWriter = new FileWriter(this.optionsFile);
             fileWriter.write(this.gson.toJson(optionsDump));
-            fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     /**
      * Reads Options from the options File
      */
     public void readOptions() {
-        try {
-            if (!this.optionsFile.createNewFile()) {
-                FileReader optionsFileReader = new FileReader(this.optionsFile);
-                OptionsDump optionsDump = gson.fromJson(optionsFileReader, OptionsDump.class);
-                if (optionsDump == null) {
-                    optionsDump = new OptionsDump();
-                }
-                optionsDump.mapToOptions();
-                optionsFileReader.close();
-            } else {
-                writeOptions();
+        try (FileReader fileReader = new FileReader(optionsFilePath)) {
+            OptionsDump optionsDump;
+            if ((optionsDump = gson.fromJson(fileReader, OptionsDump.class)) == null) {
+                optionsDump = new OptionsDump();
             }
+            optionsDump.mapToOptions();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -140,12 +153,8 @@ public class FileManager {
      */
     public String readHashid() {
         String hashid = "";
-        try {
-            if (this.hashidFile.exists()) {
-                BufferedReader bufferedReader = new BufferedReader(new FileReader(this.hashidFile));
-                hashid = bufferedReader.readLine();
-                bufferedReader.close();
-            }
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(hashidFilePath))) {
+            hashid = bufferedReader.readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -155,14 +164,11 @@ public class FileManager {
     /**
      * Writes Players Hashid to the account.achiid file
      *
-     * @param hashid
+     * @param hashid Player Hashid to write to the file
      */
     public void writeHashid(String hashid) {
-        try {
-            this.hashidFile.createNewFile();
-            FileWriter fileWriter = new FileWriter(this.hashidFile);
+        try (FileWriter fileWriter = new FileWriter(hashidFilePath)) {
             fileWriter.write(hashid);
-            fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
