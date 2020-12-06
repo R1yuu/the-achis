@@ -1,7 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Start Game" type="CompoundRunConfigurationType">
-    <toRun name="Server" type="MavenRunConfiguration" />
-    <toRun name="Client" type="MavenRunConfiguration" />
-    <method v="2" />
-  </configuration>
-</component>

@@ -1,6 +1,6 @@
 # General
-* [ ] Use Closeable and AutoCloseable
-* [ ] Use try-with-resource Blocks
+* [X] Use Closeable and AutoCloseable
+* [X] Use try-with-resource Blocks
 * [ ] Terrain (more complicated Travel Calculation)
 * [ ] JavaDoc
   * [X] client

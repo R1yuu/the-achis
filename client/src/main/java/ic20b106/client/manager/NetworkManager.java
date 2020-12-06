@@ -9,6 +9,7 @@ import ic20b106.shared.ClientCommands;
 import ic20b106.shared.PlayerColor;
 import ic20b106.shared.RemoteCommands;
 import ic20b106.shared.NetworkConstants;
+import javafx.scene.control.Alert;
 
 import java.io.BufferedReader;
 import java.io.Closeable;
@@ -116,8 +117,14 @@ public class NetworkManager extends UnicastRemoteObject
      */
     public static NetworkManager getInstance() {
         if (singleInstance == null) {
-            try (NetworkManager networkManager = new NetworkManager()) {
-                singleInstance = networkManager;
+            try {
+                singleInstance = new NetworkManager();
+            } catch (ConnectException connectException) {
+                Alert connectionErrorAlert = new Alert(Alert.AlertType.ERROR);
+                connectionErrorAlert.setTitle("Connection Error");
+                connectionErrorAlert.setHeaderText("Connection refused.");
+                connectionErrorAlert.setContentText("Check your Internet connection.");
+                connectionErrorAlert.showAndWait();
             } catch (IOException | NotBoundException | HashException e) {
                 e.printStackTrace();
             }

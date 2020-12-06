@@ -56,11 +56,14 @@ public class MainMenuController {
      */
     private void openLobby(ActionEvent actionEvent) {
         try {
-            NetworkManager.getInstance().serverStub.createRoom();
-            System.out.println("Connection established");
-            Game.roomOwner = true;
-            VBox lobbyMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/LobbyMenu.fxml"));
-            Game.primaryPane.getChildren().setAll(lobbyMenu);
+            NetworkManager networkManager = NetworkManager.getInstance();
+            if (networkManager != null) {
+                networkManager.serverStub.createRoom();
+                System.out.println("Connection established");
+                Game.roomOwner = true;
+                VBox lobbyMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/LobbyMenu.fxml"));
+                Game.primaryPane.getChildren().setAll(lobbyMenu);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -73,8 +76,10 @@ public class MainMenuController {
      */
     private void lobbyList(ActionEvent actionEvent) {
         try {
-            VBox lobbyListMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/LobbyList.fxml"));
-            Game.primaryPane.getChildren().setAll(lobbyListMenu);
+            if (NetworkManager.getInstance() != null) {
+                VBox lobbyListMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/LobbyList.fxml"));
+                Game.primaryPane.getChildren().setAll(lobbyListMenu);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
