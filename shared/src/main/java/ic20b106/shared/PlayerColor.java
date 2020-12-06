@@ -7,6 +7,8 @@ public enum PlayerColor {
     RED(Color.INDIANRED), BLUE(Color.CORNFLOWERBLUE),
     YELLOW(Color.ORANGE), GREEN(Color.FORESTGREEN);
 
+    private final Color color;
+
     PlayerColor(Color color) {
         this.color = color;
     }
@@ -39,6 +41,4 @@ public enum PlayerColor {
             }
         throw new IllegalArgumentException("Unexpected value: " + str);
     }
-
-    private final Color color;
 }

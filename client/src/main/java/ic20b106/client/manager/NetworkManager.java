@@ -1,5 +1,6 @@
 package ic20b106.client.manager;
 
+import ic20b106.client.Game;
 import ic20b106.client.Lobby;
 import ic20b106.client.exceptions.HashException;
 import ic20b106.client.exceptions.HashTakenException;
@@ -9,6 +10,8 @@ import ic20b106.shared.ClientCommands;
 import ic20b106.shared.PlayerColor;
 import ic20b106.shared.RemoteCommands;
 import ic20b106.shared.NetworkConstants;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.scene.control.Alert;
 
 import java.io.BufferedReader;
@@ -55,6 +58,7 @@ public class NetworkManager extends UnicastRemoteObject
         }
 
         this.playerHash = hash;
+
 
         Socket socket = new Socket(NetworkConstants.HOST, NetworkConstants.PORT);
 
@@ -117,17 +121,29 @@ public class NetworkManager extends UnicastRemoteObject
      */
     public static NetworkManager getInstance() {
         if (singleInstance == null) {
-            try {
-                singleInstance = new NetworkManager();
-            } catch (ConnectException connectException) {
-                Alert connectionErrorAlert = new Alert(Alert.AlertType.ERROR);
-                connectionErrorAlert.setTitle("Connection Error");
-                connectionErrorAlert.setHeaderText("Connection refused.");
-                connectionErrorAlert.setContentText("Check your Internet connection.");
-                connectionErrorAlert.showAndWait();
-            } catch (IOException | NotBoundException | HashException e) {
-                e.printStackTrace();
-            }
+            Task<Void> connectTask = new Task<>() {
+                @Override
+                protected Void call() {
+                    try {
+                        singleInstance = new NetworkManager();
+                    } catch (ConnectException connectException) {
+                        Platform.runLater(() -> {
+                            Alert connectionErrorAlert = new Alert(Alert.AlertType.ERROR);
+                            connectionErrorAlert.setTitle("Connection Error");
+                            connectionErrorAlert.setHeaderText("Connection refused.");
+                            connectionErrorAlert.setContentText("Check your Internet connection.");
+                            connectionErrorAlert.showAndWait();
+                        });
+                    } catch (IOException | NotBoundException | HashException e) {
+                        e.printStackTrace();
+                    }
+                    updateProgress(1, 1);
+                    return null;
+                }
+            };
+            connectTask.setOnSucceeded(workerStateEvent -> Game.primaryPane.getChildren().remove(Game.loadingBox));
+            Game.openLoadingScreen(connectTask.progressProperty());
+            new Thread(connectTask).start();
         }
         return singleInstance;
     }
@@ -146,6 +162,15 @@ public class NetworkManager extends UnicastRemoteObject
                 }
             }
             singleInstance = null;
+        }
+    }
+
+    /**
+     * Closes the Instance if there is one
+     */
+    public static void closeIfExists() {
+        if (singleInstance != null) {
+            singleInstance.close();
         }
     }
 

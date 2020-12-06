@@ -23,9 +23,9 @@
         * [X] eventhandler
   * [ ] server
   * [ ] shared
-* [ ] Logging
+* [X] Logging
 * [ ] Implement Hashids into Code
-* [ ] All Variables to top of Class
+* [X] All Variables to top of Class
 
 # Client
 * [ ] Make fxml String constant

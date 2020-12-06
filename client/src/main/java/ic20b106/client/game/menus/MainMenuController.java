@@ -5,10 +5,14 @@ import ic20b106.client.manager.NetworkManager;
 import ic20b106.client.util.javafx.eventhandler.ButtonSFXEventHandler;
 import ic20b106.client.util.javafx.eventhandler.SFXEventHandler;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -57,6 +61,7 @@ public class MainMenuController {
     private void openLobby(ActionEvent actionEvent) {
         try {
             NetworkManager networkManager = NetworkManager.getInstance();
+
             if (networkManager != null) {
                 networkManager.serverStub.createRoom();
                 System.out.println("Connection established");
@@ -104,7 +109,6 @@ public class MainMenuController {
      */
     @FXML
     private void exitApplication() {
-        Platform.exit();
-        System.exit(0);
+        Game.close();
     }
 }

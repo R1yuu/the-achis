@@ -34,6 +34,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Logger;
 
 /**
  * @author Andre Schneider
@@ -45,7 +46,9 @@ public class FileManager implements Closeable {
 
     private static FileManager singleInstance;
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private static final String savePath = System.getProperty("user.home") + "/.the_achis";
+    private final Logger fileMngLogger = Logger.getLogger("FileManager");
+    private static final String savePath =
+      System.getProperty("user.home").replace("\\", "/") + "/.the_achis";
     private static final String optionsFilePath = savePath + "/options.json";
     private static final String hashidFilePath = savePath + "/account.achiid";
 
@@ -81,15 +84,15 @@ public class FileManager implements Closeable {
         File hashidFile = new File(hashidFilePath);
         try {
             if (optionsFile.createNewFile()) {
-                System.out.println("File Created");
+                fileMngLogger.info("'" + optionsFilePath + "' created.");
                 this.writeOptions();
             } else {
-                System.out.println("File exists");
+                fileMngLogger.info("'" + optionsFilePath + "' already exists.");
             }
             if (hashidFile.createNewFile()) {
-                System.out.println("File Created");
+                fileMngLogger.info("'" + hashidFilePath + "' created.");
             } else {
-                System.out.println("File exists");
+                fileMngLogger.info("'" + hashidFilePath + "' already exists.");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -103,6 +106,7 @@ public class FileManager implements Closeable {
      */
     public static FileManager getInstance() {
         if (singleInstance == null) {
+            Logger.getGlobal().info("Creating FileManager.");
             singleInstance = new FileManager();
         }
         return singleInstance;
@@ -112,6 +116,7 @@ public class FileManager implements Closeable {
      * Closes the File Manager and sets its Memory to be free
      */
     public void close() {
+        fileMngLogger.info("Closing FileManager.");
         if (singleInstance != null) {
             singleInstance = null;
         }
@@ -121,6 +126,7 @@ public class FileManager implements Closeable {
      * Writes Options to the options File
      */
     public void writeOptions() {
+        fileMngLogger.info("Writing Options.");
         try (FileWriter fileWriter = new FileWriter(optionsFilePath)) {
             OptionsDump optionsDump = new OptionsDump();
             fileWriter.write(this.gson.toJson(optionsDump));

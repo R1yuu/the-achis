@@ -2,6 +2,9 @@ package ic20b106.shared.utils;
 
 public class Pair<X, Y> {
 
+    public X x;
+    public Y y;
+
     public Pair(X x, Y y) {
         this.x = x;
         this.y = y;
@@ -16,7 +19,4 @@ public class Pair<X, Y> {
         this.x = x;
         this.y = y;
     }
-
-    public X x;
-    public Y y;
 }

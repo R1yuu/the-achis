@@ -10,7 +10,7 @@
       fx:controller="ic20b106.client.game.menus.LobbyListController" alignment="center"
       maxHeight="Infinity" maxWidth="Infinity" spacing="10">
 
-    <Button>Back</Button>
+    <Button onAction="#backToMainMenu">Back</Button>
 
     <ScrollPane prefHeight="500" maxHeight="500" prefWidth="500" maxWidth="500" fx:id="listPane">
         <GridPane fx:id="lobbyListPane" alignment="center">

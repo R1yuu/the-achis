@@ -50,6 +50,14 @@ public class LobbyListController {
     }
 
     /**
+     * Goes Back to the Main Menu
+     */
+    @FXML
+    private void backToMainMenu() {
+        Game.resetGame();
+    }
+
+    /**
      * Retrieves all Lobbies from the Server and Displays them
      */
     private void retrieveLobbies() {
