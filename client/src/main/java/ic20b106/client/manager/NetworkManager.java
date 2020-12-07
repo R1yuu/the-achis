@@ -121,29 +121,19 @@ public class NetworkManager extends UnicastRemoteObject
      */
     public static NetworkManager getInstance() {
         if (singleInstance == null) {
-            Task<Void> connectTask = new Task<>() {
-                @Override
-                protected Void call() {
-                    try {
-                        singleInstance = new NetworkManager();
-                    } catch (ConnectException connectException) {
-                        Platform.runLater(() -> {
-                            Alert connectionErrorAlert = new Alert(Alert.AlertType.ERROR);
-                            connectionErrorAlert.setTitle("Connection Error");
-                            connectionErrorAlert.setHeaderText("Connection refused.");
-                            connectionErrorAlert.setContentText("Check your Internet connection.");
-                            connectionErrorAlert.showAndWait();
-                        });
-                    } catch (IOException | NotBoundException | HashException e) {
-                        e.printStackTrace();
-                    }
-                    updateProgress(1, 1);
-                    return null;
-                }
-            };
-            connectTask.setOnSucceeded(workerStateEvent -> Game.primaryPane.getChildren().remove(Game.loadingBox));
-            Game.openLoadingScreen(connectTask.progressProperty());
-            new Thread(connectTask).start();
+            try {
+                singleInstance = new NetworkManager();
+            } catch (ConnectException connectException) {
+                Platform.runLater(() -> {
+                    Alert connectionErrorAlert = new Alert(Alert.AlertType.ERROR);
+                    connectionErrorAlert.setTitle("Connection Error");
+                    connectionErrorAlert.setHeaderText("Connection refused.");
+                    connectionErrorAlert.setContentText("Check your Internet connection.");
+                    connectionErrorAlert.showAndWait();
+                });
+            } catch (IOException | NotBoundException | HashException e) {
+                e.printStackTrace();
+            }
         }
         return singleInstance;
     }

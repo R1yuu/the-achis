@@ -34,7 +34,7 @@ import java.util.List;
  * @author Andre Schneider
  * @version 1.0
  *
- * Controller Class of CreateGameMenu.fxml
+ * Controller Class of CreateLobbyMenu.fxml
  */
 public class CreateLobbyMenuController {
 

@@ -1,18 +1,15 @@
 package ic20b106.client.game.menus;
 
 import ic20b106.client.Game;
+import ic20b106.client.manager.LoadingTask;
 import ic20b106.client.manager.NetworkManager;
 import ic20b106.client.util.javafx.eventhandler.ButtonSFXEventHandler;
 import ic20b106.client.util.javafx.eventhandler.SFXEventHandler;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -59,19 +56,22 @@ public class MainMenuController {
      * @param actionEvent Action Event
      */
     private void openLobby(ActionEvent actionEvent) {
-        try {
-            NetworkManager networkManager = NetworkManager.getInstance();
 
-            if (networkManager != null) {
-                networkManager.serverStub.createRoom();
-                System.out.println("Connection established");
-                Game.roomOwner = true;
-                VBox lobbyMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/LobbyMenu.fxml"));
-                Game.primaryPane.getChildren().setAll(lobbyMenu);
+        new LoadingTask(() -> {
+            try {
+                NetworkManager networkManager = NetworkManager.getInstance();
+
+                if (networkManager != null) {
+                    networkManager.serverStub.createRoom();
+                    System.out.println("Connection established");
+                    Game.roomOwner = true;
+                    VBox lobbyMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/LobbyMenu.fxml"));
+                    Platform.runLater(() -> Game.primaryPane.getChildren().setAll(lobbyMenu));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        }).startInThread();
     }
 
     /**
@@ -80,14 +80,16 @@ public class MainMenuController {
      * @param actionEvent Action Event
      */
     private void lobbyList(ActionEvent actionEvent) {
-        try {
-            if (NetworkManager.getInstance() != null) {
-                VBox lobbyListMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/LobbyList.fxml"));
-                Game.primaryPane.getChildren().setAll(lobbyListMenu);
+        new LoadingTask(() -> {
+            try {
+                if (NetworkManager.getInstance() != null) {
+                    VBox lobbyListMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/LobbyList.fxml"));
+                    Platform.runLater(() -> Game.primaryPane.getChildren().setAll(lobbyListMenu));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        }).startInThread();
     }
 
     /**
