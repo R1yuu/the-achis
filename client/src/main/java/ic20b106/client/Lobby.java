@@ -74,13 +74,7 @@ public class Lobby {
 
         if (Game.roomOwner) {
             exitLobbyButton.setText("Close Lobby");
-            exitLobbyButton.setOnAction(actionEven -> {
-                try {
-                    NetworkManager.getInstance().serverStub.quitRoom();
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-            });
+            exitLobbyButton.setOnAction((actionEvent) -> Game.resetGame());
         }
 
         colorComboBox.getItems().addAll("RED", "BLUE", "YELLOW", "GREEN");

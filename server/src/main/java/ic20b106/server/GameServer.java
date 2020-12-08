@@ -7,15 +7,18 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.ExportException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.logging.Logger;
 
 /**
- * @author t
- * Link: https://stackoverflow.com/a/10131449
+ * @author Andre Schneider
+ * @version 1.0
+ *
+ * Achi Game Server implementation
  */
 public class GameServer {
+
+    private static final HashMap<String, ClientHandler> clients = new HashMap<>();
 
     public static void main(String[] args) {
         ServerSocket serverSocket;
@@ -30,20 +33,28 @@ public class GameServer {
                 serverSocket = new ServerSocket(NetworkConstants.PORT);
                 break;
             } catch (ExportException exportException) {
-                System.err.println("The Port '" + rmiPort + "' is already taken. Please choose a new free one.");
+                String portError = "The Port '" + rmiPort + "' was already taken.";
+                Logger.getGlobal().severe(portError);
+                System.err.println(portError);
                 String userInput = "";
                 do {
                     try {
                         System.err.print("> ");
                         userInput = System.console().readLine();
+                        Logger.getGlobal().severe("New Input: " + userInput);
                         rmiPort = Integer.parseInt(userInput);
                         if (rmiPort < 1025 || rmiPort > 65535) {
                             throw new NumberFormatException();
                         }
                         break;
                     } catch (NumberFormatException numberFormatException) {
-                        System.err.println("Invalid input: '" + userInput + "'.");
-                        System.err.println("Please input an integer from 1025 to 65535");
+                        String errorMsg = "Invalid input: '" + userInput + "'.";
+                        Logger.getGlobal().severe(errorMsg);
+                        System.err.println(errorMsg);
+
+                        errorMsg = "Please input an integer from 1025 to 65535";
+                        Logger.getGlobal().severe(errorMsg);
+                        System.err.println(errorMsg);
                     }
                 } while (true);
 
@@ -53,17 +64,21 @@ public class GameServer {
             }
         } while (true);
 
-
-        //noinspection InfiniteLoopStatement
         while (true) {
             try {
                 socket = serverSocket.accept();
 
                 new ClientHandler(socket);
             } catch (IOException e) {
-                System.out.println("I/O error: " + e);
+                Logger.getGlobal().severe("I/O error: " + e);
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static HashMap<String, ClientHandler> getClients() {
+        synchronized (clients) {
+            return clients;
         }
     }
 
@@ -84,6 +99,4 @@ public class GameServer {
             return clients.containsKey(clientHandler.getPlayerHash());
         }
     }
-
-    private static final HashMap<String, ClientHandler> clients = new HashMap<>();
 }

@@ -35,9 +35,9 @@ public class ClientDatabase {
             this.dbConnection = DriverManager.getConnection(dbPath);
             initializeTables();
 
-            System.out.println(this.dbConnection.getMetaData().getDriverName());
+            CommandLineManager.out.print(this.dbConnection.getMetaData().getDriverName());
 
-            System.out.println("Connection to SQLite has been established.");
+            CommandLineManager.out.print("Connection to SQLite has been established.");
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -119,6 +119,21 @@ public class ClientDatabase {
             singleInstance = new ClientDatabase();
         }
         return singleInstance;
+    }
+
+    public void close() {
+        try {
+            dbConnection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
+    public static void closeIfExists() {
+        if (singleInstance != null) {
+            singleInstance.close();
+        }
     }
 
 }

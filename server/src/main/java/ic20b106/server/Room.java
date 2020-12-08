@@ -162,4 +162,22 @@ public class Room {
               });
         }
     }
+
+    public static void closeAllRooms() {
+        synchronized (rooms) {
+            rooms.forEach(Room::closeRoom);
+        }
+    }
+
+    public static HashSet<Room> getRooms() {
+        synchronized (rooms) {
+            return rooms;
+        }
+    }
+
+    public HashSet<ClientHandler> getClients() {
+        synchronized (clients) {
+            return this.clients;
+        }
+    }
 }

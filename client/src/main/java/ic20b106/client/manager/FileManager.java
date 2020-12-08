@@ -3,37 +3,13 @@ package ic20b106.client.manager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import ic20b106.client.Options;
-import ic20b106.client.util.ByteUtils;
-import javafx.scene.image.Image;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.channels.FileChannel;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
 import java.util.logging.Logger;
 
 /**
@@ -46,11 +22,11 @@ public class FileManager implements Closeable {
 
     private static FileManager singleInstance;
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private final Logger fileMngLogger = Logger.getLogger("FileManager");
     private static final String savePath =
       System.getProperty("user.home").replace("\\", "/") + "/.the_achis";
     private static final String optionsFilePath = savePath + "/options.json";
     private static final String hashidFilePath = savePath + "/account.achiid";
+    private static final Logger fileMngLogger = Logger.getLogger(FileManager.class.getName());
 
     /**
      * Class used by Gson to Map the Json File too
