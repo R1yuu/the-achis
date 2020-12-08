@@ -112,6 +112,7 @@ public class NetworkManager extends UnicastRemoteObject
     public void disconnect() {
         serverInvocedClose = true;
         close();
+        Game.resetGame();
     }
 
     /**
