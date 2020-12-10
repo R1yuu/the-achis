@@ -8,14 +8,10 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Control;
 import javax.sound.sampled.FloatControl;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Options implements Initializable, Serializable {
 
@@ -31,10 +27,14 @@ public class Options implements Initializable, Serializable {
     private Slider sfxVolumeSlider;
     @FXML
     private Label sfxVolumeLabel;
-    private static final AtomicBoolean musicEnabled = new AtomicBoolean(true);
-    private static final AtomicInteger musicVolume = new AtomicInteger(100);
-    private static final AtomicBoolean sfxEnabled = new AtomicBoolean(true);
-    private static final AtomicInteger sfxVolume = new AtomicInteger(100);
+
+    private static boolean musicEnabled = true;
+    private static int musicVolume = 100;
+    private static boolean sfxEnabled = true;
+    private static int sfxVolume = 100;
+    private static String host = "achirealm.com";
+    private static int socketPort = 2910;
+    private static int rmiPort = 1509;
 
     /**
      * FXML initialize Method
@@ -44,18 +44,15 @@ public class Options implements Initializable, Serializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        musicEnabledCheckBox.setSelected(Options.musicEnabled.get());
-        synchronized (Options.musicVolume) {
-            musicVolumeSlider.setValue(Options.musicVolume.get());
-            musicVolumeLabel.setText(Options.musicVolume.get() + "%");
-        }
+        musicEnabledCheckBox.setSelected(Options.getMusicEnabled());
+        int musicVolume = Options.getMusicVolume();
+        musicVolumeSlider.setValue(musicVolume);
+        musicVolumeLabel.setText(musicVolume + "%");
 
-
-        sfxEnabledCheckBox.setSelected(Options.sfxEnabled.get());
-        synchronized (Options.sfxVolume) {
-            sfxVolumeSlider.setValue(Options.sfxVolume.get());
-            sfxVolumeLabel.setText(Options.sfxVolume.get() + "%");
-        }
+        sfxEnabledCheckBox.setSelected(Options.getSfxEnabled());
+        int sfxVolume = Options.getSfxVolume();
+        sfxVolumeSlider.setValue(sfxVolume);
+        sfxVolumeLabel.setText(sfxVolume + "%");
 
         musicEnabledCheckBox.selectedProperty().addListener((obs, oldval, newVal) -> Options.setMusicEnabled(newVal));
         sfxEnabledCheckBox.selectedProperty().addListener((obs, oldval, newVal) -> Options.setSfxEnabled(newVal));
@@ -79,7 +76,9 @@ public class Options implements Initializable, Serializable {
      * @param musicEnabled Boolean to set Music to on/off
      */
     public static void setMusicEnabled(boolean musicEnabled) {
-        Options.musicEnabled.set(musicEnabled);
+        synchronized (Options.class) {
+            Options.musicEnabled = musicEnabled;
+        }
         if (musicEnabled) {
             AudioManager.getInstance().getBackgroundClip().start();
         } else {
@@ -93,7 +92,9 @@ public class Options implements Initializable, Serializable {
      * @return If Music on/off
      */
     public static boolean getMusicEnabled() {
-        return Options.musicEnabled.get();
+        synchronized (Options.class) {
+            return Options.musicEnabled;
+        }
     }
 
     /**
@@ -103,7 +104,9 @@ public class Options implements Initializable, Serializable {
      */
     public static void setMusicVolume(int musicVolume) {
         if (musicVolume >= 0 && musicVolume <= 100) {
-            Options.musicVolume.set(musicVolume);
+            synchronized (Options.class) {
+                Options.musicVolume = musicVolume;
+            }
 
             FloatControl gainControl = (FloatControl) AudioManager.getInstance().getBackgroundClip()
               .getControl(FloatControl.Type.MASTER_GAIN);
@@ -117,7 +120,9 @@ public class Options implements Initializable, Serializable {
      * @return Music Volume (in Percent)
      */
     public static int getMusicVolume() {
-        return Options.musicVolume.get();
+        synchronized (Options.class) {
+            return Options.musicVolume;
+        }
     }
 
     /**
@@ -126,7 +131,9 @@ public class Options implements Initializable, Serializable {
      * @param sfxEnabled Sets if Sound Effects are on/off
      */
     public static void setSfxEnabled(boolean sfxEnabled) {
-        Options.sfxEnabled.set(sfxEnabled);
+        synchronized (Options.class) {
+            Options.sfxEnabled = sfxEnabled;
+        }
     }
 
     /**
@@ -135,7 +142,9 @@ public class Options implements Initializable, Serializable {
      * @return If Sound Effects are on/off
      */
     public static boolean getSfxEnabled() {
-        return Options.sfxEnabled.get();
+        synchronized (Options.class) {
+            return Options.sfxEnabled;
+        }
     }
 
     /**
@@ -145,7 +154,9 @@ public class Options implements Initializable, Serializable {
      */
     public static void setSfxVolume(int sfxVolume) {
         if (sfxVolume >= 0 && sfxVolume <= 100) {
-            Options.sfxVolume.set(sfxVolume);
+            synchronized (Options.class) {
+                Options.sfxVolume = sfxVolume;
+            }
         }
     }
 
@@ -155,7 +166,75 @@ public class Options implements Initializable, Serializable {
      * @return SFX Volume (in Percent)
      */
     public static int getSfxVolume() {
-        return Options.sfxVolume.get();
+        synchronized (Options.class) {
+            return Options.sfxVolume;
+        }
+    }
+
+    /**
+     * Setter
+     *
+     * @param socketPort Port for Socket Connection Handshake
+     */
+    public static void setSocketPort(int socketPort) {
+        synchronized (Options.class) {
+            Options.socketPort = socketPort;
+        }
+    }
+
+    /**
+     * Getter
+     *
+     * @return Port for Socket Connection Handshake
+     */
+    public static int getSocketPort() {
+        synchronized (Options.class) {
+            return Options.socketPort;
+        }
+    }
+
+    /**
+     * Setter
+     *
+     * @param host Host Addresse to connect to
+     */
+    public static void setHost(String host) {
+        synchronized (Options.class) {
+            Options.host = host;
+        }
+    }
+
+    /**
+     * Getter
+     *
+     * @return Host Addresse to connect to
+     */
+    public static String getHost() {
+        synchronized (Options.class) {
+            return Options.host;
+        }
+    }
+
+    /**
+     * Setter
+     *
+     * @param rmiPort Port for RMI Connection
+     */
+    public static void setRmiPort(int rmiPort) {
+        synchronized (Options.class) {
+            Options.rmiPort = rmiPort;
+        }
+    }
+
+    /**
+     * Getter
+     *
+     * @return Port for RMI Connection
+     */
+    public static int getRmiPort() {
+        synchronized (Options.class) {
+            return Options.rmiPort;
+        }
     }
 
     /**

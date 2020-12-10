@@ -40,12 +40,18 @@ public class FileManager implements Closeable {
             Options.setMusicVolume(this.musicVolume);
             Options.setSfxEnabled(this.sfxEnabled);
             Options.setSfxVolume(this.sfxVolume);
+            Options.setHost(this.host);
+            Options.setSocketPort(this.socketPort);
+            Options.setRmiPort(this.rmiPort);
         }
 
         final boolean musicEnabled = Options.getMusicEnabled();
         final int musicVolume = Options.getMusicVolume();
         final boolean sfxEnabled = Options.getSfxEnabled();
         final int sfxVolume = Options.getSfxVolume();
+        final String host = Options.getHost();
+        final int socketPort = Options.getSocketPort();
+        final int rmiPort = Options.getRmiPort();
     }
 
     /**

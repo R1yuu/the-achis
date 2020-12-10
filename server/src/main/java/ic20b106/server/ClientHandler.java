@@ -45,7 +45,7 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
             printer.println("TAKEN");
         }
 
-        Naming.rebind(NetworkConstants.RMI_HOST + ":" + NetworkConstants.RMI_PORT + "/" + this.playerHash,
+        Naming.rebind(GameServer.RMI_HOST + ":" + GameServer.RMI_PORT + "/" + this.playerHash,
           this);
 
         printer.println("OPEN");
@@ -148,7 +148,7 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
     public void close() {
         try {
             this.clientStub.disconnect();
-            Naming.unbind(NetworkConstants.RMI_HOST + ":" + NetworkConstants.RMI_PORT + "/" + this.playerHash);
+            Naming.unbind(GameServer.RMI_HOST + ":" + GameServer.RMI_PORT + "/" + this.playerHash);
             GameServer.removeClient(this);
         } catch (RemoteException | NotBoundException | MalformedURLException e) {
             e.printStackTrace();

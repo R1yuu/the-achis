@@ -2,6 +2,7 @@ package ic20b106.client.manager;
 
 import ic20b106.client.Game;
 import ic20b106.client.Lobby;
+import ic20b106.client.Options;
 import ic20b106.client.exceptions.HashException;
 import ic20b106.client.exceptions.HashTakenException;
 import ic20b106.client.util.HashUtils;
@@ -11,7 +12,6 @@ import ic20b106.shared.PlayerColor;
 import ic20b106.shared.RemoteCommands;
 import ic20b106.shared.NetworkConstants;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.scene.control.Alert;
 
 import java.io.BufferedReader;
@@ -60,7 +60,7 @@ public class NetworkManager extends UnicastRemoteObject
         this.playerHash = hash;
 
 
-        Socket socket = new Socket(NetworkConstants.HOST, NetworkConstants.PORT);
+        Socket socket = new Socket(Options.getHost(), Options.getSocketPort());
 
         BufferedReader buffer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintStream printer = new PrintStream(socket.getOutputStream(), true);
@@ -77,8 +77,8 @@ public class NetworkManager extends UnicastRemoteObject
         buffer.close();
         socket.close();
 
-        this.serverStub = (RemoteCommands)Naming.lookup(NetworkConstants.RMI_HOST + ":" +
-          NetworkConstants.RMI_PORT + "/" + this.playerHash);
+        this.serverStub = (RemoteCommands)Naming.lookup("rmi://" + Options.getHost() + ":" +
+          Options.getRmiPort() + "/" + this.playerHash);
 
 
 

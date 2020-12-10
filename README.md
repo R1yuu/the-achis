@@ -22,15 +22,19 @@ Players and attack their bases. Last Core standing wins.
 ## How to build/compile
 This is a modular maven project, to build it you need maven:
 https://maven.apache.org/
-### Building Client
-Switch to the "client" module/directory and execute:
+To build the whole project execute in the project root folder:
 ```shell script
 $ mvn
 ```
-### Building Server
-Switch to the "server" module/directory and execute:
+### Building Client
+To build the client module execute in the project root folder:
 ```shell script
-$ mvn
+$ mvn -pl client -am
+```
+### Building Server
+To build the whole project execute in the project root folder:
+```shell script
+$ mvn -pl server -am
 ```
 ## File Structure
 ### Client generated Files

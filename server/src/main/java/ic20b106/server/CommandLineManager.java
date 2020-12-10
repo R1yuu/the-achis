@@ -1,15 +1,36 @@
 package ic20b106.server;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
-import java.util.HashSet;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class CommandLineManager {
 
     private final PrintStream printer;
     public static final CommandLineManager out = new CommandLineManager(System.out);
     public static final CommandLineManager err = new CommandLineManager(System.err);
-    private static final String commandPrompt = "> ";
+    public static final String commandPrompt = "> ";
+    private static final String logFilePath = System.getProperty("user.home").replace("\\", "/") +
+      "/.the_achis/server.log";
+    private static final Logger cmdLogger = Logger.getLogger("CMDLogger");
+    private static final char delLn = (char)13;
     static {
+        cmdLogger.setUseParentHandlers(false);
+        File safeFolder = new File(logFilePath).getParentFile();
+        if (!safeFolder.exists() && !safeFolder.mkdirs()) {
+            throw new IllegalStateException("Couldn't create dir: " + safeFolder);
+        }
+        try {
+            FileHandler fileHandler = new FileHandler(logFilePath, true);
+            cmdLogger.addHandler(fileHandler);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fileHandler.setFormatter(formatter);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
         new Thread(CommandLineManager::commandListener).start();
     }
 
@@ -86,16 +107,27 @@ public class CommandLineManager {
         err.print("Use 'help' to see a list of commands.");
     }
 
+    public void logSevere(String msg) {
+        this.logSevere(msg, false);
+    }
+
+    public void logSevere(String msg, boolean print) {
+        cmdLogger.severe(msg);
+        if (print) {
+            printer.print(msg);
+        }
+    }
+
     public void print(String s) {
         synchronized (printer) {
-            printer.println((char)13 + s);
+            printer.println(delLn + s);
             System.out.print(commandPrompt);
         }
     }
 
     public void format(String format, Object... args) {
         synchronized (printer) {
-            printer.format((char)13 + format + "%n", args);
+            printer.format(delLn + format + "%n", args);
             System.out.print(commandPrompt);
         }
     }

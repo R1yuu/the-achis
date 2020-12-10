@@ -1,6 +1,12 @@
 package ic20b106.server;
 
-import ic20b106.shared.NetworkConstants;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -19,61 +25,67 @@ import java.util.logging.Logger;
 public class GameServer {
 
     private static final HashMap<String, ClientHandler> clients = new HashMap<>();
+    public static int SOCKET_PORT = 2910;
+    public static String RMI_HOST = "rmi://achirealm.com";
+    public static int RMI_PORT = 1509;
+    public static boolean VERBOSE = false;
 
     public static void main(String[] args) {
-        ServerSocket serverSocket;
-        Socket socket;
+        ServerSocket serverSocket = null;
+
+        Options options = new Options();
+        options.addOption(new Option("p", "port", true, "Use specified Socket Port."));
+        options.addOption(new Option("h", "host", true, "Use specified RMI Host."));
+        options.addOption(new Option("r", "rmiport", true, "Use specified RMI Port."));
+        options.addOption(new Option("v", "verbose", false, "Outputs Logs to the Terminal."));
+
+        parseArgs(options, args);
 
         ClientDatabase.getInstance();
 
-        int rmiPort = NetworkConstants.RMI_PORT;
-        do {
-            try {
-                LocateRegistry.createRegistry(rmiPort);
-                serverSocket = new ServerSocket(NetworkConstants.PORT);
-                break;
-            } catch (ExportException exportException) {
-                String portError = "The Port '" + rmiPort + "' was already taken.";
-                Logger.getGlobal().severe(portError);
-                System.err.println(portError);
-                String userInput = "";
-                do {
-                    try {
-                        System.err.print("> ");
-                        userInput = System.console().readLine();
-                        Logger.getGlobal().severe("New Input: " + userInput);
-                        rmiPort = Integer.parseInt(userInput);
-                        if (rmiPort < 1025 || rmiPort > 65535) {
-                            throw new NumberFormatException();
-                        }
-                        break;
-                    } catch (NumberFormatException numberFormatException) {
-                        String errorMsg = "Invalid input: '" + userInput + "'.";
-                        Logger.getGlobal().severe(errorMsg);
-                        System.err.println(errorMsg);
-
-                        errorMsg = "Please input an integer from 1025 to 65535";
-                        Logger.getGlobal().severe(errorMsg);
-                        System.err.println(errorMsg);
-                    }
-                } while (true);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.exit(1);
-            }
-        } while (true);
+        try {
+            LocateRegistry.createRegistry(GameServer.RMI_PORT);
+            serverSocket = new ServerSocket(GameServer.SOCKET_PORT);
+        } catch (ExportException exportException) {
+            Logger.getGlobal().severe("The Port '" + GameServer.RMI_PORT + "' was already taken.");
+            System.exit(1);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
 
         while (true) {
             try {
-                socket = serverSocket.accept();
-
+                Socket socket = serverSocket.accept();
                 new ClientHandler(socket);
             } catch (IOException e) {
                 Logger.getGlobal().severe("I/O error: " + e);
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void parseArgs(Options options, String[] args) {
+        CommandLineParser parser = new DefaultParser();
+        CommandLine cmd = null;
+        try {
+            cmd = parser.parse(options, args);
+        } catch (ParseException parseException) {
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp("server-0.1.0", options);
+            System.exit(1);
+        }
+
+        if (cmd.hasOption("p")) {
+            SOCKET_PORT = Integer.parseInt(cmd.getOptionValue("p"));
+        }
+        if (cmd.hasOption("h")) {
+            RMI_HOST = cmd.getOptionValue("h");
+        }
+        if (cmd.hasOption("r")) {
+            RMI_PORT = Integer.parseInt(cmd.getOptionValue("r"));
+        }
+        VERBOSE = cmd.hasOption("v");
     }
 
     public static HashMap<String, ClientHandler> getClients() {
