@@ -34,10 +34,14 @@ public class GameServer {
         ServerSocket serverSocket = null;
 
         Options options = new Options();
-        options.addOption(new Option("p", "port", true, "Use specified Socket Port."));
-        options.addOption(new Option("h", "host", true, "Use specified RMI Host."));
-        options.addOption(new Option("r", "rmiport", true, "Use specified RMI Port."));
-        options.addOption(new Option("v", "verbose", false, "Outputs Logs to the Terminal."));
+        options.addOption(new Option("p", "port", true,
+          "Use specified Socket Port. (Default: " + SOCKET_PORT + ")"));
+        options.addOption(new Option("h", "host", true,
+          "Use specified RMI Host. (Default: '" + RMI_HOST + "')"));
+        options.addOption(new Option("r", "rmiport", true,
+          "Use specified RMI Port. (Default: " + RMI_PORT + ")"));
+        options.addOption(new Option("v", "verbose", false,
+          "Outputs Logs to the Terminal."));
 
         parseArgs(options, args);
 
@@ -96,13 +100,17 @@ public class GameServer {
 
     public static void addClient(ClientHandler clientHandler) {
         synchronized (clients) {
-            clients.putIfAbsent(clientHandler.getPlayerHash(), clientHandler);
+            if (clients.putIfAbsent(clientHandler.getPlayerHash(), clientHandler) == null) {
+                CommandLineManager.out.logInfo("Client '" + clientHandler.getPlayerHash() + "' joined the Server.");
+            }
         }
     }
 
     public static void removeClient(ClientHandler clientHandler) {
         synchronized (clients) {
-            clients.remove(clientHandler.getPlayerHash());
+            if (clients.remove(clientHandler.getPlayerHash()) != null) {
+                CommandLineManager.out.logInfo("Client '" + clientHandler.getPlayerHash() + "' left the Server.");
+            }
         }
     }
 

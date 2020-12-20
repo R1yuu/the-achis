@@ -69,7 +69,7 @@ public class CommandLineManager {
 
                         out.print(new String(new char[42]).replace("\0", "\u2500"));
                         Room.getRooms().forEach(room -> {
-                            out.print("Room UUID: " + room.getId());
+                            out.print("Room UUID: " + room.getUuid());
                             int cnt = 0;
                             for (ClientHandler client : room.getClients()) {
                                 if (cnt == room.getClients().size() - 1) {
@@ -108,13 +108,24 @@ public class CommandLineManager {
     }
 
     public void logSevere(String msg) {
-        this.logSevere(msg, false);
+        this.logSevere(msg, true);
     }
 
     public void logSevere(String msg, boolean print) {
         cmdLogger.severe(msg);
-        if (print) {
-            printer.print(msg);
+        if (print || GameServer.VERBOSE) {
+            this.print(msg);
+        }
+    }
+
+    public void logInfo(String msg) {
+        logInfo(msg, false);
+    }
+
+    public void logInfo(String msg, boolean print) {
+        cmdLogger.info(msg);
+        if (print || GameServer.VERBOSE) {
+            this.print(msg);
         }
     }
 

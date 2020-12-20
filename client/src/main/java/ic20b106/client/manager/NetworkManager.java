@@ -10,7 +10,6 @@ import ic20b106.shared.Buildable;
 import ic20b106.shared.ClientCommands;
 import ic20b106.shared.PlayerColor;
 import ic20b106.shared.RemoteCommands;
-import ic20b106.shared.NetworkConstants;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 
@@ -26,6 +25,7 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.logging.Logger;
 
 /**
  * @author Andre Schneider
@@ -52,9 +52,11 @@ public class NetworkManager extends UnicastRemoteObject
 
         String hash = FileManager.getInstance().readHashid();
         if (!HashUtils.checkHashValidity(hash)) {
+            Logger.getGlobal().severe("Hash invalid.");
             hash = HashUtils.generateHash();
+            Logger.getGlobal().severe("Hash Generated.");
             FileManager.getInstance().writeHashid(hash);
-            System.out.println("Generated!");
+            Logger.getGlobal().severe("Hash Generation finished.");
         }
 
         this.playerHash = hash;

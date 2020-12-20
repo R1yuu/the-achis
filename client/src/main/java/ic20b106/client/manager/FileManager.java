@@ -140,6 +140,7 @@ public class FileManager implements Closeable {
     public String readHashid() {
         String hashid = "";
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(hashidFilePath))) {
+            Logger.getGlobal().info("Reading Hash from File.");
             hashid = bufferedReader.readLine();
         } catch (IOException e) {
             e.printStackTrace();
@@ -154,6 +155,7 @@ public class FileManager implements Closeable {
      */
     public void writeHashid(String hashid) {
         try (FileWriter fileWriter = new FileWriter(hashidFilePath)) {
+            Logger.getGlobal().info("Writing Hash to File.");
             fileWriter.write(hashid);
         } catch (IOException e) {
             e.printStackTrace();

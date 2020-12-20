@@ -1,5 +1,7 @@
 package ic20b106.shared;
 
+import ic20b106.shared.utils.Pair;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.LinkedHashMap;
@@ -11,8 +13,8 @@ public interface RemoteCommands extends Remote {
     String quitRoom() throws RemoteException;
     String createRoom() throws RemoteException;
     List<LinkedHashMap<String, String>> listRooms() throws RemoteException;
-    String joinRoom(UUID roomUUID) throws RemoteException;
-    List<PlayerProfile> showRoom() throws RemoteException;
+    boolean joinRoom(UUID roomUUID) throws RemoteException;
+    Pair<RoomProfile, List<PlayerProfile>> showRoom() throws RemoteException;
     String startRoom() throws RemoteException;
     void placeBuilding(Buildable building) throws RemoteException;
     void updateColor(PlayerColor playerColor) throws RemoteException;

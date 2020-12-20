@@ -1,11 +1,13 @@
 package ic20b106.client;
 
+import ic20b106.client.game.buildings.link.Link;
 import ic20b106.client.manager.NetworkManager;
-import ic20b106.client.util.ByteUtils;
 import ic20b106.shared.PlayerColor;
 import ic20b106.shared.PlayerProfile;
 import ic20b106.shared.PlayerStartPosition;
+import ic20b106.shared.RoomProfile;
 import ic20b106.shared.utils.Pair;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -18,6 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 
 import java.rmi.RemoteException;
+import java.util.List;
 
 /**
  * @author Andre Schneider
@@ -27,14 +30,17 @@ import java.rmi.RemoteException;
  */
 public class Lobby {
 
-    public static ComboBox<String> colorComboBox = new ComboBox<>();
+    public static final ComboBox<String> colorComboBox = new ComboBox<>();
     public static GridPane playerPane;
+    public static Label roomName;
+    public static Label roomOwner;
+    public static Label roomUUID;
     @FXML
     private GridPane playerGridPane;
     @FXML
     private Button exitLobbyButton;
     @FXML
-    private VBox roomNameBox;
+    private Label roomNameLabel;
     @FXML
     private Label roomOwnerLabel;
     @FXML
@@ -51,6 +57,9 @@ public class Lobby {
     private void initialize() {
 
         playerPane = playerGridPane;
+        roomName = roomNameLabel;
+        roomOwner = roomOwnerLabel;
+        roomUUID = roomUUIDLabel;
 
         class ColorLabelCell extends ListCell<String> {
             Label label;
@@ -112,32 +121,53 @@ public class Lobby {
     public static void updateTable() {
         try {
             int rowIdx = 1;
-            for (PlayerProfile playerProfile : NetworkManager.getInstance().serverStub.showRoom()) {
+            Pair<RoomProfile, List<PlayerProfile>> roomData = NetworkManager.getInstance().serverStub.showRoom();
+            RoomProfile roomProfile = roomData.x;
+            List<PlayerProfile> playerProfiles = roomData.y;
+            Platform.runLater(() -> {
+                roomName.setText(roomProfile.roomName);
+                roomOwner.setText(roomProfile.roomOwner);
+                roomUUID.setText(roomProfile.uuid.toString());
+
+                colorComboBox.getItems().removeIf(color -> {
+                    String selectedItem = colorComboBox.getSelectionModel().getSelectedItem();
+                    if (selectedItem != null) {
+                        return !selectedItem.equals(color);
+                    }
+                    return true;
+                });
+
+                roomProfile.freeColors.forEach(playerColor -> colorComboBox.getItems().add(playerColor.toString()));
+            });
+
+            for (PlayerProfile playerProfile : playerProfiles) {
                 for (Node child : playerPane.getChildren()) {
                     if(GridPane.getRowIndex(child) == rowIdx) {
                         int colIdx = GridPane.getColumnIndex(child);
-                        switch (colIdx) {
-                            case 0 -> {
-                                if (playerProfile.id != null) {
-                                    ((Label) child).setText(playerProfile.id);
+                        Platform.runLater(() -> {
+                            switch (colIdx) {
+                                case 0 -> {
+                                    if (playerProfile.id != null) {
+                                        ((Label) child).setText(playerProfile.id);
+                                    }
+                                }
+                                case 1 -> {
+                                    if (playerProfile.color != null) {
+                                        ((Rectangle) child).setFill(playerProfile.color.toColor());
+                                    }
+                                }
+                                case 2 -> {
+                                    if (playerProfile.startPosition != null) {
+                                        ((Label) child).setText(playerProfile.startPosition.toString());
+                                    }
+                                }
+                                case 3 -> {
+                                    if (playerProfile.isReady != null) {
+                                        ((CheckBox) child).setSelected(playerProfile.isReady);
+                                    }
                                 }
                             }
-                            case 1 -> {
-                                if (playerProfile.color != null) {
-                                    ((Rectangle) child).setFill(playerProfile.color.toColor());
-                                }
-                            }
-                            case 2 -> {
-                                if (playerProfile.startPosition != null) {
-                                    ((Label) child).setText(playerProfile.startPosition.toString());
-                                }
-                            }
-                            case 3 -> {
-                                if (playerProfile.isReady != null) {
-                                    ((CheckBox) child).setSelected(playerProfile.isReady);
-                                }
-                            }
-                        }
+                        });
                     }
                 }
                 rowIdx++;

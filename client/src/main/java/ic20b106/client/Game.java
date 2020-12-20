@@ -114,8 +114,10 @@ public class Game extends Application {
      * Resets the Client to its default State in the MainMenu
      */
     public static void resetGame() {
-        primaryPane.getChildren().clear();
-        primaryPane.getChildren().setAll(mainMenu);
+        Platform.runLater(() -> {
+            primaryPane.getChildren().clear();
+            primaryPane.getChildren().setAll(mainMenu);
+        });
 
         NetworkManager.closeIfExists();
         activeSubMenu = null;

@@ -21,8 +21,9 @@
     </Button>
 
     <FlowPane alignment="center" hgap="20">
-        <VBox fx:id="roomNameBox" spacing="5" alignment="center">
+        <VBox spacing="5" alignment="center">
             <Label text="Room Name" style="-fx-font-weight: bold" />
+            <Label fx:id="roomNameLabel" />
         </VBox>
         <VBox spacing="5" alignment="center">
             <Label text="Room Owner" style="-fx-font-weight: bold" />

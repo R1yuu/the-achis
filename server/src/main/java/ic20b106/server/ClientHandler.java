@@ -2,11 +2,12 @@ package ic20b106.server;
 
 import ic20b106.shared.Buildable;
 import ic20b106.shared.ClientCommands;
-import ic20b106.shared.NetworkConstants;
 import ic20b106.shared.PlayerColor;
 import ic20b106.shared.PlayerProfile;
 import ic20b106.shared.PlayerStartPosition;
 import ic20b106.shared.RemoteCommands;
+import ic20b106.shared.RoomProfile;
+import ic20b106.shared.utils.Pair;
 
 import java.io.BufferedReader;
 import java.io.Closeable;
@@ -89,19 +90,15 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
     }
 
     @Override
-    public String joinRoom(UUID roomUUID) {
-        this.room = Room.addClient(roomUUID, this);
+    public boolean joinRoom(UUID roomUUID) {
+        CommandLineManager.out.logInfo("Client '" + this.getPlayerHash() + "' is trying to join Room '" + roomUUID + "'.");
+        Room.addClient(roomUUID, this);
 
-        try {
-            clientStub.updateLobby();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return true;
     }
 
     @Override
-    public List<PlayerProfile> showRoom() {
+    public Pair<RoomProfile, List<PlayerProfile>> showRoom() {
         return this.room.getRoomContent();
     }
 
@@ -117,14 +114,18 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
 
     @Override
     public void updateColor(PlayerColor playerColor) {
-        PlayerColor oldColor = this.playerColor;
+        if (this.playerColor != null) {
+            this.room.setColorAvailability(this.playerColor, true);
+        }
+        this.room.setColorAvailability(playerColor, false);
+
         this.playerColor = playerColor;
 
-        try {
-            clientStub.updateLobby();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        this.room.forceLobbyUpdate();
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
     public String getPlayerHash() {

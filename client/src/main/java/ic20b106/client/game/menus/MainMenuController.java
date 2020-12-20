@@ -63,7 +63,6 @@ public class MainMenuController {
 
                 if (networkManager != null) {
                     networkManager.serverStub.createRoom();
-                    System.out.println("Connection established");
                     Game.roomOwner = true;
                     VBox lobbyMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/LobbyMenu.fxml"));
                     Platform.runLater(() -> Game.primaryPane.getChildren().setAll(lobbyMenu));

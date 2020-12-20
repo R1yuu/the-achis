@@ -1,6 +1,8 @@
 package ic20b106.shared.utils;
 
-public class Pair<X, Y> {
+import java.io.Serializable;
+
+public class Pair<X, Y> implements Serializable {
 
     public X x;
     public Y y;

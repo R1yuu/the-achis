@@ -6,6 +6,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.security.SecureRandom;
 import java.util.Iterator;
+import java.util.logging.Logger;
 
 /**
  * @author Andre Schneider
@@ -22,7 +23,8 @@ public class HashUtils {
      * @return boolean if hash is valid or invalid
      */
     public static boolean checkHashValidity(String hash) {
-        if (hash.equals("")) {
+        Logger.getGlobal().info("Checking Hash validity...");
+        if (hash == null || hash.equals("")) {
             return false;
         }
 
@@ -43,6 +45,7 @@ public class HashUtils {
      * @return Generated Hash String
      */
     public static String generateHash() {
+        Logger.getGlobal().info("Generating Hash...");
         long hardwareLong = 0L;
 
         try {
