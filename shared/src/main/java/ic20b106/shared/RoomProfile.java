@@ -19,4 +19,13 @@ public class RoomProfile implements Serializable {
         this.freeColors = freeColors;
         this.freeStartPositions = freeStartPositions;
     }
+
+    @Override
+    public String toString() {
+        return "Room-Profile(UUID: " + (uuid != null ? uuid.toString() : "") +
+          "; Room-Name: " + (roomName != null ? roomName : "") +
+          "; Room-Owner: " + (roomOwner != null ? roomOwner : "") +
+          "; Free Colors: " + (freeColors != null ? freeColors.toString() : "") +
+          "; Free Start-Positions: " + (freeStartPositions != null ? freeStartPositions.toString() : "") + ")";
+    }
 }

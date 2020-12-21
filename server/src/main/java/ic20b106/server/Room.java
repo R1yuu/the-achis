@@ -48,6 +48,8 @@ public class Room {
     }
 
     public void forceLobbyUpdate(ClientHandler... skippedClients) {
+        CommandLineManager.out.logInfo(
+          "Room(" + this.uuid + "): Forcing Lobby-Update on all Clients...");
         List<ClientHandler> skippedClientList = Arrays.asList(skippedClients);
         for (ClientHandler clientHandler : clients) {
             if (skippedClientList.contains(clientHandler)) {
@@ -71,8 +73,6 @@ public class Room {
             }
         }
 
-        CommandLineManager.out.logInfo(
-          "Room(" + this.uuid + "): Forcing Lobby-Update on all Clients...'");
         this.forceLobbyUpdate(client);
     }
 
@@ -126,8 +126,18 @@ public class Room {
     }
 
     public void setColorAvailability(PlayerColor color, boolean isFree) {
+        CommandLineManager.out.logInfo(
+          "Setting Color '" + color.toString() + "'s availability to " + isFree);
         synchronized (colors) {
             colors.put(color, isFree);
+        }
+    }
+
+    public void setPositionAvailability(PlayerStartPosition position, boolean isFree) {
+        CommandLineManager.out.logInfo(
+          "Setting Position '" + position.toString() + "'s availability to " + isFree);
+        synchronized (startPositions) {
+            startPositions.put(position, isFree);
         }
     }
 
@@ -168,7 +178,6 @@ public class Room {
         List<PlayerStartPosition> freeStartPositions = new LinkedList<>();
         synchronized (colors) {
             colors.forEach((color, isFree) -> {
-                CommandLineManager.out.print(color.toString());
                 if (isFree) {
                     freeColors.add(color);
                 }
@@ -198,20 +207,11 @@ public class Room {
             }
         }
 
-        return new Pair<>(roomProfile, clientProfiles);
-    }
+        Pair<RoomProfile, List<PlayerProfile>> roomContent = new Pair<>(roomProfile, clientProfiles);
 
-    public void updateAvailableColors(PlayerColor freeColor, PlayerColor takenColor) {
-        synchronized (clients) {
-            clients.parallelStream().forEach(
-              clientHandler -> {
-                  try {
-                      clientHandler.clientStub.updateColors(freeColor, takenColor);
-                  } catch (RemoteException remoteException) {
-                      remoteException.printStackTrace();
-                  }
-              });
-        }
+        CommandLineManager.out.logInfo("Room Content: " + roomContent.toString());
+
+        return roomContent;
     }
 
     public static void closeAllRooms() {

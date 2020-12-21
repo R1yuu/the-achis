@@ -124,6 +124,19 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
         this.room.forceLobbyUpdate();
     }
 
+    @Override
+    public void updatePosition(PlayerStartPosition startPosition) {
+        if (this.playerStartPosition != null) {
+            this.room.setPositionAvailability(this.playerStartPosition, true);
+        }
+
+        this.room.setPositionAvailability(startPosition, false);
+
+        this.playerStartPosition = startPosition;
+
+        this.room.forceLobbyUpdate();
+    }
+
     public void setRoom(Room room) {
         this.room = room;
     }

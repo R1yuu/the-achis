@@ -16,4 +16,13 @@ public class PlayerProfile implements Serializable {
         this.startPosition = startPosition;
         this.isReady = isReady;
     }
+
+    @Override
+    public String toString() {
+        return "Player-Profile(Hash: " + (hash != null ? hash : "") +
+          "; Id: " + (id != null ? id : "") +
+          "; Color: " + (color != null ? color.toString() : "") +
+          "; Start-Position: " + (startPosition != null ? startPosition.toString() : "") +
+          "; IsReady: " + (isReady != null ? isReady.toString() : "") + ")";
+    }
 }

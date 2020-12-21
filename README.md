@@ -31,6 +31,8 @@ To build the client module execute in the project root folder:
 ```shell script
 $ mvn -pl client -am
 ```
+To Package the Client in a Comfortable installer for Windows (msi) or Debian-Distros (deb)
+execute respectively "client/build_win.bat" or "client/build_deb.sh"
 ### Building Server
 To build the whole project execute in the project root folder:
 ```shell script

@@ -1,6 +1,5 @@
 package ic20b106.client;
 
-import ic20b106.client.game.buildings.link.Link;
 import ic20b106.client.manager.NetworkManager;
 import ic20b106.shared.PlayerColor;
 import ic20b106.shared.PlayerProfile;
@@ -31,6 +30,7 @@ import java.util.List;
 public class Lobby {
 
     public static final ComboBox<String> colorComboBox = new ComboBox<>();
+    public static final ComboBox<String> positionComboBox = new ComboBox<>();
     public static GridPane playerPane;
     public static Label roomName;
     public static Label roomOwner;
@@ -81,6 +81,23 @@ public class Lobby {
             }
         }
 
+        class PositionLabelCell extends ListCell<String> {
+            Label label;
+
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setItem(null);
+                    setGraphic(null);
+                } else {
+                    setText(item);
+                    label = new Label("");
+                    setGraphic(label);
+                }
+            }
+        }
+
         if (Game.roomOwner) {
             exitLobbyButton.setText("Close Lobby");
             exitLobbyButton.setOnAction((actionEvent) -> Game.resetGame());
@@ -90,16 +107,23 @@ public class Lobby {
 
         colorComboBox.setCellFactory(listView -> new ColorLabelCell());
         colorComboBox.setButtonCell(new ColorLabelCell());
-        colorComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        colorComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldColor, newColor) -> {
             try {
-                NetworkManager.getInstance().serverStub.updateColor(PlayerColor.fromString(newValue));
+                NetworkManager.getInstance().serverStub.updateColor(PlayerColor.fromString(newColor));
             } catch (RemoteException remoteException) {
                 remoteException.printStackTrace();
             }
         });
 
-        ComboBox<PlayerStartPosition> positionComboBox = new ComboBox<>();
-        positionComboBox.getItems().addAll(PlayerStartPosition.values());
+        positionComboBox.getItems().addAll("TOP_LEFT", "TOP_RIGHT", "BOTTOM_LEFT", "BOTTOM_RIGHT");
+        positionComboBox.getSelectionModel().selectedItemProperty().addListener(
+          (observable, oldPosition, newPosition) -> {
+            try {
+                NetworkManager.getInstance().serverStub.updatePosition(PlayerStartPosition.fromString(newPosition));
+            } catch (RemoteException remoteException) {
+                remoteException.printStackTrace();
+            }
+        });
 
         colorBox.getChildren().addAll(colorComboBox);
         positionBox.getChildren().addAll(positionComboBox);
@@ -136,8 +160,17 @@ public class Lobby {
                     }
                     return true;
                 });
+                positionComboBox.getItems().removeIf(position -> {
+                    String selectedItem = positionComboBox.getSelectionModel().getSelectedItem();
+                    if (selectedItem != null) {
+                        return !selectedItem.equals(position);
+                    }
+                    return true;
+                });
 
                 roomProfile.freeColors.forEach(playerColor -> colorComboBox.getItems().add(playerColor.toString()));
+                roomProfile.freeStartPositions.forEach(playerStartPosition ->
+                  positionComboBox.getItems().add(playerStartPosition.toString()));
             });
 
             for (PlayerProfile playerProfile : playerProfiles) {
