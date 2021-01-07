@@ -54,6 +54,7 @@ public class Game extends Application {
     public static boolean escapeMenuOpen = false;
     public static boolean roomOwner = false;
     public static VBox loadingBox;
+    public static int cellSize = 50;
 
     /**
      * Start Method of JavaFX

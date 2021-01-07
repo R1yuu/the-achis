@@ -61,8 +61,8 @@ public class Cell extends Pane implements GraphNode {
 
         this.setBackground(new Background(new BackgroundFill(owner, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        this.setPrefHeight(50);
-        this.setPrefWidth(50);
+        this.setPrefHeight(Game.cellSize);
+        this.setPrefWidth(Game.cellSize);
 
 
         this.position = new IntPair(row, col);

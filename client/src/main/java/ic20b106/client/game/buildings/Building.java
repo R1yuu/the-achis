@@ -51,13 +51,13 @@ public abstract class Building implements Buildable {
                        Cell cell, boolean isConstructionSite) {
         this.texture = new ImageView(new Image(getClass().getResource(texturePath).toString(),
           200, 0, true, false, true));
-        this.texture.setFitHeight(50);
-        this.texture.setFitWidth(50);
+        this.texture.setFitHeight(Game.cellSize);
+        this.texture.setFitWidth(Game.cellSize);
 
         this.isConstructionSite = isConstructionSite;
         this.constructionTexture = new ImageView(constructionImage);
-        this.constructionTexture.setFitHeight(50);
-        this.constructionTexture.setFitWidth(50);
+        this.constructionTexture.setFitHeight(Game.cellSize);
+        this.constructionTexture.setFitWidth(Game.cellSize);
 
         this.buildingCost = buildingCost;
 
