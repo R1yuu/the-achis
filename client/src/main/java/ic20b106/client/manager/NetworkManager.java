@@ -9,6 +9,7 @@ import ic20b106.client.util.HashUtils;
 import ic20b106.shared.Buildable;
 import ic20b106.shared.ClientCommands;
 import ic20b106.shared.PlayerColor;
+import ic20b106.shared.PlayerStartPosition;
 import ic20b106.shared.RemoteCommands;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -94,7 +95,7 @@ public class NetworkManager extends UnicastRemoteObject
      */
     @Override
     public void updateBuilding(Buildable buildable) {
-
+        
     }
 
     /**
@@ -148,6 +149,7 @@ public class NetworkManager extends UnicastRemoteObject
         if (singleInstance != null) {
             if (!serverInvocedClose) {
                 try {
+                    Logger.getGlobal().info("Sending Quit Message.");
                     singleInstance.serverStub.quitRoom();
                 } catch (RemoteException remoteException) {
                     //TODO: Handle If Server is gone
@@ -168,22 +170,15 @@ public class NetworkManager extends UnicastRemoteObject
     }
 
     /**
-     * Updates the Colors in the Lobby Color Choose
-     *
-     * @param freeColor Color that got freed
-     * @param takenColor Color that got chosen
-     */
-    @Override
-    public void updateColors(PlayerColor freeColor, PlayerColor takenColor) {
-        Lobby.colorComboBox.getItems().remove(takenColor.toString());
-        Lobby.colorComboBox.getItems().add(freeColor.toString());
-    }
-
-    /**
      * Forces the Client to reload the Lobby Info from the Server
      */
     @Override
     public void updateLobby() {
         Lobby.updateTable();
+    }
+
+    @Override
+    public void startGame(PlayerColor playerColor, PlayerStartPosition playerStartPosition) {
+        Lobby.loadGame(playerColor, playerStartPosition);
     }
 }

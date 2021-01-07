@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface RemoteCommands extends Remote {
     void sendClientStub(ClientCommands clientStub) throws RemoteException;
-    String quitRoom() throws RemoteException;
+    void quitRoom() throws RemoteException;
     String createRoom() throws RemoteException;
     List<LinkedHashMap<String, String>> listRooms() throws RemoteException;
     boolean joinRoom(UUID roomUUID) throws RemoteException;

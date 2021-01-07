@@ -16,9 +16,7 @@
       fx:controller="ic20b106.client.Lobby" alignment="center"
       maxWidth="Infinity" maxHeight="Infinity" spacing="10">
 
-    <Button fx:id="exitLobbyButton">
-        Close Lobby
-    </Button>
+    <Button fx:id="exitLobbyButton"/>
 
     <FlowPane alignment="center" hgap="20">
         <VBox spacing="5" alignment="center">
@@ -61,39 +59,6 @@
             <ColumnConstraints halignment="center" />
             <ColumnConstraints halignment="center" />
         </columnConstraints>
-
-        <Label      GridPane.rowIndex="0" GridPane.columnIndex="0"
-                        text="Player Id"/>
-        <Label      GridPane.rowIndex="0" GridPane.columnIndex="1"
-                        text="Player Color"/>
-        <Label      GridPane.rowIndex="0" GridPane.columnIndex="2"
-                        text="Start Position"/>
-        <Label      GridPane.rowIndex="0" GridPane.columnIndex="3"
-                        text="Ready?"/>
-
-        <Label      GridPane.rowIndex="1" GridPane.columnIndex="0" />
-        <Rectangle  GridPane.rowIndex="1" GridPane.columnIndex="1"
-                    fill="gray" width="20" height="20" arcHeight="5" arcWidth="5"/>
-        <Label      GridPane.rowIndex="1" GridPane.columnIndex="2" />
-        <CheckBox   GridPane.rowIndex="1" GridPane.columnIndex="3" />
-
-        <Label      GridPane.rowIndex="2" GridPane.columnIndex="0" />
-        <Rectangle  GridPane.rowIndex="2" GridPane.columnIndex="1"
-                        fill="gray" width="20" height="20" arcHeight="5" arcWidth="5"/>
-        <Label      GridPane.rowIndex="2" GridPane.columnIndex="2" />
-        <CheckBox   GridPane.rowIndex="2" GridPane.columnIndex="3" />
-
-        <Label      GridPane.rowIndex="3" GridPane.columnIndex="0" />
-        <Rectangle  GridPane.rowIndex="3" GridPane.columnIndex="1"
-                        fill="gray" width="20" height="20" arcHeight="5" arcWidth="5"/>
-        <Label      GridPane.rowIndex="3" GridPane.columnIndex="2" />
-        <CheckBox   GridPane.rowIndex="3" GridPane.columnIndex="3" />
-
-        <Label      GridPane.rowIndex="4" GridPane.columnIndex="0" />
-        <Rectangle  GridPane.rowIndex="4" GridPane.columnIndex="1"
-                        fill="gray" width="20" height="20" arcHeight="5" arcWidth="5"/>
-        <Label      GridPane.rowIndex="4" GridPane.columnIndex="2" />
-        <CheckBox   GridPane.rowIndex="4" GridPane.columnIndex="3" />
     </GridPane>
 
     <Button onMouseClicked="#startGame">

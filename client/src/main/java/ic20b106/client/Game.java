@@ -50,7 +50,6 @@ public class Game extends Application {
     public static SubMenu activeSubMenu;
     public static GameBoard gameBoard;
     public static PlayerColor playerColor;
-    public static PlayerStartPosition playerStartPosition;
     public static Cell playerCoreCell;
     public static boolean escapeMenuOpen = false;
     public static boolean roomOwner = false;
@@ -114,6 +113,7 @@ public class Game extends Application {
      * Resets the Client to its default State in the MainMenu
      */
     public static void resetGame() {
+        Logger.getGlobal().info("Resetting Game!");
         Platform.runLater(() -> {
             primaryPane.getChildren().clear();
             primaryPane.getChildren().setAll(mainMenu);

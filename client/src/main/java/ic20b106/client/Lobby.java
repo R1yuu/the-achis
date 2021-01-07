@@ -1,24 +1,37 @@
 package ic20b106.client;
 
+import ic20b106.client.game.board.Cell;
+import ic20b106.client.game.buildings.Material;
+import ic20b106.client.game.buildings.core.Core;
+import ic20b106.client.game.buildings.link.LinkDirection;
 import ic20b106.client.manager.NetworkManager;
+import ic20b106.client.util.javafx.GameBoard;
+import ic20b106.client.util.javafx.ZoomableScrollPane;
 import ic20b106.shared.PlayerColor;
 import ic20b106.shared.PlayerProfile;
 import ic20b106.shared.PlayerStartPosition;
 import ic20b106.shared.RoomProfile;
+import ic20b106.shared.utils.IntPair;
 import ic20b106.shared.utils.Pair;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -81,45 +94,42 @@ public class Lobby {
             }
         }
 
-        class PositionLabelCell extends ListCell<String> {
-            Label label;
-
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (item == null || empty) {
-                    setItem(null);
-                    setGraphic(null);
-                } else {
-                    setText(item);
-                    label = new Label("");
-                    setGraphic(label);
-                }
-            }
-        }
-
         if (Game.roomOwner) {
             exitLobbyButton.setText("Close Lobby");
-            exitLobbyButton.setOnAction((actionEvent) -> Game.resetGame());
+        } else {
+            exitLobbyButton.setText("Leave Lobby");
         }
+        exitLobbyButton.setOnAction((actionEvent) -> {
+            try {
+                NetworkManager.getInstance().serverStub.quitRoom();
+            } catch (RemoteException remoteException) {
+                remoteException.printStackTrace();
+            }
+        });
 
+        colorComboBox.getItems().clear();
         colorComboBox.getItems().addAll("RED", "BLUE", "YELLOW", "GREEN");
 
         colorComboBox.setCellFactory(listView -> new ColorLabelCell());
         colorComboBox.setButtonCell(new ColorLabelCell());
         colorComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldColor, newColor) -> {
             try {
-                NetworkManager.getInstance().serverStub.updateColor(PlayerColor.fromString(newColor));
+                if (newColor != null) {
+                    NetworkManager.getInstance().serverStub.updateColor(PlayerColor.fromString(newColor));
+                }
             } catch (RemoteException remoteException) {
                 remoteException.printStackTrace();
             }
         });
 
+        positionComboBox.getItems().clear();
         positionComboBox.getItems().addAll("TOP_LEFT", "TOP_RIGHT", "BOTTOM_LEFT", "BOTTOM_RIGHT");
         positionComboBox.getSelectionModel().selectedItemProperty().addListener(
           (observable, oldPosition, newPosition) -> {
             try {
-                NetworkManager.getInstance().serverStub.updatePosition(PlayerStartPosition.fromString(newPosition));
+                if (newPosition != null) {
+                    NetworkManager.getInstance().serverStub.updatePosition(PlayerStartPosition.fromString(newPosition));
+                }
             } catch (RemoteException remoteException) {
                 remoteException.printStackTrace();
             }
@@ -136,7 +146,76 @@ public class Lobby {
      */
     @FXML
     private void startGame() {
+        try {
+            NetworkManager.getInstance().serverStub.startRoom();
+        } catch (RemoteException remoteException) {
+            remoteException.printStackTrace();
+        }
+    }
 
+    public static void loadGame(PlayerColor playerColor, PlayerStartPosition playerStartPosition) {
+        // max 100
+        int boardWidth = 50;
+        int boardHeight = 50;
+
+        Game.playerColor = playerColor;
+        Game.gameBoard = new GameBoard(boardWidth, boardHeight);
+
+        ZoomableScrollPane zoomableScrollPane = new ZoomableScrollPane(Game.gameBoard, MouseButton.SECONDARY);
+        zoomableScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        zoomableScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+        IntPair startPosition = new IntPair(5, 5);
+        HashMap<Material, Integer> startStorage = new HashMap<>();
+
+        switch (playerStartPosition) {
+            case TOP_RIGHT -> {
+                startPosition.setXY(5, boardWidth - 6);
+                zoomableScrollPane.setHvalue(1);
+            }
+            case BOTTOM_LEFT -> {
+                startPosition.setXY(boardHeight - 6, 5);
+                zoomableScrollPane.setVvalue(1);
+            }
+            case BOTTOM_RIGHT -> {
+                startPosition.setXY(boardHeight - 6, boardWidth - 6);
+                zoomableScrollPane.setVvalue(1);
+                zoomableScrollPane.setHvalue(1);
+            }
+        }
+
+        startStorage.put(Material.PEARL, 40);
+        startStorage.put(Material.METAL, 40);
+
+        // Sets Starting Storage
+        /*
+        switch (selectedStartResourcesToggle.getText()) {
+            case "Few" -> {
+                startStorage.put(Material.PEARL, 20);
+                startStorage.put(Material.METAL, 20);
+            }
+            case "Medium" -> {
+                startStorage.put(Material.PEARL, 40);
+                startStorage.put(Material.METAL, 40);
+            }
+            case "Many" -> {
+                startStorage.put(Material.PEARL, 60);
+                startStorage.put(Material.METAL, 60);
+            }
+        }
+         */
+
+
+        Cell coreCell = Game.gameBoard.getCell(startPosition);
+
+        Game.playerCoreCell = coreCell;
+
+        coreCell.placeBuilding(new Core(coreCell, startStorage));
+        coreCell.setOwner(Game.playerColor.toColor());
+        coreCell.extendArea(Game.playerColor.toColor(), 5);
+        coreCell.addLinks(LinkDirection.values());
+
+        Platform.runLater(() -> Game.primaryPane.getChildren().setAll(zoomableScrollPane));
     }
 
     /**
@@ -144,7 +223,6 @@ public class Lobby {
      */
     public static void updateTable() {
         try {
-            int rowIdx = 1;
             Pair<RoomProfile, List<PlayerProfile>> roomData = NetworkManager.getInstance().serverStub.showRoom();
             RoomProfile roomProfile = roomData.x;
             List<PlayerProfile> playerProfiles = roomData.y;
@@ -171,40 +249,37 @@ public class Lobby {
                 roomProfile.freeColors.forEach(playerColor -> colorComboBox.getItems().add(playerColor.toString()));
                 roomProfile.freeStartPositions.forEach(playerStartPosition ->
                   positionComboBox.getItems().add(playerStartPosition.toString()));
-            });
 
-            for (PlayerProfile playerProfile : playerProfiles) {
-                for (Node child : playerPane.getChildren()) {
-                    if(GridPane.getRowIndex(child) == rowIdx) {
-                        int colIdx = GridPane.getColumnIndex(child);
-                        Platform.runLater(() -> {
-                            switch (colIdx) {
-                                case 0 -> {
-                                    if (playerProfile.id != null) {
-                                        ((Label) child).setText(playerProfile.id);
-                                    }
-                                }
-                                case 1 -> {
-                                    if (playerProfile.color != null) {
-                                        ((Rectangle) child).setFill(playerProfile.color.toColor());
-                                    }
-                                }
-                                case 2 -> {
-                                    if (playerProfile.startPosition != null) {
-                                        ((Label) child).setText(playerProfile.startPosition.toString());
-                                    }
-                                }
-                                case 3 -> {
-                                    if (playerProfile.isReady != null) {
-                                        ((CheckBox) child).setSelected(playerProfile.isReady);
-                                    }
-                                }
-                            }
-                        });
+                playerPane.getChildren().clear();
+
+                playerPane.add(new Label("Player Id"), 0, 0);
+                playerPane.add(new Label("Player Color"), 1, 0);
+                playerPane.add(new Label("Player Position"), 2, 0);
+                playerPane.add(new Label("Ready?"), 3, 0);
+
+                int rowIdx = 1;
+                for (PlayerProfile playerProfile : playerProfiles) {
+
+                    playerPane.add(new Label(playerProfile.id), 0, rowIdx);
+
+                    if (playerProfile.color != null) {
+                        Rectangle colorRect = new Rectangle(20, 20, playerProfile.color.toColor());
+                        colorRect.setArcHeight(5);
+                        colorRect.setArcWidth(5);
+                        playerPane.add(colorRect, 1, rowIdx);
                     }
+
+                    if (playerProfile.startPosition != null) {
+                        playerPane.add(new Label(playerProfile.startPosition.toString()), 2, rowIdx);
+                    }
+
+                    CheckBox readyCheckbox = new CheckBox();
+                    readyCheckbox.setSelected(playerProfile.isReady);
+                    playerPane.add(readyCheckbox, 3, rowIdx);
+
+                    rowIdx++;
                 }
-                rowIdx++;
-            }
+            });
         } catch (RemoteException e) {
             e.printStackTrace();
         }

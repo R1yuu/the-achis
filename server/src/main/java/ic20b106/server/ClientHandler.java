@@ -64,13 +64,17 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
     }
 
     @Override
-    public String quitRoom() {
-        if (this.room.getRoomOwner() == this) {
-            this.room.closeRoom();
+    public void quitRoom() {
+        CommandLineManager.out.logInfo("Client '" + this.getPlayerHash() + "' leaves the Room.");
+        if (this.room != null) {
+            if (this.room.getRoomOwner() == this) {
+                this.room.closeRoom();
+            } else {
+                this.room.removeClient(this);
+            }
         } else {
-            this.room.removeClient(this);
+            this.close();
         }
-        return null;
     }
 
     @Override
@@ -92,9 +96,16 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
     @Override
     public boolean joinRoom(UUID roomUUID) {
         CommandLineManager.out.logInfo("Client '" + this.getPlayerHash() + "' is trying to join Room '" + roomUUID + "'.");
-        Room.addClient(roomUUID, this);
+        this.room = Room.addClient(roomUUID, this);
+        if (this.room != null) {
+            CommandLineManager.out.logInfo("Client '" + this.getPlayerHash() + "' joined Room '" + this.room.getUuid() + "'.");
+            return true;
+        } else {
+            CommandLineManager.out.logInfo("Client '" + this.getPlayerHash() + "' couldn't join Room '" + roomUUID + "'.");
+            return false;
+        }
 
-        return true;
+
     }
 
     @Override
@@ -104,6 +115,9 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
 
     @Override
     public String startRoom() {
+        if (this.room != null && this.room.getRoomOwner() == this) {
+            this.room.startRoom();
+        }
         return null;
     }
 
@@ -161,6 +175,9 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
 
     public void close() {
         try {
+            this.room = null;
+            this.playerColor = null;
+            this.playerStartPosition = null;
             this.clientStub.disconnect();
             Naming.unbind(GameServer.RMI_HOST + ":" + GameServer.RMI_PORT + "/" + this.playerHash);
             GameServer.removeClient(this);

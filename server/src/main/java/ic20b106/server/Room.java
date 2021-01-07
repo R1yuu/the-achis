@@ -47,6 +47,18 @@ public class Room {
         }
     }
 
+    public void startRoom() {
+        synchronized (clients) {
+            clients.forEach(client -> {
+                try {
+                    client.clientStub.startGame(client.getPlayerColor(), client.getPlayerStartPosition());
+                } catch (RemoteException remoteException) {
+                    remoteException.printStackTrace();
+                }
+            });
+        }
+    }
+
     public void forceLobbyUpdate(ClientHandler... skippedClients) {
         CommandLineManager.out.logInfo(
           "Room(" + this.uuid + "): Forcing Lobby-Update on all Clients...");
@@ -61,6 +73,8 @@ public class Room {
                 remoteException.printStackTrace();
             }
         }
+        CommandLineManager.out.logInfo(
+          "Room(" + this.uuid + "): Updated all Clients.");
     }
 
     public void addClient(ClientHandler client) {
@@ -76,33 +90,44 @@ public class Room {
         this.forceLobbyUpdate(client);
     }
 
-    public static void addClient(UUID roomUUID, ClientHandler client) {
+    public static Room addClient(UUID roomUUID, ClientHandler client) {
         synchronized (rooms) {
             for (Room room : rooms) {
                 if (room.uuid.equals(roomUUID)) {
                     room.addClient(client);
+                    return room;
                 }
             }
         }
+        return null;
     }
 
     public void removeClient(ClientHandler clientHandler) {
+        this.removeClient(clientHandler, true);
+    }
+
+    public void removeClient(ClientHandler clientHandler, boolean updateClients) {
         synchronized (clients) {
-            clientHandler.close();
             clients.remove(clientHandler);
-            clients.parallelStream().forEach(clientHandler1 -> {
-                try {
-                    clientHandler.clientStub.updateLobby();
-                } catch (RemoteException remoteException) {
-                    remoteException.printStackTrace();
-                }
-            });
+            if (clientHandler.getPlayerColor() != null) {
+                this.setColorAvailability(clientHandler.getPlayerColor(), true);
+            }
+            if (clientHandler.getPlayerStartPosition() != null) {
+                this.setPositionAvailability(clientHandler.getPlayerStartPosition(), true);
+            }
+            CommandLineManager.out.logInfo(
+              "Room(" + this.uuid + "): Removed Client '" + clientHandler.getPlayerHash() + "'.");
         }
+        if (updateClients) {
+            forceLobbyUpdate();
+        }
+        clientHandler.close();
     }
 
     public void closeRoom() {
+        CommandLineManager.out.logInfo("Closing Room '" + this.uuid + "'.");
         synchronized (clients) {
-            clients.forEach(ClientHandler::close);
+            clients.forEach(client -> this.removeClient(client, false));
         }
         synchronized (rooms) {
             rooms.remove(this);
