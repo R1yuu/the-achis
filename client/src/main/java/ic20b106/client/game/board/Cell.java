@@ -7,13 +7,19 @@ import ic20b106.client.game.buildings.link.Link;
 import ic20b106.client.game.buildings.link.LinkDirection;
 import ic20b106.client.game.menus.submenus.BuildSubMenu;
 import ic20b106.client.game.menus.submenus.LinkSubMenu;
+import ic20b106.shared.PlayerColor;
 import ic20b106.shared.utils.IntPair;
 import ic20b106.shared.utils.Pair;
 import javafx.geometry.Insets;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -24,6 +30,7 @@ import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.util.EnumMap;
+import java.util.Random;
 
 /**
  * @author Andre Schneider
@@ -35,17 +42,19 @@ public class Cell extends Pane implements GraphNode {
 
     private final IntPair position;
     private final EnumMap<LinkDirection, Pair<Link, Cell>> links = new EnumMap<>(LinkDirection.class);
-    private Color owner;
+    private final String cellBackground;
+    private PlayerColor owner;
     private Building building;
     private static final Border defaultBorder = new Border(new BorderStroke(
       Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
+    private static final Random rand = new Random();
 
     /**
      * Constructor
      * Sets Height and Width of HBox
      *
      */
-    public Cell(int row, int col, Color owner) {
+    public Cell(int row, int col, PlayerColor owner) {
         this(row, col, defaultBorder, owner);
     }
 
@@ -54,12 +63,24 @@ public class Cell extends Pane implements GraphNode {
      *
      * @param border Sets the Border of the Cell (important for Debug)
      */
-    public Cell(int row, int col, Border border, Color owner) {
+    public Cell(int row, int col, Border border, PlayerColor owner) {
         if (border != null) setBorder(border);
 
         this.owner = owner;
 
-        this.setBackground(new Background(new BackgroundFill(owner, CornerRadii.EMPTY, Insets.EMPTY)));
+        int randInt = rand.nextInt(3);
+
+        if (randInt == 0) {
+            this.cellBackground = "grass-base.png";
+        } else if (randInt == 1) {
+            this.cellBackground = "tall-grass-base.png";
+        } else {
+            this.cellBackground = "flowers-base.png";
+        }
+        //this.setBackground(new Background(new BackgroundFill(owner, CornerRadii.EMPTY, Insets.EMPTY)));
+        this.setBackground(new Background(new BackgroundImage(
+          new Image(getClass().getResource("/images/neutral/background/" + this.cellBackground).toString()),
+          BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
 
         this.setPrefHeight(Game.cellSize);
         this.setPrefWidth(Game.cellSize);
@@ -79,7 +100,8 @@ public class Cell extends Pane implements GraphNode {
      */
     private void onMouseClick(MouseEvent mouseEvent) {
         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-            if (owner == Game.playerColor.toColor()) {
+            if (owner == Game.playerColor) {
+
 
                 if (Game.activeSubMenu != null) {
                     Game.activeSubMenu.close();
@@ -195,8 +217,7 @@ public class Cell extends Pane implements GraphNode {
      * @param linkDirection Direction of the Neighbour Cell
      * @return Neighbouring Cell Coordinates
      */
-    public static IntPair getNeighbourCoordsByCellCoords(IntPair cellCoords,
-                                                                    LinkDirection linkDirection) {
+    public static IntPair getNeighbourCoordsByCellCoords(IntPair cellCoords, LinkDirection linkDirection) {
         int cellRow = cellCoords.x;
         int cellCol = cellCoords.y;
         switch (linkDirection) {
@@ -229,7 +250,7 @@ public class Cell extends Pane implements GraphNode {
      * @param owner Color of the new Owner
      * @param radius Radius in which the Cells should be Changes
      */
-    public void extendArea(Color owner, int radius) {
+    public void extendArea(PlayerColor owner, int radius) {
         IntPair firstCellCoords = new IntPair(position.x, position.y);
         IntPair nextCellCoords;
 
@@ -271,9 +292,14 @@ public class Cell extends Pane implements GraphNode {
      *
      * @param newOwner Color of Owner
      */
-    public void setOwner(Color newOwner) {
+    public void setOwner(PlayerColor newOwner) {
         this.owner = newOwner;
-        this.setBackground(new Background(new BackgroundFill(newOwner, CornerRadii.EMPTY, Insets.EMPTY)));
+        //this.setBackground(new Background(new BackgroundFill(newOwner, CornerRadii.EMPTY, Insets.EMPTY)));
+
+        this.setBackground(new Background(new BackgroundImage(
+          new Image(getClass().getResource(
+            newOwner.getPlayerTexturePath() + "/background/" + this.cellBackground).toString()),
+          BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
     }
 
     /**
@@ -281,7 +307,7 @@ public class Cell extends Pane implements GraphNode {
      *
      * @return Owner-Color of the Cell
      */
-    public Color getOwner() {
+    public PlayerColor getOwner() {
         return this.owner;
     }
 

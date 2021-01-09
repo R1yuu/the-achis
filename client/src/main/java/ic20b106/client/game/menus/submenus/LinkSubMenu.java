@@ -82,7 +82,7 @@ public class LinkSubMenu extends SubMenu {
         for (LinkDirection linkDirection : LinkDirection.values()) {
             if (!existingLinks.contains(linkDirection)) {
                 Cell neighbourCell = Cell.getNeighbourByCell(selectedCell, linkDirection);
-                if (neighbourCell != null && neighbourCell.getOwner() == Game.playerColor.toColor()) {
+                if (neighbourCell != null && neighbourCell.getOwner() == Game.playerColor) {
                     String linkDirectionStr = linkDirection.toString().replace('-', '\n');
 
                     Button linkButton = new Button(linkDirectionStr);
@@ -124,7 +124,7 @@ public class LinkSubMenu extends SubMenu {
         this.selectedCell.addLinks(linkDirection);
 
         if (Game.currentlyBuilt != null) {
-            Transporter transporter = new Transporter(selectedCell, Game.playerCoreCell, Material.PEARL);
+            Transporter transporter = new Transporter(selectedCell, Game.playerCoreCell, Material.WOOD);
             transporter.run();
 
             Game.currentlyBuilt = null;

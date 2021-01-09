@@ -9,7 +9,7 @@
       xmlns:fx="http://javafx.com/fxml">
     <FlowPane>
         <Button onMouseClicked="#openLinkSubMenu">Link</Button>
-        <Button onMouseClicked="#placeBuilding" fx:id="buildFactoryButton">Factory</Button>
+        <Button onMouseClicked="#placeBuilding" fx:id="buildForesterButton">Forester</Button>
         <Button>Barracks</Button>
     </FlowPane>
 </HBox>

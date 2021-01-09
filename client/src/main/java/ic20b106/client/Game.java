@@ -128,6 +128,26 @@ public class Game extends Application {
         roomOwner = false;
     }
 
+    public static Color playerToColor(PlayerColor playerColor) {
+        switch (playerColor) {
+            case RED -> {
+                return Color.INDIANRED;
+            }
+            case BLUE -> {
+                return Color.CORNFLOWERBLUE;
+            }
+            case YELLOW -> {
+                return Color.ORANGE;
+            }
+            case GREEN -> {
+                return Color.FORESTGREEN;
+            }
+            default -> {
+                return Color.GRAY;
+            }
+        }
+    }
+
     /**
      * Main Method of Program
      *

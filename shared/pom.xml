@@ -19,6 +19,7 @@
         <javafx.version>15.0.1</javafx.version>
     </properties>
 
+    <!--
     <profiles>
         <profile>
             <id>win</id>
@@ -53,6 +54,7 @@
             </dependencies>
         </profile>
     </profiles>
+    -->
 
 
     <build>

@@ -1,11 +1,10 @@
-package ic20b106.client.game.menus.submenus.buildings;
+package ic20b106.client.game.menus.submenus.buildings.production;
 
-import ic20b106.client.Game;
 import ic20b106.client.game.board.Cell;
 import ic20b106.client.game.buildings.Building;
 import ic20b106.client.game.menus.submenus.BuildingSubMenu;
 import javafx.fxml.FXML;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 import java.net.URL;
@@ -15,12 +14,12 @@ import java.util.ResourceBundle;
  * @author Andre Schneider
  * @version 1.0
  *
- * Submenu of the Core Building
+ * Submenu of the Factory Building
  */
-public class CoreSubMenu extends BuildingSubMenu {
+public class ForesterSubMenu extends BuildingSubMenu {
 
     @FXML
-    private AnchorPane coreMenu;
+    private HBox foresterBox;
 
     /**
      * Constructor
@@ -29,7 +28,7 @@ public class CoreSubMenu extends BuildingSubMenu {
      * @param building Corresponding Building
      * @throws IOException Thrown if fxml file couldn't be found
      */
-    public CoreSubMenu(Cell selectedCell, Building building) throws IOException {
+    public ForesterSubMenu(Cell selectedCell, Building building) throws IOException {
         super(selectedCell, building);
     }
 
@@ -47,15 +46,6 @@ public class CoreSubMenu extends BuildingSubMenu {
             return;
         }
 
-        coreMenu.getChildren().add(destroyBox);
-
-        for (String key : Game.gameBoard.links.keySet()) {
-            StringBuilder output = new StringBuilder(key + ": [");
-            for (String value : Game.gameBoard.links.get(key)) {
-                output.append(value).append(", ");
-            }
-            output.append("]");
-            System.out.println(output);
-        }
+        foresterBox.getChildren().add(destroyBox);
     }
 }

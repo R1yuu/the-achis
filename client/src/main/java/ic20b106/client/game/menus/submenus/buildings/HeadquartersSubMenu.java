@@ -1,5 +1,6 @@
 package ic20b106.client.game.menus.submenus.buildings;
 
+import ic20b106.client.Game;
 import ic20b106.client.game.board.Cell;
 import ic20b106.client.game.buildings.Building;
 import ic20b106.client.game.menus.submenus.BuildingSubMenu;
@@ -14,12 +15,12 @@ import java.util.ResourceBundle;
  * @author Andre Schneider
  * @version 1.0
  *
- * Submenu of the Link
+ * Submenu of the Headquarter Building
  */
-public class LinkSubMenu extends BuildingSubMenu {
+public class HeadquartersSubMenu extends BuildingSubMenu {
 
     @FXML
-    private AnchorPane linkBox;
+    private AnchorPane headquartersBox;
 
     /**
      * Constructor
@@ -28,7 +29,7 @@ public class LinkSubMenu extends BuildingSubMenu {
      * @param building Corresponding Building
      * @throws IOException Thrown if fxml file couldn't be found
      */
-    public LinkSubMenu(Cell selectedCell, Building building) throws IOException {
+    public HeadquartersSubMenu(Cell selectedCell, Building building) throws IOException {
         super(selectedCell, building);
     }
 
@@ -46,6 +47,15 @@ public class LinkSubMenu extends BuildingSubMenu {
             return;
         }
 
-        linkBox.getChildren().add(destroyBox);
+        headquartersBox.getChildren().add(destroyBox);
+
+        for (String key : Game.gameBoard.links.keySet()) {
+            StringBuilder output = new StringBuilder(key + ": [");
+            for (String value : Game.gameBoard.links.get(key)) {
+                output.append(value).append(", ");
+            }
+            output.append("]");
+            System.out.println(output);
+        }
     }
 }

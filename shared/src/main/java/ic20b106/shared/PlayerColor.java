@@ -1,32 +1,14 @@
 package ic20b106.shared;
 
-import javafx.scene.paint.Color;
-
 public enum PlayerColor {
 
-    RED(Color.INDIANRED), BLUE(Color.CORNFLOWERBLUE),
-    YELLOW(Color.ORANGE), GREEN(Color.FORESTGREEN);
+    RED, BLUE, YELLOW, GREEN;
 
-    private final Color color;
-
-    PlayerColor(Color color) {
-        this.color = color;
+    PlayerColor() {
     }
 
-    public Color toColor() {
-        return color;
-    }
-
-    public static PlayerColor fromColor(Color color) {
-        for(PlayerColor pc : values())
-            if(pc.color.equals(color)) {
-                return pc;
-            }
-        throw new IllegalArgumentException("Unexpected value: " + color);
-    }
-
-    public String getRGB() {
-        return (color.getRed() * 100) + "%," + (color.getGreen() * 100) + "%," + (color.getBlue() * 100) + "%";
+    public String getPlayerTexturePath() {
+        return "/images/" + this.toString().toLowerCase();
     }
 
     @Override

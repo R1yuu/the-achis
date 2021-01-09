@@ -5,8 +5,8 @@
 <?import javafx.scene.text.Text?>
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:id="factoryMenu">
+      fx:id="smelteryBox">
     <HBox>
-        <Text>Produces Pearls</Text>
+        <Text>Takes Rock; Produces Metal</Text>
     </HBox>
 </HBox>

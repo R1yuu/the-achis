@@ -2,7 +2,7 @@ package ic20b106.client.game.menus.submenus;
 
 import ic20b106.client.Game;
 import ic20b106.client.game.board.Cell;
-import ic20b106.client.game.buildings.production.Factory;
+import ic20b106.client.game.buildings.production.Forester;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 public class BuildSubMenu extends SubMenu {
 
     @FXML
-    private Button buildFactoryButton;
+    private Button buildForesterButton;
 
     /**
      * Constructor
@@ -50,8 +50,8 @@ public class BuildSubMenu extends SubMenu {
      */
     @FXML
     private void placeBuilding(MouseEvent mouseEvent) throws IOException {
-        if (mouseEvent.getSource().equals(buildFactoryButton)) {
-            Game.currentlyBuilt = new Factory(this.selectedCell);
+        if (mouseEvent.getSource().equals(buildForesterButton)) {
+            Game.currentlyBuilt = new Forester(this.selectedCell);
             this.selectedCell.placeBuilding(Game.currentlyBuilt);
             openLinkSubMenu();
         }

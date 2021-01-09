@@ -5,6 +5,6 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            prefHeight="400.0" prefWidth="600.0" fx:id="linkMenu">
+            prefHeight="400.0" prefWidth="600.0" fx:id="linkBox">
 
 </AnchorPane>

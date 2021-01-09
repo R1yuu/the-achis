@@ -1,10 +1,10 @@
-package ic20b106.client.game.menus.submenus.buildings;
+package ic20b106.client.game.menus.submenus.buildings.defense;
 
 import ic20b106.client.game.board.Cell;
 import ic20b106.client.game.buildings.Building;
 import ic20b106.client.game.menus.submenus.BuildingSubMenu;
 import javafx.fxml.FXML;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 import java.net.URL;
@@ -14,12 +14,12 @@ import java.util.ResourceBundle;
  * @author Andre Schneider
  * @version 1.0
  *
- * Submenu of the Barracks Building
+ * Submenu of the Factory Building
  */
-public class BarracksSubMenu extends BuildingSubMenu {
+public class GuardHouseSubMenu extends BuildingSubMenu {
 
     @FXML
-    private AnchorPane barracksMenu;
+    private HBox guardHouseBox;
 
     /**
      * Constructor
@@ -28,7 +28,7 @@ public class BarracksSubMenu extends BuildingSubMenu {
      * @param building Corresponding Building
      * @throws IOException Thrown if fxml file couldn't be found
      */
-    public BarracksSubMenu(Cell selectedCell, Building building) throws IOException {
+    public GuardHouseSubMenu(Cell selectedCell, Building building) throws IOException {
         super(selectedCell, building);
     }
 
@@ -46,6 +46,6 @@ public class BarracksSubMenu extends BuildingSubMenu {
             return;
         }
 
-        barracksMenu.getChildren().add(destroyBox);
+        guardHouseBox.getChildren().add(destroyBox);
     }
 }

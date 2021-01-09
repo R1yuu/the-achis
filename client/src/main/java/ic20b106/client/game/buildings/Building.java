@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -18,7 +19,7 @@ import java.util.HashMap;
  * A Building has various Tasks.
  * It can be Placed on a Cell.
  */
-public abstract class Building implements Buildable {
+public abstract class Building implements Buildable, Serializable {
 
     protected Cell cell;
     protected HashMap<Material, Integer> buildingCost;
@@ -27,7 +28,7 @@ public abstract class Building implements Buildable {
     private final ImageView constructionTexture;
     private static final Image constructionImage;
     static {
-        constructionImage = new Image(Building.class.getResource("/images/buildings/construction-site.png").toString(),
+        constructionImage = new Image(Building.class.getResource("/images/neutral/buildings/construction-site.png").toString(),
           200, 0, true, false, true);
     }
 

@@ -1,8 +1,8 @@
 package ic20b106.client;
 
 import ic20b106.client.game.board.Cell;
+import ic20b106.client.game.buildings.Headquarters;
 import ic20b106.client.game.buildings.Material;
-import ic20b106.client.game.buildings.core.Core;
 import ic20b106.client.game.buildings.link.LinkDirection;
 import ic20b106.client.manager.NetworkManager;
 import ic20b106.client.util.javafx.GameBoard;
@@ -15,21 +15,17 @@ import ic20b106.shared.utils.IntPair;
 import ic20b106.shared.utils.Pair;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.List;
@@ -184,8 +180,8 @@ public class Lobby {
             }
         }
 
-        startStorage.put(Material.PEARL, 40);
-        startStorage.put(Material.METAL, 40);
+        startStorage.put(Material.WOOD, 16);
+        startStorage.put(Material.ROCK, 12);
 
         // Sets Starting Storage
         /*
@@ -206,14 +202,14 @@ public class Lobby {
          */
 
 
-        Cell coreCell = Game.gameBoard.getCell(startPosition);
+        Cell hqCell = Game.gameBoard.getCell(startPosition);
 
-        Game.playerCoreCell = coreCell;
+        Game.playerCoreCell = hqCell;
 
-        coreCell.placeBuilding(new Core(coreCell, startStorage));
-        coreCell.setOwner(Game.playerColor.toColor());
-        coreCell.extendArea(Game.playerColor.toColor(), 5);
-        coreCell.addLinks(LinkDirection.values());
+        hqCell.placeBuilding(new Headquarters(hqCell, startStorage));
+        hqCell.setOwner(Game.playerColor);
+        hqCell.extendArea(Game.playerColor, 5);
+        hqCell.addLinks(LinkDirection.values());
 
         Platform.runLater(() -> Game.primaryPane.getChildren().setAll(zoomableScrollPane));
     }

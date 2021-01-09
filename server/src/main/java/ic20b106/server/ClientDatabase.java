@@ -1,5 +1,6 @@
 package ic20b106.server;
 
+import java.io.Closeable;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -8,16 +9,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class ClientDatabase {
+public class ClientDatabase implements Closeable, AutoCloseable {
 
     private static ClientDatabase singleInstance = null;
     private static final String dbFilePath = System.getProperty("user.home").replace("\\", "/") +
       "/.the_achis/clients.db";
     private static final String dbPath = "jdbc:sqlite:" + dbFilePath;
     private Connection dbConnection = null;
+    private final Object executionLock = new Object();
 
     private ClientDatabase() {
-
         connect();
     }
 
@@ -77,14 +78,16 @@ public class ClientDatabase {
 
     public void addClient(String hash) {
         try (Statement stmt = this.dbConnection.createStatement()) {
-            stmt.execute(
-              "INSERT INTO client(uuid) " +
-                  "SELECT '" + hash + "' " +
-                  "WHERE NOT EXISTS(SELECT 1 " +
-                  "FROM client " +
-                  "WHERE uuid = '" + hash + "')" +
-              ";"
-            );
+            synchronized (executionLock) {
+                stmt.execute(
+                  "INSERT INTO client(uuid) " +
+                    "SELECT '" + hash + "' " +
+                    "WHERE NOT EXISTS(SELECT 1 " +
+                    "FROM client " +
+                    "WHERE uuid = '" + hash + "')" +
+                    ";"
+                );
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -93,11 +96,14 @@ public class ClientDatabase {
     public String getId(String hash) {
         String id;
         try (Statement stmt = this.dbConnection.createStatement()) {
-            ResultSet idSet = stmt.executeQuery(
-              "SELECT rowid " +
-                "FROM client " +
-                "WHERE uuid = '" + hash + "';"
-              );
+            ResultSet idSet = null;
+            synchronized (executionLock) {
+                 idSet = stmt.executeQuery(
+                  "SELECT rowid " +
+                    "FROM client " +
+                    "WHERE uuid = '" + hash + "';"
+                );
+            }
             id = idSet.getString(1);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -108,7 +114,9 @@ public class ClientDatabase {
 
     public void updateStatement(String sqlQuery) {
         try (Statement stmt = this.dbConnection.createStatement()) {
-            stmt.executeUpdate(sqlQuery);
+            synchronized (executionLock) {
+                stmt.executeUpdate(sqlQuery);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -127,7 +135,6 @@ public class ClientDatabase {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
     }
 
     public static void closeIfExists() {

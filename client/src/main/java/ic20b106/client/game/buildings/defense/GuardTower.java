@@ -1,33 +1,32 @@
-package ic20b106.client.game.buildings.production;
+package ic20b106.client.game.buildings.defense;
 
 import ic20b106.client.game.board.Cell;
-import ic20b106.client.game.buildings.Building;
 import ic20b106.client.game.buildings.Material;
 import ic20b106.client.game.menus.submenus.BuildingSubMenu;
-import ic20b106.client.game.menus.submenus.buildings.FactorySubMenu;
+import ic20b106.client.game.menus.submenus.buildings.defense.GuardTowerSubMenu;
 
 import java.io.IOException;
 import java.util.HashMap;
 
 /**
- * @author Andre_Schneider
+ * @author Andre Schneider
  * @version 1.0
  *
- * Produces Energy Particles
+ * Barracks are the smallest defensive building
  */
-public class Factory extends Building {
+public class GuardTower extends Defense {
 
     /**
      * Constructor
-     * Sets the View Texture of a Building
      *
+     * @param cell Cell on which the Barracks are placed
      */
-    public Factory(Cell cell) {
-        super("/images/buildings/factory.png",
+    protected GuardTower(Cell cell) {
+        super("/images/neutral/buildings/construction-site.png",
           new HashMap<>() {{
-              put(Material.PEARL, 4);
-          }},
-          cell);
+              put(Material.WOOD, 3);
+              put(Material.ROCK, 5);
+          }}, cell, 4);
     }
 
     /**
@@ -38,7 +37,7 @@ public class Factory extends Building {
      */
     @Override
     public BuildingSubMenu getBuildingSubMenu() throws IOException {
-        return new FactorySubMenu(this.cell, this);
+        return new GuardTowerSubMenu(this.cell, this);
     }
 
     /**
@@ -48,6 +47,6 @@ public class Factory extends Building {
      */
     @Override
     public String getMenuPath() {
-        return "/fxml/buildings/Factory.fxml";
+        return "/fxml/buildings/defense/GuardTower.fxml";
     }
 }

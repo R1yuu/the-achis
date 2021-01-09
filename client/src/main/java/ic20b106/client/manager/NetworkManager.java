@@ -5,12 +5,14 @@ import ic20b106.client.Lobby;
 import ic20b106.client.Options;
 import ic20b106.client.exceptions.HashException;
 import ic20b106.client.exceptions.HashTakenException;
+import ic20b106.client.game.board.Cell;
 import ic20b106.client.util.HashUtils;
 import ic20b106.shared.Buildable;
 import ic20b106.shared.ClientCommands;
 import ic20b106.shared.PlayerColor;
 import ic20b106.shared.PlayerStartPosition;
 import ic20b106.shared.RemoteCommands;
+import ic20b106.shared.utils.IntPair;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 
@@ -95,7 +97,8 @@ public class NetworkManager extends UnicastRemoteObject
      */
     @Override
     public void updateBuilding(Buildable buildable) {
-        
+        IntPair buildingPosition = buildable.getPosition();
+        Cell targetCell = Game.gameBoard.getCell(buildingPosition);
     }
 
     /**

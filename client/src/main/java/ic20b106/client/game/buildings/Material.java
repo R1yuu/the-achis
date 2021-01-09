@@ -7,5 +7,5 @@ package ic20b106.client.game.buildings;
  * Enum of all materials that exist
  */
 public enum Material {
-    PEARL, METAL, MEAT  
+    WOOD, ROCK, METAL
 }

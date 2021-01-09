@@ -1,9 +1,10 @@
-package ic20b106.client.game.buildings.defense;
+package ic20b106.client.game.buildings.production;
 
 import ic20b106.client.game.board.Cell;
+import ic20b106.client.game.buildings.Building;
 import ic20b106.client.game.buildings.Material;
 import ic20b106.client.game.menus.submenus.BuildingSubMenu;
-import ic20b106.client.game.menus.submenus.buildings.CoreSubMenu;
+import ic20b106.client.game.menus.submenus.buildings.production.BarracksSubMenu;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -12,21 +13,22 @@ import java.util.HashMap;
  * @author Andre Schneider
  * @version 1.0
  *
- * Barracks are the smallest defensive building
+ * Produces Energy Particles
  */
-public class Barracks extends Defense {
+public class Barracks extends Building {
 
     /**
      * Constructor
+     * Sets the View Texture of a Building
      *
-     * @param cell Cell on which the Barracks are placed
      */
-    protected Barracks(Cell cell) {
-        super("/images/buildings/core.png",
+    public Barracks(Cell cell) {
+        super("/images/neutral/buildings/production/barracks.png",
           new HashMap<>() {{
-              put(Material.PEARL, 7);
-              put(Material.METAL, 7);
-          }}, cell, 2);
+              put(Material.WOOD, 4);
+              put(Material.ROCK, 2);
+          }},
+          cell);
     }
 
     /**
@@ -37,7 +39,7 @@ public class Barracks extends Defense {
      */
     @Override
     public BuildingSubMenu getBuildingSubMenu() throws IOException {
-        return new CoreSubMenu(this.cell, this);
+        return new BarracksSubMenu(this.cell, this);
     }
 
     /**
@@ -47,6 +49,6 @@ public class Barracks extends Defense {
      */
     @Override
     public String getMenuPath() {
-        return "/fxml/buildings/Barracks.fxml";
+        return "/fxml/buildings/production/Barracks.fxml";
     }
 }

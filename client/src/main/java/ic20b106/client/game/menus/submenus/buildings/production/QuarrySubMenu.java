@@ -1,4 +1,4 @@
-package ic20b106.client.game.menus.submenus.buildings;
+package ic20b106.client.game.menus.submenus.buildings.production;
 
 import ic20b106.client.game.board.Cell;
 import ic20b106.client.game.buildings.Building;
@@ -16,10 +16,10 @@ import java.util.ResourceBundle;
  *
  * Submenu of the Factory Building
  */
-public class FactorySubMenu extends BuildingSubMenu {
+public class QuarrySubMenu extends BuildingSubMenu {
 
     @FXML
-    private HBox factoryMenu;
+    private HBox quarryBox;
 
     /**
      * Constructor
@@ -28,7 +28,7 @@ public class FactorySubMenu extends BuildingSubMenu {
      * @param building Corresponding Building
      * @throws IOException Thrown if fxml file couldn't be found
      */
-    public FactorySubMenu(Cell selectedCell, Building building) throws IOException {
+    public QuarrySubMenu(Cell selectedCell, Building building) throws IOException {
         super(selectedCell, building);
     }
 
@@ -46,6 +46,6 @@ public class FactorySubMenu extends BuildingSubMenu {
             return;
         }
 
-        factoryMenu.getChildren().add(destroyBox);
+        quarryBox.getChildren().add(destroyBox);
     }
 }

@@ -1,10 +1,10 @@
-package ic20b106.client.game.buildings.core;
+package ic20b106.client.game.buildings.production;
 
 import ic20b106.client.game.board.Cell;
 import ic20b106.client.game.buildings.Building;
 import ic20b106.client.game.buildings.Material;
 import ic20b106.client.game.menus.submenus.BuildingSubMenu;
-import ic20b106.client.game.menus.submenus.buildings.CoreSubMenu;
+import ic20b106.client.game.menus.submenus.buildings.production.QuarrySubMenu;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -13,25 +13,21 @@ import java.util.HashMap;
  * @author Andre Schneider
  * @version 1.0
  *
- * The Core is the Main Building of a Player.
- * When it gets Destroyed, the Player loses.
+ * Produces Energy Particles
  */
-public class Core extends Building {
-
-    protected HashMap<Material, Integer> storage;
+public class Quarry extends Building {
 
     /**
      * Constructor
+     * Sets the View Texture of a Building
      *
-     * @param cell Cell the Core is placed on
-     * @param storage Storage content of the Core
      */
-    public Core(Cell cell, HashMap<Material, Integer> storage) {
-        super("/images/buildings/core2.png",
-          null, cell);
-
-        this.storage = storage;
-        this.isConstructionSite = false;
+    public Quarry(Cell cell) {
+        super("/images/neutral/buildings/production/quarry.png",
+          new HashMap<>() {{
+              put(Material.WOOD, 2);
+          }},
+          cell);
     }
 
     /**
@@ -42,7 +38,7 @@ public class Core extends Building {
      */
     @Override
     public BuildingSubMenu getBuildingSubMenu() throws IOException {
-        return new CoreSubMenu(this.cell, this);
+        return new QuarrySubMenu(this.cell, this);
     }
 
     /**
@@ -52,6 +48,6 @@ public class Core extends Building {
      */
     @Override
     public String getMenuPath() {
-        return "/fxml/buildings/Core.fxml";
+        return "/fxml/buildings/production/Quarry.fxml";
     }
 }
