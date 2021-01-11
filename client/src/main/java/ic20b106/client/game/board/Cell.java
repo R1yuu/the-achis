@@ -10,23 +10,17 @@ import ic20b106.client.game.menus.submenus.LinkSubMenu;
 import ic20b106.shared.PlayerColor;
 import ic20b106.shared.utils.IntPair;
 import ic20b106.shared.utils.Pair;
-import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 import java.util.EnumMap;
@@ -38,53 +32,58 @@ import java.util.Random;
  *
  * Cells are the Buildings Fields
  */
-public class Cell extends Pane implements GraphNode {
+public class Cell extends StackPane implements GraphNode {
 
     private final IntPair position;
     private final EnumMap<LinkDirection, Pair<Link, Cell>> links = new EnumMap<>(LinkDirection.class);
-    private final String cellBackground;
+    private BackgroundImage cellBackgroundImg;
     private PlayerColor owner;
     private Building building;
-    private static final Border defaultBorder = new Border(new BorderStroke(
-      Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
     private static final Random rand = new Random();
+    private static final BackgroundImage bgGrass = new BackgroundImage(
+      new Image(
+        Cell.class.getResource("/images/neutral/background/grass.png").toString(),
+        Game.resolution, 0, true, false, true),
+      BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+      new BackgroundSize(Game.cellSize, Game.cellSize, true, true, true, true));
+    private static final BackgroundImage bgTallGrass = new BackgroundImage(
+      new Image(
+        Cell.class.getResource("/images/neutral/background/tall-grass.png").toString(),
+        Game.resolution, 0, true, false, true),
+      BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+      new BackgroundSize(Game.cellSize, Game.cellSize, true, true, true, true));
+    private static final BackgroundImage bgFlowers = new BackgroundImage(
+      new Image(
+        Cell.class.getResource("/images/neutral/background/flowers.png").toString(),
+        Game.resolution, 0, true, false, true),
+      BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+      new BackgroundSize(Game.cellSize, Game.cellSize, true, true, true, true));;
 
     /**
      * Constructor
-     * Sets Height and Width of HBox
      *
+     * @param row Row Position of Cell
+     * @param col Col Position of Cell
+     * @param owner Owner of Cell
      */
     public Cell(int row, int col, PlayerColor owner) {
-        this(row, col, defaultBorder, owner);
-    }
-
-    /**
-     * Constructor
-     *
-     * @param border Sets the Border of the Cell (important for Debug)
-     */
-    public Cell(int row, int col, Border border, PlayerColor owner) {
-        if (border != null) setBorder(border);
 
         this.owner = owner;
 
         int randInt = rand.nextInt(3);
 
         if (randInt == 0) {
-            this.cellBackground = "grass-base.png";
+            this.cellBackgroundImg = bgGrass;
         } else if (randInt == 1) {
-            this.cellBackground = "tall-grass-base.png";
+            this.cellBackgroundImg = bgTallGrass;
         } else {
-            this.cellBackground = "flowers-base.png";
+            this.cellBackgroundImg = bgFlowers;
         }
-        //this.setBackground(new Background(new BackgroundFill(owner, CornerRadii.EMPTY, Insets.EMPTY)));
-        this.setBackground(new Background(new BackgroundImage(
-          new Image(getClass().getResource("/images/neutral/background/" + this.cellBackground).toString()),
-          BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+
+        this.setBackground(new Background(this.cellBackgroundImg));
 
         this.setPrefHeight(Game.cellSize);
         this.setPrefWidth(Game.cellSize);
-
 
         this.position = new IntPair(row, col);
 
@@ -101,7 +100,6 @@ public class Cell extends Pane implements GraphNode {
     private void onMouseClick(MouseEvent mouseEvent) {
         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
             if (owner == Game.playerColor) {
-
 
                 if (Game.activeSubMenu != null) {
                     Game.activeSubMenu.close();
@@ -139,8 +137,18 @@ public class Cell extends Pane implements GraphNode {
     public void placeBuilding(Building building) {
         if (this.building == null) {
             this.building = building;
+            StackPane.setAlignment(this.building.getTexture(), Pos.CENTER);
             this.getChildren().add(this.building.getTexture());
         }
+    }
+
+    /**
+     * Getter
+     *
+     * @return Building
+     */
+    public Building getBuilding() {
+        return this.building;
     }
 
     /**
@@ -294,12 +302,25 @@ public class Cell extends Pane implements GraphNode {
      */
     public void setOwner(PlayerColor newOwner) {
         this.owner = newOwner;
-        //this.setBackground(new Background(new BackgroundFill(newOwner, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        this.setBackground(new Background(new BackgroundImage(
-          new Image(getClass().getResource(
-            newOwner.getPlayerTexturePath() + "/background/" + this.cellBackground).toString()),
-          BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+        String bgImgPath = newOwner.getPlayerTexturePath() + "/background/";
+
+        if (this.cellBackgroundImg == bgGrass) {
+            bgImgPath += "grass.png";
+        } else if (this.cellBackgroundImg == bgTallGrass) {
+            bgImgPath += "tall-grass.png";
+        } else {
+            bgImgPath += "flowers.png";
+        }
+
+        this.cellBackgroundImg = new BackgroundImage(
+          new Image(
+            getClass().getResource(bgImgPath).toString(),
+            Game.resolution, 0, true, false, true),
+          BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+          new BackgroundSize(Game.cellSize, Game.cellSize, true, true, true, true));
+
+        this.setBackground(new Background(this.cellBackgroundImg));
     }
 
     /**

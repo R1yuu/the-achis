@@ -58,17 +58,6 @@ public class ZoomableScrollPane extends ScrollPane {
 
         updateScale();
 
-
-
-        this.hvalueProperty().addListener((obs, oldVal, newVal) -> {
-            System.out.println("New - Old = " + (newVal.doubleValue() - oldVal.doubleValue()));
-            System.out.println("New H: " + newVal);
-        });
-        this.vvalueProperty().addListener((obs, oldVal, newVal) -> {
-            System.out.println("New - Old = " + (newVal.doubleValue() - oldVal.doubleValue()));
-            System.out.println("New V: " + newVal);
-        });
-
     }
 
     /**

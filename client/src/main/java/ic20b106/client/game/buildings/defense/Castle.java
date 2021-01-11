@@ -26,7 +26,7 @@ public class Castle extends Defense {
           new HashMap<>() {{
               put(Material.WOOD, 4);
               put(Material.ROCK, 7);
-          }}, cell, 6);
+          }}, cell, 4);
     }
 
     /**

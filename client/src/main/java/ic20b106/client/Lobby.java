@@ -81,7 +81,7 @@ public class Lobby {
                     setGraphic(null);
                 } else {
                     setText(item);
-                    Rectangle rectangle = new Rectangle(20, 20, PlayerColor.fromString(item).toColor());
+                    Rectangle rectangle = new Rectangle(20, 20, Game.playerToColor(PlayerColor.fromString(item)));
                     rectangle.setArcWidth(5);
                     rectangle.setArcHeight(5);
                     label = new Label("", rectangle);
@@ -210,6 +210,7 @@ public class Lobby {
         hqCell.setOwner(Game.playerColor);
         hqCell.extendArea(Game.playerColor, 5);
         hqCell.addLinks(LinkDirection.values());
+        zoomableScrollPane.setCache(false);
 
         Platform.runLater(() -> Game.primaryPane.getChildren().setAll(zoomableScrollPane));
     }
@@ -259,7 +260,7 @@ public class Lobby {
                     playerPane.add(new Label(playerProfile.id), 0, rowIdx);
 
                     if (playerProfile.color != null) {
-                        Rectangle colorRect = new Rectangle(20, 20, playerProfile.color.toColor());
+                        Rectangle colorRect = new Rectangle(20, 20, Game.playerToColor(playerProfile.color));
                         colorRect.setArcHeight(5);
                         colorRect.setArcWidth(5);
                         playerPane.add(colorRect, 1, rowIdx);

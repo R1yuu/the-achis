@@ -6,9 +6,11 @@ import ic20b106.client.game.menus.EscapeMenuController;
 import ic20b106.client.game.board.CellScorer;
 import ic20b106.client.game.astar.Graph;
 import ic20b106.client.game.astar.RouteFinder;
+import ic20b106.shared.PlayerColor;
 import ic20b106.shared.utils.IntPair;
 import ic20b106.shared.utils.Pair;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -52,7 +54,7 @@ public class GameBoard extends GridPane {
 
         for (int col=0; col < boardWidth; col++) {
             for (int row=0; row < boardHeight; row++) {
-                cell = new Cell(row, col, Color.SLATEGREY);
+                cell = new Cell(row, col, PlayerColor.NONE);
                 if (row % 2 == 1) cell.setStyle("-fx-translate-x: 25");
 
                 this.add(cell, col, row);

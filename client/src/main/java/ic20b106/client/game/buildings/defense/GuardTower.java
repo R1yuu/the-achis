@@ -26,7 +26,7 @@ public class GuardTower extends Defense {
           new HashMap<>() {{
               put(Material.WOOD, 3);
               put(Material.ROCK, 5);
-          }}, cell, 4);
+          }}, cell, 3);
     }
 
     /**

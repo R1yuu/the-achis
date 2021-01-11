@@ -1,7 +1,7 @@
 package ic20b106.client.game.buildings.link;
 
 /**
- * @author Andre_Schneider
+ * @author Andre Schneider
  * @version 1.0
  *
  * Directions a Link can have

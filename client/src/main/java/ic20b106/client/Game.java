@@ -22,8 +22,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonBase;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -55,6 +60,7 @@ public class Game extends Application {
     public static boolean roomOwner = false;
     public static VBox loadingBox;
     public static int cellSize = 50;
+    public static int resolution = 200;
 
     /**
      * Start Method of JavaFX
@@ -69,6 +75,10 @@ public class Game extends Application {
 
         AudioManager.getInstance();
         primaryPane.getChildren().setAll(mainMenu);
+        primaryPane.setBackground(new Background(new BackgroundImage(
+          new Image(getClass().getResource("/images/main-menu-background.png").toString()),
+          BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+          new BackgroundSize(100, 100, true, true, true, true))));
 
         Scene primaryScene = new Scene(primaryPane, 1280, 720);
 
@@ -128,6 +138,12 @@ public class Game extends Application {
         roomOwner = false;
     }
 
+    /**
+     * Takes PlayerColor and returns javafx Color
+     *
+     * @param playerColor Player Color
+     * @return Javafx corresponding Color
+     */
     public static Color playerToColor(PlayerColor playerColor) {
         switch (playerColor) {
             case RED -> {
@@ -143,7 +159,7 @@ public class Game extends Application {
                 return Color.FORESTGREEN;
             }
             default -> {
-                return Color.GRAY;
+                return Color.SLATEGRAY;
             }
         }
     }

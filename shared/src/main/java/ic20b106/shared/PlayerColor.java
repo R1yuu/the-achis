@@ -2,10 +2,7 @@ package ic20b106.shared;
 
 public enum PlayerColor {
 
-    RED, BLUE, YELLOW, GREEN;
-
-    PlayerColor() {
-    }
+    RED, BLUE, YELLOW, GREEN, NONE;
 
     public String getPlayerTexturePath() {
         return "/images/" + this.toString().toLowerCase();

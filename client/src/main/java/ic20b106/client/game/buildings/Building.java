@@ -29,7 +29,7 @@ public abstract class Building implements Buildable, Serializable {
     private static final Image constructionImage;
     static {
         constructionImage = new Image(Building.class.getResource("/images/neutral/buildings/construction-site.png").toString(),
-          200, 0, true, false, true);
+          Game.resolution, 0, true, false, true);
     }
 
     /**
@@ -51,7 +51,7 @@ public abstract class Building implements Buildable, Serializable {
     protected Building(String texturePath, HashMap<Material, Integer> buildingCost,
                        Cell cell, boolean isConstructionSite) {
         this.texture = new ImageView(new Image(getClass().getResource(texturePath).toString(),
-          200, 0, true, false, true));
+          Game.resolution, 0, true, false, true));
         this.texture.setFitHeight(Game.cellSize);
         this.texture.setFitWidth(Game.cellSize);
 
@@ -66,11 +66,26 @@ public abstract class Building implements Buildable, Serializable {
     }
 
     /**
+     * Gets a needed Material
+     *
+     * @return A needed Material or null if there are none needed
+     */
+    public Material getNeededMaterial() {
+        for (Material material : Material.values()) {
+            Integer buildMaterial = this.buildingCost.getOrDefault(material, 0);
+            if (buildMaterial > 0) {
+                this.buildingCost.put(material, buildMaterial - 1);
+                return material;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Texture Getter
      *
      * @return Returns Texture
      */
-    @Override
     public ImageView getTexture() {
         if (isConstructionSite) {
             return constructionTexture;
