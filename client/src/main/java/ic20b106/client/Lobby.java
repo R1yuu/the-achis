@@ -15,12 +15,15 @@ import ic20b106.shared.utils.IntPair;
 import ic20b106.shared.utils.Pair;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.skin.ScrollPaneSkin;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -158,8 +161,6 @@ public class Lobby {
         Game.gameBoard = new GameBoard(boardWidth, boardHeight);
 
         ZoomableScrollPane zoomableScrollPane = new ZoomableScrollPane(Game.gameBoard, MouseButton.SECONDARY);
-        zoomableScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        zoomableScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
         IntPair startPosition = new IntPair(5, 5);
         HashMap<Material, Integer> startStorage = new HashMap<>();
@@ -175,8 +176,8 @@ public class Lobby {
             }
             case BOTTOM_RIGHT -> {
                 startPosition.setXY(boardHeight - 6, boardWidth - 6);
-                zoomableScrollPane.setVvalue(1);
                 zoomableScrollPane.setHvalue(1);
+                zoomableScrollPane.setVvalue(1);
             }
         }
 
@@ -210,7 +211,6 @@ public class Lobby {
         hqCell.setOwner(Game.playerColor);
         hqCell.extendArea(Game.playerColor, 5);
         hqCell.addLinks(LinkDirection.values());
-        zoomableScrollPane.setCache(false);
 
         Platform.runLater(() -> Game.primaryPane.getChildren().setAll(zoomableScrollPane));
     }

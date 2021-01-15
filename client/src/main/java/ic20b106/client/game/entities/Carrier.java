@@ -2,13 +2,14 @@ package ic20b106.client.game.entities;
 
 import ic20b106.client.Game;
 import ic20b106.client.game.board.Cell;
+import ic20b106.client.game.buildings.Building;
 import ic20b106.client.game.buildings.Material;
-import javafx.animation.Animation;
-import javafx.animation.AnimationTimer;
-import javafx.animation.ParallelTransition;
+import ic20b106.client.game.buildings.StorageBuilding;
+import ic20b106.shared.utils.IntPair;
+import ic20b106.shared.utils.Pair;
 import javafx.animation.PathTransition;
-import javafx.animation.Transition;
 import javafx.geometry.Bounds;
+import javafx.scene.CacheHint;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.LineTo;
@@ -16,8 +17,9 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
+import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.Callable;
+import java.util.ListIterator;
 
 /**
  * @author Andre Schneider
@@ -25,67 +27,95 @@ import java.util.concurrent.Callable;
  *
  * Transporters carry a material from Node Node to another
  */
-public class Carrier implements Runnable {
+public class Carrier extends Thread {
 
+    private final ImageView texture = new ImageView(
+      new Image(getClass().getResource("/images/red/entities/carrier/empty/left-0.png").toString(),
+        Game.resolution, 0, true, false, false));
+    private final PathTransition walkPath = new PathTransition();
+    private final List<Cell> transportPath;
+    private final ListIterator<Cell> transIter;
     private final Cell from;
     private final Cell to;
-    private final Material cargo;
+    private Cell currCell;
+    private Cell nextCell;
+    private Material cargo;
 
     /**
      * Constructor
      *
      * @param from Start Node
      * @param to End Node
-     * @param cargo Carried Material
      */
-    public Carrier(Cell from, Cell to, Material cargo) {
+    public Carrier(Cell from, Cell to) {
         this.from = from;
         this.to = to;
-        this.cargo = cargo;
+        this.transportPath = Game.gameBoard.findRoute(this.from, this.to);
+        this.transIter = this.transportPath.listIterator();
+
+        this.texture.setSmooth(false);
+        this.texture.setCache(true);
+        this.texture.setCacheHint(CacheHint.SPEED);
+        this.texture.setFitWidth(12);
+        this.texture.setFitHeight(12);
+
+        Game.gameBoard.getChildren().add(texture);
+
+
+        walkPath.setNode(texture);
+        walkPath.setOnFinished(actionEvent -> {
+            this.currCell = this.nextCell;
+            walk();
+        });
     }
 
     /**
-     * Thread Method
      * Calculates shortest Route using A*
      * Moves the Transporter accordingly
      */
     @Override
     public void run() {
-        List<Cell> transportPath = Game.gameBoard.findRoute(from , to);
+        Building building = to.getBuilding();
+        if (building != null) {
+            Material neededMaterial = building.peekNeededMaterial();
 
-        Bounds currCellBounds = from.getBoundsInParent();
-
-        Path transitionPath = new Path();
-
-        Image frame0 = new Image(getClass().getResource("/images/red/entities/carrier/empty/left-0.png").toString(),
-          Game.resolution, 0, true, false, false);
-        Image frame1 = new Image(getClass().getResource("/images/red/entities/carrier/empty/left-1.png").toString(),
-          Game.resolution, 0, true, false, false);
-
-        ImageView transportTexture = new ImageView(frame1);
-        transportTexture.setCache(false);
-        transportTexture.setFitWidth(25);
-        transportTexture.setFitHeight(25);
-
-        transportTexture.setLayoutX(currCellBounds.getMinX() + transportTexture.getFitWidth() / 2);
-        transportTexture.setLayoutY(currCellBounds.getMinY() + transportTexture.getFitHeight() / 2);
-
-        Game.gameBoard.setCache(false);
-        Game.gameBoard.getChildren().add(transportTexture);
-
-        transitionPath.getElements().add(new MoveTo(currCellBounds.getMinX() + 5, currCellBounds.getMinY()));
-
-        for (Cell currPathCell : transportPath.subList(1, transportPath.size())) {
-            currCellBounds = currPathCell.getBoundsInParent();
-            transitionPath.getElements().add(new LineTo(currCellBounds.getMinX() + 5, currCellBounds.getMinY()));
+            if (neededMaterial != null) {
+                if (from.getBuilding() instanceof StorageBuilding) {
+                    StorageBuilding storageBuilding = (StorageBuilding) from.getBuilding();
+                    if (storageBuilding.popStoredMaterial(neededMaterial) != null) {
+                        this.currCell = this.transIter.next();
+                        walk();
+                    }
+                }
+            }
         }
+    }
 
-        PathTransition pT = new PathTransition();
-        pT.setDuration(Duration.seconds(10));
-        pT.setNode(transportTexture);
-        pT.setPath(transitionPath);
-        pT.setOnFinished((actionEvent) -> System.out.println("Finished Walking"));
-        pT.play();
+    private void walk() {
+        if (transIter.hasNext()) {
+            this.nextCell = this.transIter.next();
+            double pathDuration = currCell.getCellTerrain().travelTime;
+
+            Bounds currCellBounds = currCell.getBoundsInParent();
+            Bounds nextCellBounds = nextCell.getBoundsInParent();
+            Pair<Double, Double> currCellCenter = new Pair<>(
+              currCellBounds.getMaxX() - (currCellBounds.getWidth() / 2),
+              currCellBounds.getMaxY() - currCellBounds.getHeight()
+            );
+            Pair<Double, Double> nextCellCenter = new Pair<>(
+              nextCellBounds.getMaxX() - (nextCellBounds.getWidth() / 2),
+              nextCellBounds.getMaxY() - nextCellBounds.getHeight()
+            );
+
+            Path transPath = new Path(
+              new MoveTo(currCellCenter.x, currCellCenter.y),
+              new LineTo(nextCellCenter.x, nextCellCenter.y)
+            );
+
+            walkPath.setDuration(Duration.seconds(pathDuration));
+            walkPath.setPath(transPath);
+            walkPath.play();
+        }
     }
 
     /**

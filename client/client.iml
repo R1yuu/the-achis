@@ -17,7 +17,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="shared" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.6" level="project" />
-    <orderEntry type="module" module-name="hashids" />
+    <orderEntry type="library" name="Maven: org.hashids:hashids:1.0.3-MODULES" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:win:14.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:14.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:win:14.0.2" level="project" />

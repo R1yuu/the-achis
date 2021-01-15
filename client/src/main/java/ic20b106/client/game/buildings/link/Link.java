@@ -6,6 +6,7 @@ import ic20b106.client.game.menus.submenus.BuildingSubMenu;
 import ic20b106.client.game.menus.submenus.buildings.LinkSubMenu;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * @author Andre_Schneider
@@ -24,7 +25,7 @@ public class Link extends Building {
      */
     public Link(LinkDirection linkDirection, Cell cell) {
         super("/images/neutral/buildings/links/Link-" + linkDirection.toString() + ".png",
-          null, cell, false);
+          new HashMap<>(), cell, false);
 
 
         this.linkDirection = linkDirection;

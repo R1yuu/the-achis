@@ -4,6 +4,7 @@ import ic20b106.client.game.board.Cell;
 import ic20b106.client.game.buildings.Building;
 import ic20b106.client.game.buildings.Material;
 import ic20b106.shared.PlayerColor;
+import javafx.beans.property.SimpleMapProperty;
 
 import java.util.HashMap;
 

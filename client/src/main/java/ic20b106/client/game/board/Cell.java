@@ -19,7 +19,6 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
@@ -36,28 +35,10 @@ public class Cell extends StackPane implements GraphNode {
 
     private final IntPair position;
     private final EnumMap<LinkDirection, Pair<Link, Cell>> links = new EnumMap<>(LinkDirection.class);
-    private BackgroundImage cellBackgroundImg;
+    private final Terrain cellTerrain;
     private PlayerColor owner;
     private Building building;
     private static final Random rand = new Random();
-    private static final BackgroundImage bgGrass = new BackgroundImage(
-      new Image(
-        Cell.class.getResource("/images/neutral/background/grass.png").toString(),
-        Game.resolution, 0, true, false, true),
-      BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
-      new BackgroundSize(Game.cellSize, Game.cellSize, true, true, true, true));
-    private static final BackgroundImage bgTallGrass = new BackgroundImage(
-      new Image(
-        Cell.class.getResource("/images/neutral/background/tall-grass.png").toString(),
-        Game.resolution, 0, true, false, true),
-      BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
-      new BackgroundSize(Game.cellSize, Game.cellSize, true, true, true, true));
-    private static final BackgroundImage bgFlowers = new BackgroundImage(
-      new Image(
-        Cell.class.getResource("/images/neutral/background/flowers.png").toString(),
-        Game.resolution, 0, true, false, true),
-      BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
-      new BackgroundSize(Game.cellSize, Game.cellSize, true, true, true, true));;
 
     /**
      * Constructor
@@ -73,14 +54,14 @@ public class Cell extends StackPane implements GraphNode {
         int randInt = rand.nextInt(3);
 
         if (randInt == 0) {
-            this.cellBackgroundImg = bgGrass;
+            this.cellTerrain = Terrain.GRASS;
         } else if (randInt == 1) {
-            this.cellBackgroundImg = bgTallGrass;
+            this.cellTerrain = Terrain.TALL_GRASS;
         } else {
-            this.cellBackgroundImg = bgFlowers;
+            this.cellTerrain = Terrain.FLOWERS;
         }
 
-        this.setBackground(new Background(this.cellBackgroundImg));
+        this.setBackground(new Background(this.cellTerrain.bgImg));
 
         this.setPrefHeight(Game.cellSize);
         this.setPrefWidth(Game.cellSize);
@@ -128,18 +109,29 @@ public class Cell extends StackPane implements GraphNode {
         }
     }
 
+    /**
+     * Getter
+     *
+     * @return Background Terrain
+     */
+    public Terrain getCellTerrain() {
+        return this.cellTerrain;
+    }
+
 
     /**
-     * Places Buildings
+     * Places/Replaces Building
      *
      * @param building A Building that can be built on the Cell
      */
     public void placeBuilding(Building building) {
-        if (this.building == null) {
-            this.building = building;
-            StackPane.setAlignment(this.building.getTexture(), Pos.CENTER);
-            this.getChildren().add(this.building.getTexture());
+        if (this.building != null) {
+            this.getChildren().remove(this.building.getTexture());
         }
+
+        this.building = building;
+        StackPane.setAlignment(this.building.getTexture(), Pos.CENTER);
+        this.getChildren().add(this.building.getTexture());
     }
 
     /**
@@ -303,24 +295,13 @@ public class Cell extends StackPane implements GraphNode {
     public void setOwner(PlayerColor newOwner) {
         this.owner = newOwner;
 
-        String bgImgPath = newOwner.getPlayerTexturePath() + "/background/";
+        String bgImgPath = newOwner.getPlayerTexturePath() + "/bg-border.png";
 
-        if (this.cellBackgroundImg == bgGrass) {
-            bgImgPath += "grass.png";
-        } else if (this.cellBackgroundImg == bgTallGrass) {
-            bgImgPath += "tall-grass.png";
-        } else {
-            bgImgPath += "flowers.png";
-        }
-
-        this.cellBackgroundImg = new BackgroundImage(
-          new Image(
-            getClass().getResource(bgImgPath).toString(),
+        this.setBackground(new Background(this.cellTerrain.bgImg, new BackgroundImage(
+          new Image(getClass().getResource(bgImgPath).toString(),
             Game.resolution, 0, true, false, true),
           BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
-          new BackgroundSize(Game.cellSize, Game.cellSize, true, true, true, true));
-
-        this.setBackground(new Background(this.cellBackgroundImg));
+          new BackgroundSize(Game.cellSize, Game.cellSize, true, true, true, true))));
     }
 
     /**

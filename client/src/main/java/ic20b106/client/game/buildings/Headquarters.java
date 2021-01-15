@@ -14,7 +14,7 @@ import java.util.HashMap;
  * The Core is the Main Building of a Player.
  * When it gets Destroyed, the Player loses.
  */
-public class Headquarters extends Building {
+public class Headquarters extends Building implements StorageBuilding {
 
     protected HashMap<Material, Integer> storage;
 
@@ -26,10 +26,19 @@ public class Headquarters extends Building {
      */
     public Headquarters(Cell cell, HashMap<Material, Integer> storage) {
         super("/images/neutral/buildings/headquaters.png",
-          null, cell);
+          new HashMap<>(), cell, false);
 
         this.storage = storage;
         this.isConstructionSite = false;
+    }
+
+    public Material popStoredMaterial(Material material) {
+        Integer matQuantity = storage.getOrDefault(material, 0);
+        if (matQuantity > 0) {
+            storage.put(material, matQuantity - 1);
+            return material;
+        }
+        return null;
     }
 
     /**

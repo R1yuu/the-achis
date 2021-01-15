@@ -124,9 +124,8 @@ public class LinkSubMenu extends SubMenu {
         this.selectedCell.addLinks(linkDirection);
 
         if (Game.currentlyBuilt != null) {
-            Carrier carrier = new Carrier(
-              Game.playerCoreCell, selectedCell, selectedCell.getBuilding().getNeededMaterial());
-            carrier.run();
+            Carrier carrier = new Carrier(Game.playerCoreCell, selectedCell);
+            carrier.start();
 
             Game.currentlyBuilt = null;
         }

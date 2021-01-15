@@ -3,6 +3,8 @@ package ic20b106.client.game.menus.submenus;
 import ic20b106.client.Game;
 import ic20b106.client.game.board.Cell;
 import ic20b106.client.util.javafx.DragBox;
+import ic20b106.client.util.javafx.ZoomableScrollPane;
+import ic20b106.shared.utils.Pair;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,6 +22,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+import java.io.DataOutput;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;

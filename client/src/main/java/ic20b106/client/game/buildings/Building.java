@@ -5,6 +5,10 @@ import ic20b106.client.Game;
 import ic20b106.client.game.board.Cell;
 import ic20b106.client.game.menus.submenus.BuildingSubMenu;
 import ic20b106.shared.utils.IntPair;
+import javafx.beans.property.SimpleMapProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.MapChangeListener;
+import javafx.collections.ObservableMap;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -22,10 +26,10 @@ import java.util.HashMap;
 public abstract class Building implements Buildable, Serializable {
 
     protected Cell cell;
-    protected HashMap<Material, Integer> buildingCost;
-    protected ImageView texture;
+    protected ObservableMap<Material, Integer> neededMaterials = new SimpleMapProperty<>();
+    protected ImageView activeTexture;
+    protected Image buildingImage;
     protected boolean isConstructionSite;
-    private final ImageView constructionTexture;
     private static final Image constructionImage;
     static {
         constructionImage = new Image(Building.class.getResource("/images/neutral/buildings/construction-site.png").toString(),
@@ -50,31 +54,57 @@ public abstract class Building implements Buildable, Serializable {
      */
     protected Building(String texturePath, HashMap<Material, Integer> buildingCost,
                        Cell cell, boolean isConstructionSite) {
-        this.texture = new ImageView(new Image(getClass().getResource(texturePath).toString(),
-          Game.resolution, 0, true, false, true));
-        this.texture.setFitHeight(Game.cellSize);
-        this.texture.setFitWidth(Game.cellSize);
+        this.buildingImage = new Image(getClass().getResource(texturePath).toString(),
+          Game.resolution, 0, true, false, true);
 
         this.isConstructionSite = isConstructionSite;
-        this.constructionTexture = new ImageView(constructionImage);
-        this.constructionTexture.setFitHeight(Game.cellSize);
-        this.constructionTexture.setFitWidth(Game.cellSize);
 
-        this.buildingCost = buildingCost;
+        if (this.isConstructionSite) {
+            this.activeTexture = new ImageView(Building.constructionImage);
+            this.activeTexture.setFitHeight(18);
+            this.activeTexture.setFitWidth(16);
+        } else {
+            this.activeTexture = new ImageView(this.buildingImage);
+            this.activeTexture.setFitHeight(Game.cellSize);
+            this.activeTexture.setFitWidth(Game.cellSize);
+        }
+
+        this.neededMaterials = FXCollections.observableMap(buildingCost);
+
+        this.neededMaterials.addListener((MapChangeListener<Material, Integer>) change -> {
+            if (this.peekNeededMaterial() == null && this.isConstructionSite) {
+                this.isConstructionSite = false;
+                this.activeTexture.setImage(this.buildingImage);
+                this.activeTexture.setFitHeight(Game.cellSize);
+                this.activeTexture.setFitWidth(Game.cellSize);
+            }
+        });
 
         this.cell = cell;
     }
 
     /**
-     * Gets a needed Material
+     * Pops a needed Material
      *
      * @return A needed Material or null if there are none needed
      */
-    public Material getNeededMaterial() {
+    public Material popNeededMaterial() {
+        Material neededMaterial = this.peekNeededMaterial();
+        if (neededMaterial != null) {
+            this.neededMaterials.put(neededMaterial, this.neededMaterials.get(neededMaterial) - 1);
+        }
+        return neededMaterial;
+    }
+
+    /**
+     * Peeks if there is a needed Material
+     *
+     * @return Needed Material
+     */
+    public Material peekNeededMaterial() {
         for (Material material : Material.values()) {
-            Integer buildMaterial = this.buildingCost.getOrDefault(material, 0);
+            Integer buildMaterial = this.neededMaterials.getOrDefault(material, 0);
             if (buildMaterial > 0) {
-                this.buildingCost.put(material, buildMaterial - 1);
                 return material;
             }
         }
@@ -87,10 +117,7 @@ public abstract class Building implements Buildable, Serializable {
      * @return Returns Texture
      */
     public ImageView getTexture() {
-        if (isConstructionSite) {
-            return constructionTexture;
-        }
-        return texture;
+        return this.activeTexture;
     }
 
     @Override

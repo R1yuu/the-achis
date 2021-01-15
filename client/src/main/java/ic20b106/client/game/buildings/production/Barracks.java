@@ -5,6 +5,7 @@ import ic20b106.client.game.buildings.Building;
 import ic20b106.client.game.buildings.Material;
 import ic20b106.client.game.menus.submenus.BuildingSubMenu;
 import ic20b106.client.game.menus.submenus.buildings.production.BarracksSubMenu;
+import javafx.beans.property.SimpleMapProperty;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,7 +25,7 @@ public class Barracks extends Building {
      */
     public Barracks(Cell cell) {
         super("/images/neutral/buildings/production/barracks.png",
-          new HashMap<>() {{
+          new HashMap<>(){{
               put(Material.WOOD, 4);
               put(Material.ROCK, 2);
           }},

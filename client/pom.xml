@@ -26,7 +26,7 @@
         <dependency>
             <groupId>org.hashids</groupId>
             <artifactId>hashids</artifactId>
-            <version>1.0.3-LOCAL</version>
+            <version>1.0.3-MODULES</version>
         </dependency>
     </dependencies>
 
@@ -137,9 +137,12 @@
                         <id>copy-dependencies</id>
                         <phase>package</phase>
                         <goals>
+                            <goal>sources</goal>
+                            <goal>resolve</goal>
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
+                            <classifier>javadoc</classifier>
                             <outputDirectory>${project.build.directory}/lib</outputDirectory>
                             <overWriteReleases>false</overWriteReleases>
                             <overWriteSnapshots>false</overWriteSnapshots>

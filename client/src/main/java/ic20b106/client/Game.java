@@ -34,6 +34,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.List;
@@ -84,6 +85,7 @@ public class Game extends Application {
 
         primaryStage.setTitle("The Achis");
         primaryStage.setScene(primaryScene);
+        primaryStage.getIcons().add(new Image(getClass().getResource("/images/achi-icon.png").toString()));
 
         // TODO: Correctly End Program on exit
         primaryStage.setOnCloseRequest(windowEvent -> close());

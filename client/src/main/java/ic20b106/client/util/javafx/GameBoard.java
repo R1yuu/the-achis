@@ -46,7 +46,7 @@ public class GameBoard extends GridPane {
      */
     public GameBoard(int boardWidth, int boardHeight) {
 
-        this.setFocusTraversable(true);
+        this.setFocusTraversable(false);
 
         this.setOnKeyPressed(this::onKeyPressed);
 

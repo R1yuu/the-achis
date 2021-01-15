@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.hashids:hashids:1.0.3-MODULES">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/hashids/hashids/1.0.3-MODULES/hashids-1.0.3-MODULES.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/hashids/hashids/1.0.3-MODULES/hashids-1.0.3-MODULES-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/hashids/hashids/1.0.3-MODULES/hashids-1.0.3-MODULES-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

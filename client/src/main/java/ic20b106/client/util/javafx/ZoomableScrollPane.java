@@ -34,6 +34,7 @@ public class ZoomableScrollPane extends ScrollPane {
      */
     public ZoomableScrollPane(Node target, MouseButton ... panButtons) {
         super();
+
         this.target = target;
         this.zoomNode = new Group(target);
         setContent(outerNode(zoomNode));
@@ -57,7 +58,6 @@ public class ZoomableScrollPane extends ScrollPane {
         setFitToWidth(true); //center
 
         updateScale();
-
     }
 
     /**

@@ -18,7 +18,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="client" />
-        <module name="hashids" />
         <module name="shared" />
         <module name="server" />
       </profile>

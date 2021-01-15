@@ -48,6 +48,8 @@ public class MainMenuController {
         createGame.setOnAction(new ButtonSFXEventHandler<>(this::openLobby));
         lobbyList.setOnAction(new ButtonSFXEventHandler<>(this::lobbyList));
         options.setOnAction(new ButtonSFXEventHandler<>(this::options));
+
+
     }
 
     /**

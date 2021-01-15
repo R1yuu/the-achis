@@ -4,6 +4,7 @@ import ic20b106.client.game.board.Cell;
 import ic20b106.client.game.buildings.Material;
 import ic20b106.client.game.menus.submenus.BuildingSubMenu;
 import ic20b106.client.game.menus.submenus.buildings.defense.GuardHouseSubMenu;
+import javafx.beans.property.SimpleMapProperty;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -23,7 +24,7 @@ public class GuardHouse extends Defense {
      */
     protected GuardHouse(Cell cell) {
         super("/images/neutral/buildings/construction-site.png",
-          new HashMap<>() {{
+          new HashMap<>(){{
               put(Material.WOOD, 5);
           }}, cell, 2);
     }
