@@ -33,13 +33,13 @@ public class Carrier extends Thread {
       new Image(getClass().getResource("/images/red/entities/carrier/empty/left-0.png").toString(),
         Game.resolution, 0, true, false, false));
     private final PathTransition walkPath = new PathTransition();
-    private final List<Cell> transportPath;
     private final ListIterator<Cell> transIter;
     private final Cell from;
     private final Cell to;
     private Cell currCell;
     private Cell nextCell;
     private Material cargo;
+    private boolean reverse = false;
 
     /**
      * Constructor
@@ -50,8 +50,8 @@ public class Carrier extends Thread {
     public Carrier(Cell from, Cell to) {
         this.from = from;
         this.to = to;
-        this.transportPath = Game.gameBoard.findRoute(this.from, this.to);
-        this.transIter = this.transportPath.listIterator();
+        List<Cell> transportPath = Game.gameBoard.findRoute(this.from, this.to);
+        this.transIter = transportPath.listIterator();
 
         this.texture.setSmooth(false);
         this.texture.setCache(true);
@@ -60,7 +60,6 @@ public class Carrier extends Thread {
         this.texture.setFitHeight(12);
 
         Game.gameBoard.getChildren().add(texture);
-
 
         walkPath.setNode(texture);
         walkPath.setOnFinished(actionEvent -> {
@@ -75,6 +74,10 @@ public class Carrier extends Thread {
      */
     @Override
     public void run() {
+        prepareCargo();
+    }
+
+    private void prepareCargo() {
         Building building = to.getBuilding();
         if (building != null) {
             Material neededMaterial = building.peekNeededMaterial();
@@ -82,18 +85,27 @@ public class Carrier extends Thread {
             if (neededMaterial != null) {
                 if (from.getBuilding() instanceof StorageBuilding) {
                     StorageBuilding storageBuilding = (StorageBuilding) from.getBuilding();
-                    if (storageBuilding.popStoredMaterial(neededMaterial) != null) {
+                    this.cargo = storageBuilding.popStoredMaterial(neededMaterial);
+                    if (this.cargo != null) {
                         this.currCell = this.transIter.next();
                         walk();
                     }
                 }
             }
         }
+        if (building != null && !building.isConstructionSite()) {
+            Game.gameBoard.getChildren().remove(texture);
+        }
     }
 
     private void walk() {
-        if (transIter.hasNext()) {
-            this.nextCell = this.transIter.next();
+        if ((!this.reverse && transIter.hasNext()) || (this.reverse && transIter.hasPrevious())) {
+            if (!this.reverse) {
+                this.nextCell = this.transIter.next();
+            } else {
+                this.nextCell = this.transIter.previous();
+            }
+
             double pathDuration = currCell.getCellTerrain().travelTime;
 
             Bounds currCellBounds = currCell.getBoundsInParent();
@@ -115,15 +127,16 @@ public class Carrier extends Thread {
             walkPath.setDuration(Duration.seconds(pathDuration));
             walkPath.setPath(transPath);
             walkPath.play();
+        } else {
+            if (!this.reverse) {
+                to.getBuilding().popNeededMaterial(this.cargo);
+                this.cargo = null;
+                this.reverse = true;
+                walk();
+            } else {
+                this.reverse = false;
+                this.prepareCargo();
+            }
         }
-    }
-
-    /**
-     * Getter
-     *
-     * @return Retungs Material cargo
-     */
-    public Material getCargo() {
-        return cargo;
     }
 }

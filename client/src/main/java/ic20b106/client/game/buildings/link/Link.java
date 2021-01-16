@@ -4,6 +4,7 @@ import ic20b106.client.game.board.Cell;
 import ic20b106.client.game.buildings.Building;
 import ic20b106.client.game.menus.submenus.BuildingSubMenu;
 import ic20b106.client.game.menus.submenus.buildings.LinkSubMenu;
+import javafx.beans.value.ObservableValue;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -40,6 +41,16 @@ public class Link extends Building {
     @Override
     public BuildingSubMenu getBuildingSubMenu() throws IOException {
         return new LinkSubMenu(this.cell, this);
+    }
+
+    @Override
+    protected void constructionListener(ObservableValue<? extends Boolean> obsVal, Boolean oldVal, Boolean newVal) {
+
+    }
+
+    @Override
+    public void demolish() {
+
     }
 
     /**

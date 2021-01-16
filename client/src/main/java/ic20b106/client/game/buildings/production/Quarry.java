@@ -16,7 +16,7 @@ import java.util.HashMap;
  *
  * Produces Energy Particles
  */
-public class Quarry extends Building {
+public class Quarry extends Producer {
 
     /**
      * Constructor
@@ -29,6 +29,11 @@ public class Quarry extends Building {
               put(Material.WOOD, 2);
           }},
           cell);
+    }
+
+    @Override
+    protected void produce() {
+
     }
 
     /**

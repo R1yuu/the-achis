@@ -16,7 +16,7 @@ import java.util.HashMap;
  *
  * Produces Energy Particles
  */
-public class Barracks extends Building {
+public class Barracks extends Producer {
 
     /**
      * Constructor
@@ -30,6 +30,11 @@ public class Barracks extends Building {
               put(Material.ROCK, 2);
           }},
           cell);
+    }
+
+    @Override
+    protected void produce() {
+
     }
 
     /**
@@ -52,4 +57,5 @@ public class Barracks extends Building {
     public String getMenuPath() {
         return "/fxml/buildings/production/Barracks.fxml";
     }
+
 }

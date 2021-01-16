@@ -150,6 +150,7 @@ public class Cell extends StackPane implements GraphNode {
         if (this.building != null) {
             this.getChildren().remove(this.building.getTexture());
             this.removeLinks(LinkDirection.values());
+            this.building.demolish();
             this.building = null;
         }
     }
@@ -242,6 +243,21 @@ public class Cell extends StackPane implements GraphNode {
         }
 
         return new IntPair(cellRow, cellCol);
+    }
+
+    /**
+     * Get Direction of Linked Cell
+     *
+     * @param neighbour Linked Cell to search for
+     * @return LinkDirection or null
+     */
+    public LinkDirection getDirectionByLinkedCell(Cell neighbour) {
+        for (LinkDirection dir : this.links.keySet()) {
+            if (this.links.get(dir).y == neighbour) {
+                return dir;
+            }
+        }
+        return null;
     }
 
     /**

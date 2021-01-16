@@ -6,6 +6,7 @@ import ic20b106.client.game.buildings.Material;
 import ic20b106.client.game.menus.submenus.BuildingSubMenu;
 import ic20b106.client.game.menus.submenus.buildings.production.SmelterySubMenu;
 import javafx.beans.property.SimpleMapProperty;
+import javafx.beans.value.ObservableValue;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -16,7 +17,7 @@ import java.util.HashMap;
  *
  * Smelts Rock into Metal
  */
-public class Smeltery extends Building {
+public class Smeltery extends Producer {
 
     /**
      * Constructor
@@ -30,6 +31,17 @@ public class Smeltery extends Building {
               put(Material.ROCK, 3);
           }},
           cell);
+    }
+
+    @Override
+    protected void produce() {
+        while (!Thread.currentThread().isInterrupted()) {
+            try {
+                Thread.sleep(45000);
+            } catch (InterruptedException intExc) {
+                break;
+            }
+        }
     }
 
     /**
@@ -52,4 +64,6 @@ public class Smeltery extends Building {
     public String getMenuPath() {
         return "/fxml/buildings/production/Smeltery.fxml";
     }
+
+
 }

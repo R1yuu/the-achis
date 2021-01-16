@@ -5,7 +5,7 @@ import ic20b106.client.game.buildings.Building;
 import ic20b106.client.game.buildings.Material;
 import ic20b106.client.game.menus.submenus.BuildingSubMenu;
 import ic20b106.client.game.menus.submenus.buildings.production.ForesterSubMenu;
-import javafx.beans.property.SimpleMapProperty;
+import javafx.beans.value.ObservableValue;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -16,7 +16,7 @@ import java.util.HashMap;
  *
  * Produces Energy Particles
  */
-public class Forester extends Building {
+public class Forester extends Producer {
 
     /**
      * Constructor
@@ -29,6 +29,21 @@ public class Forester extends Building {
               put(Material.WOOD, 2);
           }},
           cell);
+    }
+
+    @Override
+    protected void produce() {
+        while (!Thread.currentThread().isInterrupted()) {
+            try {
+                Thread.sleep(135000);
+                synchronized (producedMaterials) {
+                    Integer producedAmount = this.producedMaterials.getOrDefault(Material.WOOD, 0);
+                    this.producedMaterials.put(Material.WOOD, producedAmount + 1);
+                }
+            } catch (InterruptedException intExc) {
+                break;
+            }
+        }
     }
 
     /**

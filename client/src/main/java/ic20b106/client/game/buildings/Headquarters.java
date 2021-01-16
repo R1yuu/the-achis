@@ -3,6 +3,7 @@ package ic20b106.client.game.buildings;
 import ic20b106.client.game.board.Cell;
 import ic20b106.client.game.menus.submenus.BuildingSubMenu;
 import ic20b106.client.game.menus.submenus.buildings.HeadquartersSubMenu;
+import javafx.beans.value.ObservableValue;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -29,7 +30,6 @@ public class Headquarters extends Building implements StorageBuilding {
           new HashMap<>(), cell, false);
 
         this.storage = storage;
-        this.isConstructionSite = false;
     }
 
     public Material popStoredMaterial(Material material) {
@@ -51,6 +51,12 @@ public class Headquarters extends Building implements StorageBuilding {
     public BuildingSubMenu getBuildingSubMenu() throws IOException {
         return new HeadquartersSubMenu(this.cell, this);
     }
+
+    @Override
+    protected void constructionListener(ObservableValue<? extends Boolean> obsVal, Boolean oldVal, Boolean newVal) {}
+
+    @Override
+    public void demolish() {}
 
     /**
      * Getter
