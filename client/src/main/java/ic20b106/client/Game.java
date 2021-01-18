@@ -1,5 +1,7 @@
 package ic20b106.client;
 
+import ic20b106.client.game.board.Terrain;
+import ic20b106.client.game.buildings.Headquarters;
 import ic20b106.client.manager.NetworkManager;
 import ic20b106.shared.PlayerColor;
 import ic20b106.shared.PlayerStartPosition;
@@ -56,7 +58,7 @@ public class Game extends Application {
     public static SubMenu activeSubMenu;
     public static GameBoard gameBoard;
     public static PlayerColor playerColor;
-    public static Cell playerCoreCell;
+    public static Headquarters playerHQ;
     public static boolean escapeMenuOpen = false;
     public static boolean roomOwner = false;
     public static VBox loadingBox;

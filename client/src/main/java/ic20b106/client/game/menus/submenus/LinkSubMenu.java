@@ -3,6 +3,7 @@ package ic20b106.client.game.menus.submenus;
 import ic20b106.client.Game;
 import ic20b106.client.game.board.Cell;
 import ic20b106.client.game.buildings.link.LinkDirection;
+import ic20b106.client.game.entities.Builder;
 import ic20b106.client.game.entities.Carrier;
 import ic20b106.client.game.buildings.Material;
 import javafx.fxml.FXML;
@@ -124,8 +125,9 @@ public class LinkSubMenu extends SubMenu {
         this.selectedCell.addLinks(linkDirection);
 
         if (Game.currentlyBuilt != null) {
-            Carrier carrier = new Carrier(Game.playerCoreCell, selectedCell);
-            carrier.start();
+            Builder builder = new Builder(Game.playerHQ.getCell(), selectedCell,
+              Game.playerHQ.getStorage(), selectedCell.getBuilding().getNeededMaterials());
+            builder.start();
 
             Game.currentlyBuilt = null;
         }

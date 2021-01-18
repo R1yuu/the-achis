@@ -65,7 +65,6 @@ public class NetworkManager extends UnicastRemoteObject
 
         this.playerHash = hash;
 
-
         Socket socket = new Socket(Options.getHost(), Options.getSocketPort());
 
         BufferedReader buffer = new BufferedReader(new InputStreamReader(socket.getInputStream()));

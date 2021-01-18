@@ -5,6 +5,7 @@ import ic20b106.client.game.buildings.Building;
 import ic20b106.client.game.buildings.Material;
 import ic20b106.shared.PlayerColor;
 import javafx.beans.property.SimpleMapProperty;
+import javafx.scene.image.Image;
 
 import java.util.HashMap;
 
@@ -19,13 +20,13 @@ public abstract class Defense extends Building {
     /**
      * Constructor
      *
-     * @param texturePath Path to the texture of this building
+     * @param texture Path to the texture of this building
      * @param buildingCost Material cost to build the building
      * @param cell Cell the building is placed
      * @param area Area to extend
      */
-    protected Defense(String texturePath, HashMap<Material, Integer> buildingCost, Cell cell, int area) {
-        super(texturePath, buildingCost, cell);
+    protected Defense(Image texture, HashMap<Material, Integer> buildingCost, Cell cell, int area) {
+        super(texture, buildingCost, cell);
         cell.extendArea(PlayerColor.BLUE, area);
     }
 }
