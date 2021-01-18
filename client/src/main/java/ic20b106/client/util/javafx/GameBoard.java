@@ -92,7 +92,7 @@ public class GameBoard extends GridPane {
      * @param column Column of the Cell
      * @return Returns Found Cell
      */
-    public Cell getCell (final int row, final int column) {
+    public synchronized Cell getCell (final int row, final int column) {
         for (Node child : getChildren()) {
             if(GridPane.getRowIndex(child) == row && GridPane.getColumnIndex(child) == column) {
                 return (Cell) child;
@@ -164,7 +164,7 @@ public class GameBoard extends GridPane {
      * @param to To Cell
      * @return List of Route Cells
      */
-    public List<Cell> findRoute(Cell from, Cell to) {
+    public synchronized List<Cell> findRoute(Cell from, Cell to) {
         HashSet<Cell> cells = new HashSet<>();
         for (Node child : getChildren()) {
             if (child.getClass() == Cell.class) {
@@ -175,5 +175,23 @@ public class GameBoard extends GridPane {
         Graph<Cell> cellGraph = new Graph<>(cells, links);
         RouteFinder<Cell> cellRouteFinder = new RouteFinder<>(cellGraph, new CellScorer(), new CellScorer());
         return cellRouteFinder.findRoute(from, to);
+    }
+
+    /**
+     * Adds Child Node
+     *
+     * @param node Node to add
+     */
+    public synchronized void addChild(Node node) {
+        this.getChildren().add(node);
+    }
+
+    /**
+     * Removes Child Node
+     *
+     * @param node Node to remove
+     */
+    public synchronized void removeChild(Node node) {
+        this.getChildren().remove(node);
     }
 }

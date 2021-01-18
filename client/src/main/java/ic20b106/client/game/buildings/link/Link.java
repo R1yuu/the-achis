@@ -25,7 +25,7 @@ public class Link extends Building {
      * @param linkDirection Direction of the Link
      */
     public Link(LinkDirection linkDirection, Cell cell) {
-        super("/images/neutral/buildings/links/Link-" + linkDirection.toString() + ".png",
+        super(linkDirection.texture,
           new HashMap<>(), cell, false);
 
 

@@ -205,9 +205,9 @@ public class Lobby {
 
         Cell hqCell = Game.gameBoard.getCell(startPosition);
 
-        Game.playerCoreCell = hqCell;
+        Game.playerHQ = new Headquarters(hqCell, startStorage);
 
-        hqCell.placeBuilding(new Headquarters(hqCell, startStorage));
+        hqCell.placeBuilding(Game.playerHQ);
         hqCell.setOwner(Game.playerColor);
         hqCell.extendArea(Game.playerColor, 5);
         hqCell.addLinks(LinkDirection.values());

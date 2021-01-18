@@ -8,30 +8,18 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 
 public enum Terrain {
-    GRASS(1, new BackgroundImage(
-      new Image(
-        Cell.class.getResource("/images/neutral/background/grass.png").toString(),
-        Game.resolution, 0, true, false, true),
-      BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
-      new BackgroundSize(Game.cellSize, Game.cellSize, true, true, true, true))),
-    FLOWERS(1.5, new BackgroundImage(
-      new Image(
-        Cell.class.getResource("/images/neutral/background/tall-grass.png").toString(),
-        Game.resolution, 0, true, false, true),
-      BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
-      new BackgroundSize(Game.cellSize, Game.cellSize, true, true, true, true))),
-    TALL_GRASS(2, new BackgroundImage(
-      new Image(
-        Cell.class.getResource("/images/neutral/background/flowers.png").toString(),
-        Game.resolution, 0, true, false, true),
-      BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
-      new BackgroundSize(Game.cellSize, Game.cellSize, true, true, true, true)));
+    GRASS(1), FLOWERS(1.5), TALL_GRASS(2);
 
     public final double travelTime;
     public final BackgroundImage bgImg;
 
-    Terrain(double travelTime, BackgroundImage bgImage) {
+    Terrain(double travelTime) {
         this.travelTime = travelTime;
-        this.bgImg = bgImage;
+        this.bgImg = new BackgroundImage(
+          new Image(
+            getClass().getResource("/images/neutral/background/" + name().toLowerCase() + ".png").toString(),
+            Game.resolution, 0, true, false, true),
+          BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+          new BackgroundSize(Game.cellSize, Game.cellSize, true, true, true, true));
     }
 }
