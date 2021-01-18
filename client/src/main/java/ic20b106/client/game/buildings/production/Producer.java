@@ -9,19 +9,25 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableMap;
+import javafx.scene.image.Image;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public abstract class Producer extends Building {
 
     protected Thread productionThread = new Thread(this::produce);
     protected final ObservableMap<Material, Integer> producedMaterials = FXCollections.observableHashMap();
 
-    protected Producer(String texturePath, HashMap<Material, Integer> buildingCost,
+    protected Producer(Image texture, HashMap<Material, Integer> buildingCost,
                        Cell cell) {
-        super(texturePath, buildingCost, cell);
-        this.producedMaterials.addListener((MapChangeListener<? super Material, ? super Integer>) change -> {
-            Carrier woodCarrier = new Carrier(this.cell, Game.playerCoreCell);
+        super(texture, buildingCost, cell);
+        this.producedMaterials.addListener((MapChangeListener<Material, Integer>) change -> {
+            if (change.getValueAdded() > Objects.requireNonNullElse(change.getValueRemoved(), 0)) {
+                Carrier woodCarrier = new Carrier(this.cell, Game.playerHQ.getCell(),
+                  this.producedMaterials, Game.playerHQ.getNeededMaterials());
+                woodCarrier.start();
+            }
         });
     }
 
@@ -29,7 +35,7 @@ public abstract class Producer extends Building {
 
     @Override
     protected void constructionListener(ObservableValue<? extends Boolean> obsVal, Boolean oldVal, Boolean newVal) {
-        if (!newVal && this.productionThread.getState() == Thread.State.RUNNABLE) {
+        if (!newVal && this.productionThread.getState() == Thread.State.NEW) {
             this.productionThread.start();
         }
     }

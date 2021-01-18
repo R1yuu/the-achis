@@ -1,5 +1,8 @@
 package ic20b106.client.game.buildings.link;
 
+import ic20b106.client.Game;
+import javafx.scene.image.Image;
+
 /**
  * @author Andre Schneider
  * @version 1.0
@@ -7,8 +10,18 @@ package ic20b106.client.game.buildings.link;
  * Directions a Link can have
  */
 public enum LinkDirection {
-    TOP_LEFT, LEFT, BOTTOM_LEFT,
-    BOTTOM_RIGHT, RIGHT, TOP_RIGHT;
+    TOP_LEFT("Top-Left"), LEFT("Left"), BOTTOM_LEFT("Bottom-Left"),
+    BOTTOM_RIGHT("Bottom-Right"), RIGHT("Right"), TOP_RIGHT("Top-Right");
+
+    public final String displayName;
+    public final Image texture;
+
+    LinkDirection(String displayName) {
+        this.displayName = displayName;
+        texture = new Image(getClass().getResource("/images/neutral/buildings/links/" +
+          name().toLowerCase() + ".png").toString(),
+          Game.resolution, 0, true, false, true);;
+    }
 
     /**
      * Return the Opposit Direction
@@ -41,8 +54,8 @@ public enum LinkDirection {
             case "top left", "top\nleft", "top-left" -> TOP_LEFT;
             case "top right", "top\nright", "top-right" -> TOP_RIGHT;
             case "right" -> RIGHT;
-            case "bottom right", "bottom\nright", "Bottom-right" -> BOTTOM_RIGHT;
-            case "bottom left", "bottom\nleft", "Bottom-left" -> BOTTOM_LEFT;
+            case "bottom right", "bottom\nright", "bottom-right" -> BOTTOM_RIGHT;
+            case "bottom left", "bottom\nleft", "bottom-left" -> BOTTOM_LEFT;
             case "left" -> LEFT;
             default -> null;
         };
@@ -55,20 +68,6 @@ public enum LinkDirection {
      */
     @Override
     public String toString() {
-        String res = "";
-
-        if (name().contains("TOP")) {
-            res += "Top-";
-        } else if (name().contains("BOTTOM")) {
-            res += "Bottom-";
-        }
-
-        if (name().contains("LEFT")) {
-            res += "Left";
-        } else if (name().contains("RIGHT")) {
-            res += "Right";
-        }
-
-        return res;
+        return this.displayName;
     }
 }

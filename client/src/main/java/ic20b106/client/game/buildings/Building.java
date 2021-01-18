@@ -19,6 +19,7 @@ import javafx.scene.image.ImageView;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -31,10 +32,11 @@ import java.util.Objects;
 public abstract class Building implements Buildable, Serializable {
 
     protected Cell cell;
-    protected ObservableMap<Material, Integer> neededMaterials;
+    protected final ObservableMap<Material, Integer> neededMaterials;
     protected ImageView activeTexture;
     protected Image buildingImage;
     protected SimpleBooleanProperty isConstructionSite = new SimpleBooleanProperty();
+    protected MapChangeListener<Material, Integer> neededMaterialChangeListener;
     private static final Image constructionImage;
     static {
         constructionImage = new Image(Building.class.getResource("/images/neutral/buildings/construction-site.png").toString(),
@@ -45,22 +47,21 @@ public abstract class Building implements Buildable, Serializable {
      * Constructor
      * Sets the View Texture of a Building
      *
-     * @param texturePath Texture of the Building
+     * @param texture Texture of the Building
      */
-    protected Building(String texturePath, HashMap<Material, Integer> buildingCost, Cell cell) {
-        this (texturePath, buildingCost, cell, true);
+    protected Building(Image texture, HashMap<Material, Integer> buildingCost, Cell cell) {
+        this (texture, buildingCost, cell, true);
     }
 
     /**
      * Constructor
      * Sets the View Texture of a Building
      *
-     * @param texturePath Texture of the Building
+     * @param texture Texture of the Building
      */
-    protected Building(String texturePath, HashMap<Material, Integer> buildingCost,
+    protected Building(Image texture, HashMap<Material, Integer> buildingCost,
                        Cell cell, boolean isConstructionSite) {
-        this.buildingImage = new Image(getClass().getResource(texturePath).toString(),
-          Game.resolution, 0, true, false, true);
+        this.buildingImage = texture;
 
         this.isConstructionSite.addListener(this::constructionListener);
 
@@ -79,16 +80,37 @@ public abstract class Building implements Buildable, Serializable {
         this.neededMaterials =
           Objects.requireNonNullElse(FXCollections.observableMap(buildingCost), new SimpleMapProperty<>());
 
-        this.neededMaterials.addListener((MapChangeListener<Material, Integer>) change -> {
-            if (this.peekNeededMaterial() == null && this.isConstructionSite.get()) {
+        this.neededMaterialChangeListener = change -> {
+            if (this.isConstructionSite.get()) {
+                synchronized (this.neededMaterials) {
+                    for (Integer needed : this.neededMaterials.values()) {
+                        if (needed > 0) {
+                            return;
+                        }
+                    }
+                }
                 this.isConstructionSite.set(false);
                 this.activeTexture.setImage(this.buildingImage);
                 this.activeTexture.setFitHeight(Game.cellSize);
                 this.activeTexture.setFitWidth(Game.cellSize);
             }
-        });
+        };
+
+        this.neededMaterials.addListener(this.neededMaterialChangeListener);
 
         this.cell = cell;
+    }
+
+    /**
+     * Getter
+     *
+     * @return Map of Needed Materials
+     */
+    public Map<Material, Integer> getNeededMaterials() {
+        synchronized (this.neededMaterials) {
+            return this.neededMaterials;
+        }
+
     }
 
     /**
@@ -101,36 +123,6 @@ public abstract class Building implements Buildable, Serializable {
      * Demolishes Building
      */
     public abstract void demolish();
-
-    /**
-     * Pops a needed Material
-     *
-     * @param material Material to pop
-     * @return A needed Material or null if there are none needed
-     */
-    public Material popNeededMaterial(Material material) {
-        Integer matQuantity = this.neededMaterials.getOrDefault(material, 0);
-        if (matQuantity > 0) {
-            this.neededMaterials.put(material, matQuantity - 1);
-            return material;
-        }
-        return null;
-    }
-
-    /**
-     * Peeks if there is a needed Material
-     *
-     * @return Needed Material
-     */
-    public Material peekNeededMaterial() {
-        for (Material material : Material.values()) {
-            Integer buildMaterial = this.neededMaterials.getOrDefault(material, 0);
-            if (buildMaterial > 0) {
-                return material;
-            }
-        }
-        return null;
-    }
 
     /**
      * Texture Getter
@@ -160,6 +152,15 @@ public abstract class Building implements Buildable, Serializable {
         if (Game.activeSubMenu != null) {
             Game.activeSubMenu.close();
         }
+    }
+
+    /**
+     * Getter
+     *
+     * @return Cell the Building is standing on
+     */
+    public Cell getCell() {
+        return this.cell;
     }
 
     /**
