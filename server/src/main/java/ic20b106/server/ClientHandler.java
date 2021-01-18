@@ -151,6 +151,13 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
         this.room.forceLobbyUpdate();
     }
 
+    @Override
+    public void updateReady(boolean isReady) {
+        this.isReady = isReady;
+
+        this.room.forceLobbyUpdate();
+    }
+
     public void setRoom(Room room) {
         this.room = room;
     }

@@ -44,6 +44,7 @@ public class Lobby {
     public static final ComboBox<String> colorComboBox = new ComboBox<>();
     public static final ComboBox<String> positionComboBox = new ComboBox<>();
     public static GridPane playerPane;
+    public static Button startGameButton;
     public static Label roomName;
     public static Label roomOwner;
     public static Label roomUUID;
@@ -61,6 +62,10 @@ public class Lobby {
     private VBox colorBox;
     @FXML
     private VBox positionBox;
+    @FXML
+    private VBox lobbyNameBox;
+    @FXML
+    private Button startGameBtn;
 
     /**
      * FXML initialize Method
@@ -72,6 +77,7 @@ public class Lobby {
         roomName = roomNameLabel;
         roomOwner = roomOwnerLabel;
         roomUUID = roomUUIDLabel;
+        startGameButton = startGameBtn;
 
         class ColorLabelCell extends ListCell<String> {
             Label label;
@@ -136,6 +142,13 @@ public class Lobby {
 
         colorBox.getChildren().addAll(colorComboBox);
         positionBox.getChildren().addAll(positionComboBox);
+
+        startGameButton.setDisable(true);
+        if (!Game.roomOwner) {
+            this.lobbyNameBox.setDisable(true);
+            this.lobbyNameBox.setVisible(false);
+            startGameButton.setVisible(false);
+        }
 
         updateTable();
     }
@@ -254,8 +267,13 @@ public class Lobby {
                 playerPane.add(new Label("Player Position"), 2, 0);
                 playerPane.add(new Label("Ready?"), 3, 0);
 
+                boolean startButtonDisabled = false;
                 int rowIdx = 1;
                 for (PlayerProfile playerProfile : playerProfiles) {
+
+                    if (!playerProfile.isReady) {
+                        startButtonDisabled = true;
+                    }
 
                     playerPane.add(new Label(playerProfile.id), 0, rowIdx);
 
@@ -270,12 +288,29 @@ public class Lobby {
                         playerPane.add(new Label(playerProfile.startPosition.toString()), 2, rowIdx);
                     }
 
+
+
                     CheckBox readyCheckbox = new CheckBox();
                     readyCheckbox.setSelected(playerProfile.isReady);
+                    readyCheckbox.setOnAction(actionEvent -> {
+                        try {
+                            NetworkManager.getInstance().serverStub.updateReady(readyCheckbox.isSelected());
+                        } catch (RemoteException remoteException) {
+                            remoteException.printStackTrace();
+                        }
+                    });
+
+                    if (!playerProfile.hash.equals(NetworkManager.getInstance().playerHash)) {
+                        readyCheckbox.setDisable(true);
+                    }
+
                     playerPane.add(readyCheckbox, 3, rowIdx);
 
                     rowIdx++;
                 }
+
+                startGameButton.setDisable(startButtonDisabled);
+
             });
         } catch (RemoteException e) {
             e.printStackTrace();

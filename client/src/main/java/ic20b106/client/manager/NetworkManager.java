@@ -42,6 +42,7 @@ public class NetworkManager extends UnicastRemoteObject
     private static NetworkManager singleInstance;
     public String playerHash;
     public RemoteCommands serverStub;
+    public boolean isRoomOwner = false;
     private boolean serverInvocedClose = false;
 
     /**

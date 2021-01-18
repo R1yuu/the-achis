@@ -42,8 +42,8 @@
             <Label text="Your Position" style="-fx-font-weight: bold" />
 
         </VBox>
-        <VBox spacing="5" alignment="center">
-            <Label text="Your Name" style="-fx-font-weight: bold" />
+        <VBox fx:id="lobbyNameBox" spacing="5" alignment="center">
+            <Label text="Lobby Name" style="-fx-font-weight: bold" />
             <TextField />
         </VBox>
     </FlowPane>
@@ -61,7 +61,7 @@
         </columnConstraints>
     </GridPane>
 
-    <Button onMouseClicked="#startGame">
+    <Button fx:id="startGameBtn" onMouseClicked="#startGame">
         Start Game
     </Button>
 </VBox>

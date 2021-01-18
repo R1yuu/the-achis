@@ -19,4 +19,5 @@ public interface RemoteCommands extends Remote {
     void placeBuilding(Buildable building) throws RemoteException;
     void updateColor(PlayerColor playerColor) throws RemoteException;
     void updatePosition(PlayerStartPosition playerColor) throws RemoteException;
+    void updateReady(boolean isReady) throws RemoteException;
 }
