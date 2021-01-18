@@ -44,7 +44,7 @@
         </VBox>
         <VBox fx:id="lobbyNameBox" spacing="5" alignment="center">
             <Label text="Lobby Name" style="-fx-font-weight: bold" />
-            <TextField />
+            <TextField fx:id="lobbyNameField" />
         </VBox>
     </FlowPane>
 

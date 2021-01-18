@@ -20,4 +20,5 @@ public interface RemoteCommands extends Remote {
     void updateColor(PlayerColor playerColor) throws RemoteException;
     void updatePosition(PlayerStartPosition playerColor) throws RemoteException;
     void updateReady(boolean isReady) throws RemoteException;
+    void updateRoomName(String roomName) throws RemoteException;
 }

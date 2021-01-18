@@ -158,6 +158,13 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
         this.room.forceLobbyUpdate();
     }
 
+    @Override
+    public void updateRoomName(String name) {
+        this.room.setRoomName(name);
+
+        this.room.forceLobbyUpdate();
+    }
+
     public void setRoom(Room room) {
         this.room = room;
     }

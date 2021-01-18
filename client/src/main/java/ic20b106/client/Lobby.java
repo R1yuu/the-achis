@@ -23,7 +23,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.control.skin.ScrollPaneSkin;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -66,6 +68,8 @@ public class Lobby {
     private VBox lobbyNameBox;
     @FXML
     private Button startGameBtn;
+    @FXML
+    private TextField lobbyNameField;
 
     /**
      * FXML initialize Method
@@ -145,9 +149,19 @@ public class Lobby {
 
         startGameButton.setDisable(true);
         if (!Game.roomOwner) {
-            this.lobbyNameBox.setDisable(true);
+            this.lobbyNameField.setDisable(true);
             this.lobbyNameBox.setVisible(false);
             startGameButton.setVisible(false);
+        } else {
+            this.lobbyNameField.setOnKeyReleased(keyEvent -> {
+                if (keyEvent.getCode() == KeyCode.ENTER) {
+                    try {
+                        NetworkManager.getInstance().serverStub.updateRoomName(this.lobbyNameField.getText());
+                    } catch (RemoteException remoteException) {
+                        remoteException.printStackTrace();
+                    }
+                }
+            });
         }
 
         updateTable();
