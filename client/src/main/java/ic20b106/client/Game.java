@@ -76,6 +76,8 @@ public class Game extends Application {
 
         mainMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/MainMenu.fxml"));
 
+        FileManager.getInstance().readOptions();
+
         AudioManager.getInstance();
         primaryPane.getChildren().setAll(mainMenu);
         primaryPane.setBackground(new Background(new BackgroundImage(
@@ -93,7 +95,7 @@ public class Game extends Application {
         primaryStage.setOnCloseRequest(windowEvent -> close());
         primaryStage.show();
 
-        FileManager.getInstance().readOptions();
+
     }
 
     /**

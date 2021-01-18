@@ -12,6 +12,7 @@ import ic20b106.shared.utils.IntPair;
 import ic20b106.shared.utils.Pair;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -36,6 +37,7 @@ public class Cell extends StackPane implements GraphNode {
     private final IntPair position;
     private final EnumMap<LinkDirection, Pair<Link, Cell>> links = new EnumMap<>(LinkDirection.class);
     private final Terrain cellTerrain;
+    private ImageView linkPole;
     private PlayerColor owner;
     private Building building;
     private static final Random rand = new Random();
@@ -162,6 +164,11 @@ public class Cell extends StackPane implements GraphNode {
      */
     public void addLinks(LinkDirection... linkDirections) {
 
+        if (links.isEmpty()) {
+            this.linkPole = Link.getPole(this.owner);
+            this.getChildren().add(this.linkPole);
+        }
+
         for (LinkDirection linkDirection : linkDirections) {
             if (!links.containsKey(linkDirection)) {
                 Cell linkCell = getNeighbourByCell(this, linkDirection);
@@ -196,6 +203,11 @@ public class Cell extends StackPane implements GraphNode {
                 this.getChildren().remove(link.getTexture());
                 linkedCell.removeLinks(LinkDirection.getOpposite(linkDirection));
             }
+        }
+
+        if (links.isEmpty()) {
+            this.getChildren().remove(this.linkPole);
+            this.linkPole = null;
         }
     }
 

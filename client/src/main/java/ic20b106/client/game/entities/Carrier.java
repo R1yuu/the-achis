@@ -84,8 +84,6 @@ public class Carrier extends Thread {
     protected void prepareCargo() {
         Material targetMaterial = this.peekTargetMaterial();
 
-        System.out.println(targetMaterial);
-
         if (targetMaterial != null) {
             if (this.popSourceMaterial(targetMaterial)) {
                 this.cargo = targetMaterial;

@@ -20,7 +20,7 @@ public enum LinkDirection {
         this.displayName = displayName;
         texture = new Image(getClass().getResource("/images/neutral/buildings/links/" +
           name().toLowerCase() + ".png").toString(),
-          Game.resolution, 0, true, false, true);;
+          Game.resolution, 0, true, false, true);
     }
 
     /**
