@@ -5,11 +5,13 @@ import ic20b106.client.game.board.Cell;
 import ic20b106.client.game.menus.submenus.BuildingSubMenu;
 import ic20b106.client.game.menus.submenus.buildings.HeadquartersSubMenu;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
 import javafx.scene.image.Image;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -24,8 +26,6 @@ public class Headquarters extends Building {
     private static final Image texture = new Image(Headquarters.class.getResource("/images/neutral/buildings/headquaters.png").toString(),
       Game.resolution, 0, true, false, true);
 
-    protected final HashMap<Material, Integer> storage;
-
     /**
      * Constructor
      *
@@ -33,19 +33,25 @@ public class Headquarters extends Building {
      * @param storage Storage content of the Core
      */
     public Headquarters(Cell cell, HashMap<Material, Integer> storage) {
-        super(texture, new HashMap<>(), cell, false);
+        super(texture, new HashMap<>(), storage, cell, false);
+    }
 
-        this.storage = storage;
-
-        this.neededMaterials.removeListener(this.neededMaterialChangeListener);
-        this.neededMaterials.addListener((MapChangeListener<Material, Integer>) change -> {
-            if (change.getValueAdded() < Objects.requireNonNullElse(change.getValueRemoved(), 0)) {
-                synchronized (this.storage) {
-                    Integer stored = this.storage.getOrDefault(change.getKey(), 0);
-                    this.storage.put(change.getKey(), stored + (change.getValueRemoved() - change.getValueAdded()));
-                }
+    /**
+     * Override
+     * Change Listener for neededMaterials Map
+     *
+     * @param mapChange change in Map
+     */
+    @Override
+    protected void needMaterialsChangeListener(MapChangeListener.Change<? extends Material, ? extends Integer> mapChange) {
+        if (mapChange.getValueAdded() < Objects.requireNonNullElse(mapChange.getValueRemoved(), 0)) {
+            synchronized (this.storedMaterials) {
+                Integer stored = this.storedMaterials.getOrDefault(mapChange.getKey(), 0);
+                this.storedMaterials.put(
+                  mapChange.getKey(), stored + (mapChange.getValueRemoved() - mapChange.getValueAdded())
+                );
             }
-        });
+        }
     }
 
     /**
@@ -53,9 +59,9 @@ public class Headquarters extends Building {
      *
      * @return Storage of Headquaters
      */
-    public HashMap<Material, Integer> getStorage() {
-        synchronized (this.storage) {
-            return this.storage;
+    public Map<Material, Integer> getStorage() {
+        synchronized (this.storedMaterials) {
+            return this.storedMaterials;
         }
     }
 

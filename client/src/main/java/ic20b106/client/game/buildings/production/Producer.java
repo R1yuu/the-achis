@@ -19,16 +19,19 @@ public abstract class Producer extends Building {
     protected Thread productionThread = new Thread(this::produce);
     protected final ObservableMap<Material, Integer> producedMaterials = FXCollections.observableHashMap();
 
-    protected Producer(Image texture, HashMap<Material, Integer> buildingCost,
+    protected Producer(Image texture, HashMap<Material, Integer> buildingCost, HashMap<Material, Integer> storage,
                        Cell cell) {
-        super(texture, buildingCost, cell);
-        this.producedMaterials.addListener((MapChangeListener<Material, Integer>) change -> {
-            if (change.getValueAdded() > Objects.requireNonNullElse(change.getValueRemoved(), 0)) {
-                Carrier woodCarrier = new Carrier(this.cell, Game.playerHQ.getCell(),
-                  this.producedMaterials, Game.playerHQ.getNeededMaterials());
-                woodCarrier.start();
-            }
-        });
+        super(texture, buildingCost, storage, cell);
+        this.producedMaterials.addListener(this::producedMaterialsChangeListener);
+    }
+
+    protected void producedMaterialsChangeListener(
+      MapChangeListener.Change<? extends Material, ? extends Integer> mapChange) {
+        if (mapChange.getValueAdded() > Objects.requireNonNullElse(mapChange.getValueRemoved(), 0)) {
+            Carrier carrier = new Carrier(this.cell, Game.playerHQ.getCell(),
+              this.producedMaterials, Game.playerHQ.getNeededMaterials());
+            carrier.start();
+        }
     }
 
     protected abstract void produce();

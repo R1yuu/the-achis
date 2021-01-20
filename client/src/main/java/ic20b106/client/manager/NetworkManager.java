@@ -85,8 +85,6 @@ public class NetworkManager extends UnicastRemoteObject
         this.serverStub = (RemoteCommands)Naming.lookup("rmi://" + Options.getHost() + ":" +
           Options.getRmiPort() + "/" + this.playerHash);
 
-
-
         this.serverStub.sendClientStub(this);
     }
 

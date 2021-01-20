@@ -8,8 +8,10 @@
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml">
     <FlowPane>
-        <Button onMouseClicked="#openLinkSubMenu">Link</Button>
-        <Button onMouseClicked="#placeBuilding" fx:id="buildForesterButton">Forester</Button>
-        <Button>Barracks</Button>
+        <Button onAction="#openLinkSubMenu">Link</Button>
+        <Button onAction="#placeForester">Forester</Button>
+        <Button onAction="#placeQuarry">Quarry</Button>
+        <Button onAction="#placeSmeltery">Smeltery</Button>
+        <Button onAction="#placeBarracks">Barracks</Button>
     </FlowPane>
 </HBox>

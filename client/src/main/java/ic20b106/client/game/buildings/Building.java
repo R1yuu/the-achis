@@ -33,10 +33,10 @@ public abstract class Building implements Buildable, Serializable {
 
     protected Cell cell;
     protected final ObservableMap<Material, Integer> neededMaterials;
+    protected final ObservableMap<Material, Integer> storedMaterials;
     protected ImageView activeTexture;
     protected Image buildingImage;
     protected SimpleBooleanProperty isConstructionSite = new SimpleBooleanProperty();
-    protected MapChangeListener<Material, Integer> neededMaterialChangeListener;
     private static final Image constructionImage;
     static {
         constructionImage = new Image(Building.class.getResource("/images/neutral/buildings/construction-site.png").toString(),
@@ -49,8 +49,9 @@ public abstract class Building implements Buildable, Serializable {
      *
      * @param texture Texture of the Building
      */
-    protected Building(Image texture, HashMap<Material, Integer> buildingCost, Cell cell) {
-        this (texture, buildingCost, cell, true);
+    protected Building(Image texture, HashMap<Material, Integer> buildingCost, HashMap<Material, Integer> storage,
+                       Cell cell) {
+        this (texture, buildingCost, storage, cell, true);
     }
 
     /**
@@ -59,7 +60,7 @@ public abstract class Building implements Buildable, Serializable {
      *
      * @param texture Texture of the Building
      */
-    protected Building(Image texture, HashMap<Material, Integer> buildingCost,
+    protected Building(Image texture, HashMap<Material, Integer> buildingCost, HashMap<Material, Integer> storage,
                        Cell cell, boolean isConstructionSite) {
         this.buildingImage = texture;
 
@@ -77,28 +78,36 @@ public abstract class Building implements Buildable, Serializable {
             this.activeTexture.setFitWidth(Game.cellSize);
         }
 
+        this.storedMaterials =
+          Objects.requireNonNullElse(FXCollections.observableMap(storage), FXCollections.observableHashMap());
         this.neededMaterials =
-          Objects.requireNonNullElse(FXCollections.observableMap(buildingCost), new SimpleMapProperty<>());
+          Objects.requireNonNullElse(FXCollections.observableMap(buildingCost), FXCollections.observableHashMap());
 
-        this.neededMaterialChangeListener = change -> {
-            if (this.isConstructionSite.get()) {
-                synchronized (this.neededMaterials) {
-                    for (Integer needed : this.neededMaterials.values()) {
-                        if (needed > 0) {
-                            return;
-                        }
-                    }
-                }
-                this.isConstructionSite.set(false);
-                this.activeTexture.setImage(this.buildingImage);
-                this.activeTexture.setFitHeight(Game.cellSize);
-                this.activeTexture.setFitWidth(Game.cellSize);
-            }
-        };
-
-        this.neededMaterials.addListener(this.neededMaterialChangeListener);
+        this.neededMaterials.addListener(this::needMaterialsChangeListener);
 
         this.cell = cell;
+    }
+
+    /**
+     * Change Listener for neededMaterials Map
+     *
+     * @param mapChange change in Map
+     */
+    protected void needMaterialsChangeListener(
+      MapChangeListener.Change<? extends Material, ? extends Integer> mapChange) {
+        if (this.isConstructionSite.get()) {
+            synchronized (this.neededMaterials) {
+                for (Integer needed : this.neededMaterials.values()) {
+                    if (needed > 0) {
+                        return;
+                    }
+                }
+            }
+            this.isConstructionSite.set(false);
+            this.activeTexture.setImage(this.buildingImage);
+            this.activeTexture.setFitHeight(Game.cellSize);
+            this.activeTexture.setFitWidth(Game.cellSize);
+        }
     }
 
     /**
@@ -108,6 +117,7 @@ public abstract class Building implements Buildable, Serializable {
      */
     public Map<Material, Integer> getNeededMaterials() {
         synchronized (this.neededMaterials) {
+
             return this.neededMaterials;
         }
 

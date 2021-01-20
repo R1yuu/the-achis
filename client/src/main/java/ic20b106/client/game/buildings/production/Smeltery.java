@@ -35,7 +35,7 @@ public class Smeltery extends Producer {
           new HashMap<>(){{
               put(Material.WOOD, 2);
               put(Material.ROCK, 3);
-          }},
+          }}, null,
           cell);
     }
 
@@ -44,6 +44,17 @@ public class Smeltery extends Producer {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 Thread.sleep(45000);
+                synchronized (this.storedMaterials) {
+                    Integer storedRockAmount;
+                    if ((storedRockAmount = this.storedMaterials.getOrDefault(Material.ROCK, 0)) > 0) {
+                        this.storedMaterials.put(Material.ROCK, storedRockAmount - 1);
+                        synchronized (this.producedMaterials) {
+                            Integer producedMetalAmount = this.producedMaterials.getOrDefault(Material.METAL, 0);
+                            this.producedMaterials.put(Material.METAL, producedMetalAmount + 1);
+                        }
+                    }
+                }
+
             } catch (InterruptedException intExc) {
                 break;
             }

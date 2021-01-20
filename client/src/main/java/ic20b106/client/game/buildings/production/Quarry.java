@@ -2,12 +2,9 @@ package ic20b106.client.game.buildings.production;
 
 import ic20b106.client.Game;
 import ic20b106.client.game.board.Cell;
-import ic20b106.client.game.buildings.Building;
-import ic20b106.client.game.buildings.Headquarters;
 import ic20b106.client.game.buildings.Material;
 import ic20b106.client.game.menus.submenus.BuildingSubMenu;
 import ic20b106.client.game.menus.submenus.buildings.production.QuarrySubMenu;
-import javafx.beans.property.SimpleMapProperty;
 import javafx.scene.image.Image;
 
 import java.io.IOException;
@@ -39,7 +36,22 @@ public class Quarry extends Producer {
 
     @Override
     protected void produce() {
-
+        while (!Thread.currentThread().isInterrupted()) {
+            try {
+                //Thread.sleep(135000);
+                Thread.sleep(10000);
+                synchronized (producedMaterials) {
+                    Integer producedAmount = this.producedMaterials.getOrDefault(Material.ROCK, 0);
+                    this.producedMaterials.put(Material.ROCK, producedAmount + 1);
+                }
+                synchronized (Game.playerHQ.getNeededMaterials()) {
+                    Integer neededAmount = Game.playerHQ.getNeededMaterials().getOrDefault(Material.ROCK, 0);
+                    Game.playerHQ.getNeededMaterials().put(Material.ROCK, neededAmount + 1);
+                }
+            } catch (InterruptedException intExc) {
+                break;
+            }
+        }
     }
 
     /**

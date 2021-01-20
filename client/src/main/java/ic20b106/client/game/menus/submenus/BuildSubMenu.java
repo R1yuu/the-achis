@@ -2,7 +2,11 @@ package ic20b106.client.game.menus.submenus;
 
 import ic20b106.client.Game;
 import ic20b106.client.game.board.Cell;
+import ic20b106.client.game.buildings.production.Barracks;
 import ic20b106.client.game.buildings.production.Forester;
+import ic20b106.client.game.buildings.production.Quarry;
+import ic20b106.client.game.buildings.production.Smeltery;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -43,18 +47,52 @@ public class BuildSubMenu extends SubMenu {
     }
 
     /**
-     * Places corresponding Building
+     * Places Forester
      *
-     * @param mouseEvent Event Triggered by a mouse action
      * @throws IOException Thrown if fxml file couldn't be found
      */
     @FXML
-    private void placeBuilding(MouseEvent mouseEvent) throws IOException {
-        if (mouseEvent.getSource().equals(buildForesterButton)) {
-            Game.currentlyBuilt = new Forester(this.selectedCell);
-            this.selectedCell.placeBuilding(Game.currentlyBuilt);
-            openLinkSubMenu();
-        }
+    private void placeForester() throws IOException {
+        Game.currentlyBuilt = new Forester(this.selectedCell);
+        placeBuilding();
+    }
+
+    /**
+     * Places Quarry
+     *
+     * @throws IOException Thrown if fxml file couldn't be found
+     */
+    @FXML
+    private void placeQuarry() throws IOException {
+        Game.currentlyBuilt = new Quarry(this.selectedCell);
+        placeBuilding();
+    }
+
+    /**
+     * Places Forester
+     *
+     * @throws IOException Thrown if fxml file couldn't be found
+     */
+    @FXML
+    private void placeSmeltery() throws IOException {
+        Game.currentlyBuilt = new Smeltery(this.selectedCell);
+        placeBuilding();
+    }
+
+    /**
+     * Places Quarry
+     *
+     * @throws IOException Thrown if fxml file couldn't be found
+     */
+    @FXML
+    private void placeBarracks() throws IOException {
+        Game.currentlyBuilt = new Barracks(this.selectedCell);
+        placeBuilding();
+    }
+
+    private void placeBuilding() throws IOException {
+        this.selectedCell.placeBuilding(Game.currentlyBuilt);
+        openLinkSubMenu();
     }
 
     /**

@@ -87,6 +87,7 @@ public class Game extends Application {
 
         Scene primaryScene = new Scene(primaryPane, 1280, 720);
 
+        primaryStage.setResizable(false);
         primaryStage.setTitle("The Achis");
         primaryStage.setScene(primaryScene);
         primaryStage.getIcons().add(new Image(getClass().getResource("/images/achi-icon.png").toString()));

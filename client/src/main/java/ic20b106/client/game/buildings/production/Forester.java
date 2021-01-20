@@ -33,10 +33,13 @@ public class Forester extends Producer {
         super(texture,
           new HashMap<>(){{
               put(Material.WOOD, 2);
-          }},
+          }}, null,
           cell);
     }
 
+    /**
+     * Prod
+     */
     @Override
     protected void produce() {
         while (!Thread.currentThread().isInterrupted()) {
