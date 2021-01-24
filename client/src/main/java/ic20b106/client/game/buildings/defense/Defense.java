@@ -25,8 +25,9 @@ public abstract class Defense extends Building {
      * @param cell Cell the building is placed
      * @param area Area to extend
      */
-    protected Defense(Image texture, HashMap<Material, Integer> buildingCost, Cell cell, int area) {
-        super(texture, buildingCost, cell);
+    protected Defense(Image texture, HashMap<Material, Integer> buildingCost, HashMap<Material, Integer> storage,
+                      Cell cell, int area) {
+        super(texture, buildingCost, storage, cell);
         cell.extendArea(PlayerColor.BLUE, area);
     }
 }

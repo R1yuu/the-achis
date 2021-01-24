@@ -34,7 +34,7 @@ public class Barracks extends Producer {
           new HashMap<>(){{
               put(Material.WOOD, 4);
               put(Material.ROCK, 2);
-          }},
+          }}, null,
           cell);
     }
 

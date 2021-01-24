@@ -30,7 +30,7 @@ public class Quarry extends Producer {
         super(texture,
           new HashMap<>() {{
               put(Material.WOOD, 2);
-          }},
+          }}, null,
           cell);
     }
 

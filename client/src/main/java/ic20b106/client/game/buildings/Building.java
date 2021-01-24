@@ -78,8 +78,13 @@ public abstract class Building implements Buildable, Serializable {
             this.activeTexture.setFitWidth(Game.cellSize);
         }
 
-        this.storedMaterials =
-          Objects.requireNonNullElse(FXCollections.observableMap(storage), FXCollections.observableHashMap());
+
+        if (storage == null) {
+            this.storedMaterials = FXCollections.observableHashMap();
+        } else {
+            this.storedMaterials = FXCollections.observableMap(storage);
+        }
+
         this.neededMaterials =
           Objects.requireNonNullElse(FXCollections.observableMap(buildingCost), FXCollections.observableHashMap());
 

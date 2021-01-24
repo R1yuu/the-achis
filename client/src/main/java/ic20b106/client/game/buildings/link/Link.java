@@ -44,7 +44,7 @@ public class Link extends Building {
      */
     public Link(LinkDirection linkDirection, Cell cell) {
         super(linkDirection.texture,
-          new HashMap<>(), cell, false);
+          new HashMap<>(), null, cell, false);
         this.linkDirection = linkDirection;
 
         this.activeTexture.setSmooth(false);

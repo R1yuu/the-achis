@@ -33,7 +33,7 @@ public class GuardHouse extends Defense {
         super(texture,
           new HashMap<>(){{
               put(Material.WOOD, 5);
-          }}, cell, 2);
+          }}, null, cell, 2);
     }
 
     /**
