@@ -80,6 +80,7 @@ public class Game extends Application {
 
         AudioManager.getInstance();
         primaryPane.getChildren().setAll(mainMenu);
+
         primaryPane.setBackground(new Background(new BackgroundImage(
           new Image(getClass().getResource("/images/main-menu-background.png").toString()),
           BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,

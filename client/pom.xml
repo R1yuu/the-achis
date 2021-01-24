@@ -101,6 +101,8 @@
                     <include>**/*.json</include>
                     <include>**/*.wav</include>
                     <include>**/*.png</include>
+                    <include>**/*.css</include>
+                    <include>**/*.ttf</include>
                 </includes>
             </resource>
         </resources>

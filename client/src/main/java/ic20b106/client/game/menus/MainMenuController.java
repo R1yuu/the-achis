@@ -49,7 +49,7 @@ public class MainMenuController {
         lobbyList.setOnAction(new ButtonSFXEventHandler<>(this::lobbyList));
         options.setOnAction(new ButtonSFXEventHandler<>(this::options));
 
-
+        mainBox.getStylesheets().add(getClass().getResource("/css/main-menu.css").toString());
     }
 
     /**

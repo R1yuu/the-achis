@@ -1,0 +1,26 @@
+/*@font-face {
+    src: url('../fonts/Bitmgothic.ttf');
+}*/
+
+@font-face {
+    src: url('../fonts/DungeonFont.ttf');
+}
+
+.button {
+    -fx-font-family: 'DungeonFont';
+    -fx-font-size: 20px;
+    -fx-text-fill: #3e2731;
+    -fx-pref-width: 198px;
+    -fx-pref-height: 75px;
+    -fx-background-image: url('../images/button.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+}
+
+.button:hover {
+    -fx-text-fill: #081819;
+    -fx-background-image: url('../images/button-hover.png');
+}
