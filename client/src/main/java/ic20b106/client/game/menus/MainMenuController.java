@@ -68,6 +68,7 @@ public class MainMenuController {
                     Game.roomOwner = true;
                     VBox lobbyMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/LobbyMenu.fxml"));
                     Platform.runLater(() -> Game.primaryPane.getChildren().setAll(lobbyMenu));
+                    lobbyMenu.getStylesheets().add(getClass().getResource("/css/main-menu.css").toString());
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -86,6 +87,7 @@ public class MainMenuController {
                 if (NetworkManager.getInstance() != null) {
                     VBox lobbyListMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/LobbyList.fxml"));
                     Platform.runLater(() -> Game.primaryPane.getChildren().setAll(lobbyListMenu));
+                    lobbyListMenu.getStylesheets().add(getClass().getResource("/css/main-menu.css").toString());
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -102,6 +104,7 @@ public class MainMenuController {
         try {
             VBox optionsMenu = FXMLLoader.load(getClass().getResource("/fxml/menus/OptionsMenu.fxml"));
             Game.primaryPane.getChildren().setAll(optionsMenu);
+            optionsMenu.getStylesheets().add(getClass().getResource("/css/main-menu.css").toString());
         } catch (IOException e) {
             e.printStackTrace();
         }

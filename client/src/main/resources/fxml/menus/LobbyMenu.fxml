@@ -14,36 +14,34 @@
 
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="ic20b106.client.Lobby" alignment="center"
-      maxWidth="Infinity" maxHeight="Infinity" spacing="10">
-
-    <Button fx:id="exitLobbyButton"/>
+      maxWidth="Infinity" maxHeight="Infinity" spacing="10" styleClass="sideMenuBox" style="-fx-padding: 300px 0 0 0">
 
     <FlowPane alignment="center" hgap="20">
         <VBox spacing="5" alignment="center">
-            <Label text="Room Name" style="-fx-font-weight: bold" />
+            <Label text="Room Name" style="-fx-font-weight: bold" styleClass="fLabel"/>
             <Label fx:id="roomNameLabel" />
         </VBox>
         <VBox spacing="5" alignment="center">
-            <Label text="Room Owner" style="-fx-font-weight: bold" />
+            <Label text="Room Owner" style="-fx-font-weight: bold" styleClass="fLabel"/>
             <Label fx:id="roomOwnerLabel" />
         </VBox>
         <VBox spacing="5" alignment="center">
-            <Label text="Room UUID" style="-fx-font-weight: bold" />
+            <Label text="Room UUID" style="-fx-font-weight: bold" styleClass="fLabel"/>
             <Label fx:id="roomUUIDLabel" />
         </VBox>
     </FlowPane>
 
     <FlowPane alignment="center" hgap="20">
         <VBox fx:id="colorBox" spacing="5" alignment="center">
-            <Label text="Your Color"  style="-fx-font-weight: bold" />
+            <Label text="Your Color"  style="-fx-font-weight: bold" styleClass="fLabel"/>
 
         </VBox>
         <VBox fx:id="positionBox" spacing="5" alignment="center">
-            <Label text="Your Position" style="-fx-font-weight: bold" />
+            <Label text="Your Position" style="-fx-font-weight: bold" styleClass="fLabel"/>
 
         </VBox>
         <VBox fx:id="lobbyNameBox" spacing="5" alignment="center">
-            <Label text="Lobby Name" style="-fx-font-weight: bold" />
+            <Label text="Lobby Name" style="-fx-font-weight: bold" styleClass="fLabel"/>
             <TextField fx:id="lobbyNameField" />
         </VBox>
     </FlowPane>
@@ -64,4 +62,6 @@
     <Button fx:id="startGameBtn" onMouseClicked="#startGame">
         Start Game
     </Button>
+
+    <Button fx:id="exitLobbyButton"/>
 </VBox>

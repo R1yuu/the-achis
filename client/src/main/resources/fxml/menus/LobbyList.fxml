@@ -8,19 +8,18 @@
 <?import javafx.scene.control.Label?>
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="ic20b106.client.game.menus.LobbyListController" alignment="center"
-      maxHeight="Infinity" maxWidth="Infinity" spacing="10">
+      maxHeight="Infinity" maxWidth="Infinity" spacing="10" styleClass="sideMenuBox">
 
-    <Button onAction="#backToMainMenu">Back</Button>
-
-    <ScrollPane prefHeight="500" maxHeight="500" prefWidth="500" maxWidth="500" fx:id="listPane">
+    <ScrollPane prefHeight="500" maxHeight="500" prefWidth="500" maxWidth="500" fx:id="listPane" styleClass="lobbyBox">
         <GridPane fx:id="lobbyListPane" alignment="center">
-            <Label GridPane.rowIndex="0" GridPane.columnIndex="0" text="Room Id" />
-            <Label GridPane.rowIndex="0" GridPane.columnIndex="1" text="Room Name" />
-            <Label GridPane.rowIndex="0" GridPane.columnIndex="2" text="Players" />
-            <Label GridPane.rowIndex="0" GridPane.columnIndex="3" text="Join" />
+            <Label GridPane.rowIndex="0" GridPane.columnIndex="0" text="Room Id" styleClass="fLabel, gridLabel"/>
+            <Label GridPane.rowIndex="0" GridPane.columnIndex="1" text="Room Name" styleClass="fLabel, gridLabel"/>
+            <Label GridPane.rowIndex="0" GridPane.columnIndex="2" text="Players" styleClass="fLabel, gridLabel"/>
+            <Label GridPane.rowIndex="0" GridPane.columnIndex="3" text="Join" styleClass="fLabel, gridLabel"/>
         </GridPane>
     </ScrollPane>
 
     <Button>Join</Button>
+    <Button onAction="#backToMainMenu">Back</Button>
 
 </VBox>

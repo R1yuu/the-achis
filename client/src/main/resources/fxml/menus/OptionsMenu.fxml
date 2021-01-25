@@ -10,17 +10,17 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="ic20b106.client.Options" alignment="center"
-      maxWidth="Infinity" maxHeight="Infinity">
-    <Button onMouseClicked="#backToMainMenu">Back</Button>
-    <HBox alignment="center" spacing="5">
-        <Label style="-fx-font-weight: bold">Music:</Label>
+      maxWidth="Infinity" maxHeight="Infinity" styleClass="sideMenuBox">
+    <HBox alignment="center" spacing="5" style="-fx-padding: 300px 0 0 0">
+        <Label style="-fx-font-weight: bold" styleClass="fLabel">Music:</Label>
         <CheckBox fx:id="musicEnabledCheckBox">Enabled</CheckBox>
         <Slider fx:id="musicVolumeSlider" style="-show-value-on-interaction: false"/><Label fx:id="musicVolumeLabel"/>
     </HBox>
     <HBox alignment="center" spacing="5">
-        <Label style="-fx-font-weight: bold">SFX:</Label>
+        <Label style="-fx-font-weight: bold" styleClass="fLabel">SFX:</Label>
         <CheckBox fx:id="sfxEnabledCheckBox">Enabled</CheckBox>
         <Slider fx:id="sfxVolumeSlider" style="-show-value-on-interaction: false"/><Label fx:id="sfxVolumeLabel"/>
     </HBox>
     <Button onMouseClicked="#saveOptions">Save</Button>
+    <Button onMouseClicked="#backToMainMenu">Back</Button>
 </VBox>

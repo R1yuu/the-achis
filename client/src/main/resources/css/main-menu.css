@@ -24,3 +24,30 @@
     -fx-text-fill: #081819;
     -fx-background-image: url('../images/button-hover.png');
 }
+
+.sideMenuBox {
+    -fx-background-image: url('../images/side-menu-background.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: stretch;
+}
+
+.check-box, .label {
+    -fx-font-family: 'DungeonFont';
+    -fx-font-size: 20px;
+    -fx-text-fill: #d7c9c9;
+}
+
+.fLabel {
+    -fx-font-family: 'DungeonFont';
+    -fx-font-size: 30px;
+    -fx-text-fill: #feae34;
+}
+
+.gridLabel {
+    -fx-padding: 0 15px 0 15px;
+}
+
+.lobbyBox {
+    -fx-background-color: #e8b796;
+}

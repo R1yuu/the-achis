@@ -7,7 +7,7 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="ic20b106.client.game.menus.EscapeMenuController"
       fx:id="escapeMenu"
-      style="-fx-alignment: center">
+      style="-fx-alignment: center" styleClass="sideMenuBox">
     <Button onMouseClicked="#backToGame">Back to Game</Button>
     <Button onMouseClicked="#exitGame">Exit Game</Button>
 </VBox>
