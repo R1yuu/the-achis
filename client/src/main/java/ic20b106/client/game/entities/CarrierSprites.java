@@ -8,6 +8,8 @@ import ic20b106.client.game.buildings.storage.Storable;
 import ic20b106.shared.PlayerColor;
 import javafx.scene.image.Image;
 
+import java.util.Objects;
+
 public class CarrierSprites {
 
     static class RED {
@@ -266,13 +268,17 @@ public class CarrierSprites {
      * @return Carrier Sprite
      */
     public static Image getCarrierSprite(PlayerColor color, LinkDirection direction, Storable storable) {
-        return switch (color) {
-            case RED -> RED.getCarrierSprite(direction, storable);
-            case GREEN -> GREEN.getCarrierSprite(direction, storable);
-            case BLUE -> BLUE.getCarrierSprite(direction, storable);
-            case YELLOW -> YELLOW.getCarrierSprite(direction, storable);
-            case NONE -> null;
-        };
+        if (color != null && direction != null) {
+            return switch (color) {
+                case RED -> RED.getCarrierSprite(direction, storable);
+                case GREEN -> GREEN.getCarrierSprite(direction, storable);
+                case BLUE -> BLUE.getCarrierSprite(direction, storable);
+                case YELLOW -> YELLOW.getCarrierSprite(direction, storable);
+                case NONE -> null;
+            };
+        } else {
+            return null;
+        }
     }
 
     /**

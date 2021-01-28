@@ -3,7 +3,6 @@ package ic20b106.client.game.entities;
 import ic20b106.client.Game;
 import ic20b106.client.game.board.Cell;
 import ic20b106.client.game.buildings.storage.Storable;
-import ic20b106.client.util.javafx.SpriteAnimation;
 import ic20b106.shared.utils.Pair;
 import javafx.animation.Animation;
 import javafx.animation.PathTransition;
@@ -11,7 +10,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.Bounds;
 import javafx.scene.CacheHint;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
@@ -120,9 +118,6 @@ public class Carrier extends Thread {
                 this.nextCell = this.transIter.next();
             } else {
                 this.nextCell = this.transIter.previous();
-                if (this.transIter.hasPrevious()) {
-                    this.nextCell = this.transIter.previous();
-                }
             }
 
             double pathDuration = currCell.getCellTerrain().travelTime;
@@ -159,18 +154,11 @@ public class Carrier extends Thread {
                 this.reverse = true;
                 walk();
             } else {
-                this.taskCompleted();
+                if (!this.transIter.hasPrevious() && this.walkPath.getStatus() == Animation.Status.STOPPED) {
+                    this.reverse = false;
+                    this.prepareCargo();
+                }
             }
-        }
-    }
-
-    /**
-     * Carrier Finished one specific Task
-     */
-    private void taskCompleted() {
-        if (this.reverse && !this.transIter.hasPrevious() && this.walkPath.getStatus() == Animation.Status.STOPPED) {
-            this.reverse = false;
-            this.prepareCargo();
         }
     }
 
