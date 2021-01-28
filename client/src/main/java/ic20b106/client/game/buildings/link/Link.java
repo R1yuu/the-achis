@@ -88,6 +88,9 @@ public class Link extends Building {
         return new LinkSubMenu(this.cell, this);
     }
 
+    /**
+     * Demolishes Building
+     */
     @Override
     public void demolish() {
 

@@ -176,6 +176,12 @@ public class Lobby {
         }
     }
 
+    /**
+     * Starts Game
+     *
+     * @param playerColor Player Color
+     * @param playerStartPosition Start Position of Player
+     */
     public static void loadGame(PlayerColor playerColor, PlayerStartPosition playerStartPosition) {
         // max 100
         int boardWidth = 50;

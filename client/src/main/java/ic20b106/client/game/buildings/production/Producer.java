@@ -24,10 +24,10 @@ public abstract class Producer extends Building {
     /**
      * Constructor
      *
-     * @param texture
-     * @param buildingCost
-     * @param storage
-     * @param cell
+     * @param texture Building Texture
+     * @param buildingCost Building Cost
+     * @param storage Building Storage
+     * @param cell Cell of Building
      */
     protected Producer(Image texture, Map<Storable, Integer> buildingCost, HashMap<Storable, Integer> storage,
                        Cell cell) {

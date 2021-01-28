@@ -42,6 +42,9 @@ public class GuardHouse extends Defense {
         return new GuardHouseSubMenu(this.cell, this);
     }
 
+    /**
+     * Demolishes Building
+     */
     @Override
     public void demolish() {
 

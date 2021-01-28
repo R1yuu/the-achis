@@ -32,7 +32,7 @@ public class Forester extends Producer {
     }
 
     /**
-     * Prod
+     * Produces Storables
      */
     @Override
     protected void produce() {

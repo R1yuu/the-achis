@@ -36,6 +36,9 @@ public class Barracks extends Producer {
           null, cell);
     }
 
+    /**
+     * Produces Storables
+     */
     @Override
     protected void produce() {
         while (!Thread.currentThread().isInterrupted()) {

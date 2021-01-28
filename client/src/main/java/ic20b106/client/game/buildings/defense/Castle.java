@@ -42,6 +42,9 @@ public class Castle extends Defense {
         return new CastleSubMenu(this.cell, this);
     }
 
+    /**
+     * Demolishes Building
+     */
     @Override
     public void demolish() {
 

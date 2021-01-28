@@ -35,6 +35,9 @@ public class Smeltery extends Producer {
           null, cell);
     }
 
+    /**
+     * Produces Materials
+     */
     @Override
     protected void produce() {
         while (!Thread.currentThread().isInterrupted()) {
