@@ -7,6 +7,7 @@ import ic20b106.client.game.buildings.link.Link;
 import ic20b106.client.game.buildings.link.LinkDirection;
 import ic20b106.client.game.menus.submenus.BuildSubMenu;
 import ic20b106.client.game.menus.submenus.LinkSubMenu;
+import ic20b106.client.manager.NetworkManager;
 import ic20b106.shared.PlayerColor;
 import ic20b106.shared.utils.IntPair;
 import ic20b106.shared.utils.Pair;
@@ -23,6 +24,7 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.EnumMap;
 import java.util.Random;
 
@@ -120,7 +122,6 @@ public class Cell extends StackPane implements GraphNode {
         return this.cellTerrain;
     }
 
-
     /**
      * Places/Replaces Building
      *
@@ -134,6 +135,7 @@ public class Cell extends StackPane implements GraphNode {
         this.building = building;
         StackPane.setAlignment(this.building.getTexture(), Pos.CENTER);
         this.getChildren().add(this.building.getTexture());
+
     }
 
     /**
@@ -330,6 +332,9 @@ public class Cell extends StackPane implements GraphNode {
             Game.resolution, 0, true, false, true),
           BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
           new BackgroundSize(Game.cellSize, Game.cellSize, true, true, true, true))));
+
+
+
     }
 
     /**

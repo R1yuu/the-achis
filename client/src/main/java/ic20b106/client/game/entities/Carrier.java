@@ -2,8 +2,10 @@ package ic20b106.client.game.entities;
 
 import ic20b106.client.Game;
 import ic20b106.client.game.board.Cell;
-import ic20b106.client.game.buildings.Material;
+import ic20b106.client.game.buildings.storage.Storable;
+import ic20b106.client.util.javafx.SpriteAnimation;
 import ic20b106.shared.utils.Pair;
+import javafx.animation.Animation;
 import javafx.animation.PathTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -19,6 +21,7 @@ import javafx.util.Duration;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Queue;
 
 /**
  * @author Andre Schneider
@@ -28,19 +31,18 @@ import java.util.Map;
  */
 public class Carrier extends Thread {
 
-    protected final ImageView texture = new ImageView(
-      new Image(getClass().getResource("/images/red/entities/carrier/empty/left-0.png").toString(),
-        Game.resolution, 0, true, false, true));
-    protected final PathTransition walkPath = new PathTransition();
-    protected final ListIterator<Cell> transIter;
-    protected final Cell from;
-    protected final Cell to;
-    protected final Map<Material, Integer> source;
-    protected final Map<Material, Integer> target;
-    protected Cell currCell;
-    protected Cell nextCell;
-    protected Material cargo;
-    protected boolean reverse = false;
+    private final ImageView texture = new ImageView();
+    private final PathTransition walkPath = new PathTransition();
+    private final ListIterator<Cell> transIter;
+    private final Cell from;
+    private final Cell to;
+    private final Map<Storable, Integer> source;
+    private final Map<Storable, Integer> target;
+    private Cell currCell;
+    private Cell nextCell;
+    private Storable cargo;
+    private boolean reverse = false;
+    Queue<Storable> storableQueue;
 
     /**
      * Constructor
@@ -48,11 +50,13 @@ public class Carrier extends Thread {
      * @param from Start Node
      * @param to End Node
      */
-    public Carrier(Cell from, Cell to, Map<Material, Integer> source, Map<Material, Integer> target) {
+    public Carrier(Cell from, Cell to, Map<Storable, Integer> source, Map<Storable, Integer> target,
+                   Queue<Storable> storableQueue) {
         this.from = from;
         this.to = to;
         this.source = source;
         this.target = target;
+        this.storableQueue = storableQueue;
         List<Cell> transportPath = Game.gameBoard.findRoute(this.from, this.to);
         this.transIter = transportPath.listIterator();
 
@@ -66,7 +70,12 @@ public class Carrier extends Thread {
         walkPath.setOnFinished(this::onFinished);
     }
 
-    protected void onFinished(ActionEvent actionEvent) {
+    /**
+     * Activates when Carrier Finishes Walking
+     *
+     * @param actionEvent Action Event
+     */
+    private void onFinished(ActionEvent actionEvent) {
         this.currCell = this.nextCell;
         walk();
     }
@@ -81,26 +90,39 @@ public class Carrier extends Thread {
         prepareCargo();
     }
 
-    protected void prepareCargo() {
-        Material targetMaterial = this.peekTargetMaterial();
+    /**
+     * Prepares the Carriers Travel
+     */
+    private void prepareCargo() {
+        Storable targetStorable = this.storableQueue.poll();
 
-        if (targetMaterial != null) {
-            if (this.popSourceMaterial(targetMaterial)) {
-                this.cargo = targetMaterial;
-                this.currCell = this.transIter.next();
+        if (targetStorable != null) {
+            if (this.popSourceStorable(targetStorable)) {
+                this.cargo = targetStorable;
+                if (this.transIter.hasNext()) {
+                    this.currCell = this.transIter.next();
+                }
                 this.walk();
+            } else {
+                Platform.runLater(() -> Game.gameBoard.removeChild(texture));
             }
         } else {
             Platform.runLater(() -> Game.gameBoard.removeChild(texture));
         }
     }
 
-    protected void walk() {
+    /**
+     * Walk Animation of Carrier
+     */
+    private void walk() {
         if ((!this.reverse && transIter.hasNext()) || (this.reverse && transIter.hasPrevious())) {
             if (!this.reverse) {
                 this.nextCell = this.transIter.next();
             } else {
                 this.nextCell = this.transIter.previous();
+                if (this.transIter.hasPrevious()) {
+                    this.nextCell = this.transIter.previous();
+                }
             }
 
             double pathDuration = currCell.getCellTerrain().travelTime;
@@ -121,12 +143,18 @@ public class Carrier extends Thread {
               new LineTo(nextCellCenter.x, nextCellCenter.y)
             );
 
+            this.texture.setImage(CarrierSprites.getCarrierSprite(
+              Game.playerColor,
+              this.currCell.getDirectionByLinkedCell(this.nextCell),
+              this.cargo
+            ));
+
             walkPath.setDuration(Duration.seconds(pathDuration));
             walkPath.setPath(transPath);
             walkPath.play();
         } else {
             if (!this.reverse) {
-                this.popTargetMaterial(this.cargo);
+                this.pushTargetStorable(this.cargo);
                 this.cargo = null;
                 this.reverse = true;
                 walk();
@@ -136,58 +164,42 @@ public class Carrier extends Thread {
         }
     }
 
-    protected void taskCompleted() {
-        Platform.runLater(() -> Game.gameBoard.removeChild(texture));
+    /**
+     * Carrier Finished one specific Task
+     */
+    private void taskCompleted() {
+        if (this.reverse && !this.transIter.hasPrevious() && this.walkPath.getStatus() == Animation.Status.STOPPED) {
+            this.reverse = false;
+            this.prepareCargo();
+        }
     }
 
     /**
-     * Peeks if there is a needed Material
+     * Pops Storable from Source
      *
-     * @return Needed Material
+     * @param storable storable to pop
+     * @return Boolean if poping was successful
      */
-    protected Material peekSourceMaterial() {
+    private boolean popSourceStorable(Storable storable) {
         synchronized (this.source) {
-            for (Material material : Material.values()) {
-                Integer buildMaterial = this.source.getOrDefault(material, 0);
-                if (buildMaterial > 0) {
-                    return material;
-                }
-            }
-            return null;
-        }
-    }
-
-    protected boolean popSourceMaterial(Material material) {
-        synchronized (this.source) {
-            Integer matQuantity = this.source.getOrDefault(material, 0);
+            Integer matQuantity = this.source.getOrDefault(storable, 0);
             if (matQuantity > 0) {
-                this.source.put(material, matQuantity - 1);
+                this.source.put(storable, matQuantity - 1);
                 return true;
             }
             return false;
         }
     }
 
-    protected Material peekTargetMaterial() {
+    /**
+     * Pushes Storable on Target
+     *
+     * @param storable Storable to push
+     */
+    private void pushTargetStorable(Storable storable) {
         synchronized (this.target) {
-            for (Material material : Material.values()) {
-                Integer buildMaterial = this.target.getOrDefault(material, 0);
-                if (buildMaterial > 0) {
-                    return material;
-                }
-            }
-            return null;
-        }
-    }
-
-    protected boolean popTargetMaterial(Material material) {
-        synchronized (this.target) {
-            Integer matQuantity = this.target.getOrDefault(material, 0);
-            if (matQuantity > 0) {
-                this.target.put(material, matQuantity - 1);
-                return true;
-            }
-            return false;
+            Integer matQuantity = this.target.getOrDefault(storable, 0);
+            this.target.put(storable, matQuantity + 1);
         }
     }
 }

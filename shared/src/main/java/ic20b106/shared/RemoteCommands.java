@@ -1,5 +1,6 @@
 package ic20b106.shared;
 
+import ic20b106.shared.utils.IntPair;
 import ic20b106.shared.utils.Pair;
 
 import java.rmi.Remote;
@@ -16,7 +17,6 @@ public interface RemoteCommands extends Remote {
     boolean joinRoom(UUID roomUUID) throws RemoteException;
     Pair<RoomProfile, List<PlayerProfile>> showRoom() throws RemoteException;
     String startRoom() throws RemoteException;
-    void placeBuilding(Buildable building) throws RemoteException;
     void updateColor(PlayerColor playerColor) throws RemoteException;
     void updatePosition(PlayerStartPosition playerColor) throws RemoteException;
     void updateReady(boolean isReady) throws RemoteException;

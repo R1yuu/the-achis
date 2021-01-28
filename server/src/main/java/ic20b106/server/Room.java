@@ -252,8 +252,6 @@ public class Room {
     }
 
     public HashSet<ClientHandler> getClients() {
-        synchronized (clients) {
-            return this.clients;
-        }
+        return this.clients;
     }
 }

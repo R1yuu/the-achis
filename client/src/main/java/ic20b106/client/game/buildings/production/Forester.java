@@ -2,16 +2,13 @@ package ic20b106.client.game.buildings.production;
 
 import ic20b106.client.Game;
 import ic20b106.client.game.board.Cell;
-import ic20b106.client.game.buildings.Building;
-import ic20b106.client.game.buildings.Headquarters;
 import ic20b106.client.game.buildings.Material;
 import ic20b106.client.game.menus.submenus.BuildingSubMenu;
 import ic20b106.client.game.menus.submenus.buildings.production.ForesterSubMenu;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.image.Image;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Andre Schneider
@@ -30,11 +27,8 @@ public class Forester extends Producer {
      *
      */
     public Forester(Cell cell) {
-        super(texture,
-          new HashMap<>(){{
-              put(Material.WOOD, 2);
-          }}, null,
-          cell);
+        super(texture, Map.of(Material.WOOD, 2),
+          null, cell);
     }
 
     /**
@@ -46,13 +40,9 @@ public class Forester extends Producer {
             try {
                 //Thread.sleep(135000);
                 Thread.sleep(10000);
-                synchronized (producedMaterials) {
-                    Integer producedAmount = this.producedMaterials.getOrDefault(Material.WOOD, 0);
-                    this.producedMaterials.put(Material.WOOD, producedAmount + 1);
-                }
-                synchronized (Game.playerHQ.getNeededMaterials()) {
-                    Integer neededAmount = Game.playerHQ.getNeededMaterials().getOrDefault(Material.WOOD, 0);
-                    Game.playerHQ.getNeededMaterials().put(Material.WOOD, neededAmount + 1);
+                synchronized (products) {
+                    Integer producedAmount = this.products.getOrDefault(Material.WOOD, 0);
+                    this.products.put(Material.WOOD, producedAmount + 1);
                 }
             } catch (InterruptedException intExc) {
                 break;

@@ -1,11 +1,8 @@
 package ic20b106.client;
 
-import ic20b106.client.game.board.Terrain;
-import ic20b106.client.game.buildings.Headquarters;
+import ic20b106.client.game.buildings.storage.Headquarters;
 import ic20b106.client.manager.NetworkManager;
 import ic20b106.shared.PlayerColor;
-import ic20b106.shared.PlayerStartPosition;
-import ic20b106.client.game.board.Cell;
 import ic20b106.client.manager.AudioManager;
 import ic20b106.client.game.buildings.Building;
 import ic20b106.client.manager.FileManager;
@@ -14,7 +11,6 @@ import ic20b106.client.util.javafx.GameBoard;
 import ic20b106.client.util.javafx.eventhandler.ButtonSFXEventHandler;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -36,7 +32,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.List;

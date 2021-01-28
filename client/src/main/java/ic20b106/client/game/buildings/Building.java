@@ -1,15 +1,13 @@
 package ic20b106.client.game.buildings;
 
+import ic20b106.client.game.buildings.link.Link;
+import ic20b106.client.game.buildings.storage.Storable;
+import ic20b106.client.manager.NetworkManager;
 import ic20b106.shared.Buildable;
 import ic20b106.client.Game;
 import ic20b106.client.game.board.Cell;
 import ic20b106.client.game.menus.submenus.BuildingSubMenu;
 import ic20b106.shared.utils.IntPair;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleMapProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableBooleanValue;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableMap;
@@ -18,9 +16,12 @@ import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.rmi.RemoteException;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Queue;
 
 /**
  * @author Andre Schneider
@@ -32,11 +33,11 @@ import java.util.Objects;
 public abstract class Building implements Buildable, Serializable {
 
     protected Cell cell;
-    protected final ObservableMap<Material, Integer> neededMaterials;
-    protected final ObservableMap<Material, Integer> storedMaterials;
+    protected Map<Storable, Integer> buildingCost;
+    protected final ObservableMap<Storable, Integer> storage;
     protected ImageView activeTexture;
     protected Image buildingImage;
-    protected SimpleBooleanProperty isConstructionSite = new SimpleBooleanProperty();
+    protected boolean isConstructionSite;
     private static final Image constructionImage;
     static {
         constructionImage = new Image(Building.class.getResource("/images/neutral/buildings/construction-site.png").toString(),
@@ -49,7 +50,7 @@ public abstract class Building implements Buildable, Serializable {
      *
      * @param texture Texture of the Building
      */
-    protected Building(Image texture, HashMap<Material, Integer> buildingCost, HashMap<Material, Integer> storage,
+    protected Building(Image texture, Map<Storable, Integer> buildingCost, HashMap<Storable, Integer> storage,
                        Cell cell) {
         this (texture, buildingCost, storage, cell, true);
     }
@@ -60,15 +61,13 @@ public abstract class Building implements Buildable, Serializable {
      *
      * @param texture Texture of the Building
      */
-    protected Building(Image texture, HashMap<Material, Integer> buildingCost, HashMap<Material, Integer> storage,
+    protected Building(Image texture, Map<Storable, Integer> buildingCost, HashMap<Storable, Integer> storage,
                        Cell cell, boolean isConstructionSite) {
         this.buildingImage = texture;
 
-        this.isConstructionSite.addListener(this::constructionListener);
+        this.isConstructionSite = isConstructionSite;
 
-        this.isConstructionSite.set(isConstructionSite);
-
-        if (this.isConstructionSite.get()) {
+        if (this.isConstructionSite) {
             this.activeTexture = new ImageView(Building.constructionImage);
             this.activeTexture.setFitHeight(18);
             this.activeTexture.setFitWidth(16);
@@ -80,59 +79,69 @@ public abstract class Building implements Buildable, Serializable {
 
 
         if (storage == null) {
-            this.storedMaterials = FXCollections.observableHashMap();
+            this.storage = FXCollections.observableHashMap();
         } else {
-            this.storedMaterials = FXCollections.observableMap(storage);
+            this.storage = FXCollections.observableMap(storage);
         }
 
-        this.neededMaterials =
-          Objects.requireNonNullElse(FXCollections.observableMap(buildingCost), FXCollections.observableHashMap());
+        this.storage.addListener(this::constructionListener);
 
-        this.neededMaterials.addListener(this::needMaterialsChangeListener);
+        this.buildingCost = buildingCost;
 
         this.cell = cell;
     }
 
     /**
-     * Change Listener for neededMaterials Map
+     * Listens Construction
      *
-     * @param mapChange change in Map
+     * @param mapChange Changes in Map
      */
-    protected void needMaterialsChangeListener(
-      MapChangeListener.Change<? extends Material, ? extends Integer> mapChange) {
-        if (this.isConstructionSite.get()) {
-            synchronized (this.neededMaterials) {
-                for (Integer needed : this.neededMaterials.values()) {
-                    if (needed > 0) {
-                        return;
-                    }
-                }
+    protected void constructionListener(MapChangeListener.Change<? extends Storable, ? extends Integer> mapChange) {
+        if (this.isConstructionSite) {
+            Map<Storable, Integer> availableMaterial;
+            synchronized (this.storage) {
+                availableMaterial = Collections.unmodifiableMap(this.storage);
             }
-            this.isConstructionSite.set(false);
-            this.activeTexture.setImage(this.buildingImage);
-            this.activeTexture.setFitHeight(Game.cellSize);
-            this.activeTexture.setFitWidth(Game.cellSize);
+            if (this.buildingCost.equals(availableMaterial)) {
+                this.isConstructionSite = false;
+                this.activeTexture.setImage(this.buildingImage);
+                this.activeTexture.setFitHeight(Game.cellSize);
+                this.activeTexture.setFitWidth(Game.cellSize);
+                this.buildingCost = null;
+            }
         }
     }
 
     /**
      * Getter
      *
-     * @return Map of Needed Materials
+     * @return Storage of Headquaters
      */
-    public Map<Material, Integer> getNeededMaterials() {
-        synchronized (this.neededMaterials) {
-
-            return this.neededMaterials;
+    public Map<Storable, Integer> getStorage() {
+        synchronized (this.storage) {
+            return this.storage;
         }
-
     }
 
     /**
-     * Listener for if the Building is Constructed
+     * Returns Queue of Transferable Items
+     *
+     * @return Queue of Storables
      */
-    protected abstract void constructionListener(
-      ObservableValue<? extends Boolean> obsVal, Boolean oldVal, Boolean newVal);
+    public Queue<Storable> getStorableQueue() {
+        Queue<Storable> storableQueue;
+
+        if (this.isConstructionSite) {
+            storableQueue = new LinkedList<>();
+            this.buildingCost.forEach((material, amount) -> {
+                for (int i = 0; i < amount; i++) {
+                    storableQueue.add(material);
+                }
+            });
+            return storableQueue;
+        }
+        return null;
+    }
 
     /**
      * Demolishes Building
@@ -148,6 +157,11 @@ public abstract class Building implements Buildable, Serializable {
         return this.activeTexture;
     }
 
+    /**
+     * Returns Position of Cell
+     *
+     * @return Cell Position
+     */
     @Override
     public IntPair getPosition() {
         return this.cell.getPosition();
@@ -160,9 +174,14 @@ public abstract class Building implements Buildable, Serializable {
      */
     @Override
     public boolean isConstructionSite() {
-        return isConstructionSite.get();
+        return isConstructionSite;
     }
 
+    /**
+     * Opens Menu
+     *
+     * @param selectedCell Opens Menu for a specific Cell
+     */
     public void openMenu(Cell selectedCell) {
         if (Game.activeSubMenu != null) {
             Game.activeSubMenu.close();

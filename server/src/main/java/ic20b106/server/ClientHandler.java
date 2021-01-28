@@ -7,6 +7,7 @@ import ic20b106.shared.PlayerProfile;
 import ic20b106.shared.PlayerStartPosition;
 import ic20b106.shared.RemoteCommands;
 import ic20b106.shared.RoomProfile;
+import ic20b106.shared.utils.IntPair;
 import ic20b106.shared.utils.Pair;
 
 import java.io.BufferedReader;
@@ -119,11 +120,6 @@ public class ClientHandler extends UnicastRemoteObject implements RemoteCommands
             this.room.startRoom();
         }
         return null;
-    }
-
-    @Override
-    public void placeBuilding(Buildable building) {
-
     }
 
     @Override

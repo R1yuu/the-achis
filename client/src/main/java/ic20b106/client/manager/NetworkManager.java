@@ -6,6 +6,8 @@ import ic20b106.client.Options;
 import ic20b106.client.exceptions.HashException;
 import ic20b106.client.exceptions.HashTakenException;
 import ic20b106.client.game.board.Cell;
+import ic20b106.client.game.buildings.Building;
+import ic20b106.client.game.buildings.link.LinkDirection;
 import ic20b106.client.util.HashUtils;
 import ic20b106.shared.Buildable;
 import ic20b106.shared.ClientCommands;
@@ -86,17 +88,6 @@ public class NetworkManager extends UnicastRemoteObject
           Options.getRmiPort() + "/" + this.playerHash);
 
         this.serverStub.sendClientStub(this);
-    }
-
-    /**
-     * Updates a Building on a Cell
-     *
-     * @param buildable Building
-     */
-    @Override
-    public void updateBuilding(Buildable buildable) {
-        IntPair buildingPosition = buildable.getPosition();
-        Cell targetCell = Game.gameBoard.getCell(buildingPosition);
     }
 
     /**

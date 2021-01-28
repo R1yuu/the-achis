@@ -5,14 +5,15 @@ import ic20b106.client.game.board.Cell;
 import ic20b106.client.game.buildings.Building;
 import ic20b106.client.game.menus.submenus.BuildingSubMenu;
 import ic20b106.client.game.menus.submenus.buildings.LinkSubMenu;
+import ic20b106.client.manager.NetworkManager;
 import ic20b106.shared.PlayerColor;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.CacheHint;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.rmi.RemoteException;
+import java.util.Collections;
 
 /**
  * @author Andre_Schneider
@@ -44,7 +45,8 @@ public class Link extends Building {
      */
     public Link(LinkDirection linkDirection, Cell cell) {
         super(linkDirection.texture,
-          new HashMap<>(), null, cell, false);
+          Collections.emptyMap(),
+          null, cell, false);
         this.linkDirection = linkDirection;
 
         this.activeTexture.setSmooth(false);
@@ -84,11 +86,6 @@ public class Link extends Building {
     @Override
     public BuildingSubMenu getBuildingSubMenu() throws IOException {
         return new LinkSubMenu(this.cell, this);
-    }
-
-    @Override
-    protected void constructionListener(ObservableValue<? extends Boolean> obsVal, Boolean oldVal, Boolean newVal) {
-
     }
 
     @Override

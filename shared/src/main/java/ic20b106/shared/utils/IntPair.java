@@ -10,4 +10,8 @@ public class IntPair extends Pair<Integer, Integer> {
         super(x, y);
     }
 
+    @Override
+    public IntPair clone() throws CloneNotSupportedException {
+        return (IntPair) super.clone();
+    }
 }
